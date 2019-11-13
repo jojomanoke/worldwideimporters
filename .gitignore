@@ -1,1 +1,4 @@
 /.idea
+/cgi-bin
+/phpinfo.cgi
+/phpinfo.php
