@@ -16,7 +16,7 @@ $links = [
 <?php
 foreach($links as $index => $link){?>
     <a class="nav-item nav-link<?php if ( activeUrl("/$link") ) { ?> active<?php } ?>" href="/<?php echo $link ?>">
-        <?php trans($link) ?>
+        <?php echo trans($link) ?>
         <?php if ( activeUrl("/$link") ) { ?>
             <span class="sr-only">(current)</span>
         <?php } ?>
