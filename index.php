@@ -6,11 +6,15 @@ include( 'resources/includes/navbar.php' );
 include( 'resources/includes/searchbarTest.php');
 include( 'resources/includes/categoryBar.php');
 
-switch(activeUrl()){
-    default:
-    case '/home':
-        include 'resources/pages/home.php';
-        break;
+if(!isset($_GET['search'])) {
+    switch(activeUrl()){
+        default:
+        case '/home':
+            include 'resources/pages/home.php';
+            break;
+    }
+} else {
+    include 'resources/pages/search.php';
 }
 
 

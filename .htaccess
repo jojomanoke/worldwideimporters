@@ -9,3 +9,8 @@ RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
 RewriteRule ^ home [R=301,L]
 
 RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?search=([^\s&]+) [NC]
+RewriteRule ^ search/%1? [R=301,L]
+
+RewriteRule ^search/([^/]+)/?$ index.php?search=$1 [L,QSA]

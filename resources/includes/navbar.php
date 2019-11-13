@@ -5,8 +5,21 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <?php include 'navItems.php'; ?>
+        <div class="navbar-nav mr-auto">
+                <?php include 'navItems.php'; ?>
         </div>
+        <form class="form-inline" action="" method="GET">
+            <input id="searchForm" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()" type="submit">Search</button>
+        </form>
     </div>
 </nav>
+
+<script>
+    function search() {
+        window.event.preventDefault();
+        let toSearch = document.getElementById('searchForm').value;
+        window.location.href = `/search/${toSearch}`
+        
+    }
+</script>
