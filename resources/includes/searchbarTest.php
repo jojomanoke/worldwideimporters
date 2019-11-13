@@ -9,9 +9,9 @@ $port = 3306;
     $connection = new mysqli($host, $user, $pass, $databasename, $port);
     ?>
 
-    <html lang="en">
-    <head>
-        <title>Search bar</title>
+
+
+
         <link rel="stylesheet" href="css/style_searchbar.css"/>
         <script type="text/javascript">
             function active() {
@@ -32,13 +32,12 @@ $port = 3306;
                 }
             }
         </script>
-    </head>
-    <body>
-    <form action="Searchbar_Test.php" method="GET" id="searchform">
+
+   <div class="nav justify-content-center"> <form action="index.php" method="GET" id="searchform">
         <input type="text" name="q" id="SearchBar" placeholder="" value="Search..."
                                               maxlength="25" autocomplete="off" onmousedown="active()"
                                               onblur="inactive()"/><input type="submit" id="searchBtn" value="zoek!"/>
-    </form>
+    </form></div>
     <?php
     if(isset($_GET['q'])) {
     $q = $_GET['q'];
@@ -55,11 +54,9 @@ $port = 3306;
     }
     ?>
 
-    </body>
-    </html>
+
     <?php
      $result->free();
 }
-
     $connection->close();
     ?>
