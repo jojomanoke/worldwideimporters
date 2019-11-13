@@ -5,12 +5,15 @@ Options +FollowSymLinks -MultiViews
 # Turn mod_rewrite on
 RewriteEngine On
 RewriteBase /
+
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
 RewriteRule ^ home [R=301,L]
-
 RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=categories&category=([^\s&]+) [NC]
+RewriteRule ^ categories/%1? [R=301,L]
+RewriteRule ^categories/([^/]+)/?$ index.php?page=categories&category=$1 [L,QSA]
 
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?search=([^\s&]+) [NC]
 RewriteRule ^ search/%1? [R=301,L]
-
 RewriteRule ^search/([^/]+)/?$ index.php?search=$1 [L,QSA]

@@ -1,9 +1,9 @@
 <?php
-$host = "localhost";
-$databasename = "wideworldimporters";
-$user = "php";
-$pass = "php"; //eigen password invullen
-$port = 3306;
+$host = HOST;
+$databasename = DATABASE;
+$user = DATABASE_USER;
+$pass = DATABASE_PASSWORD; //eigen password invullen
+$port = DATABASE_PORT;
 
 
 $connection = new mysqli($host, $user, $pass, $databasename, $port);
