@@ -1,0 +1,11 @@
+AddDefaultCharset UTF-8
+FileETag None
+
+Options +FollowSymLinks -MultiViews
+# Turn mod_rewrite on
+RewriteEngine On
+RewriteBase /
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
+RewriteRule ^ home [R=301,L]
+
+RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
