@@ -5,6 +5,7 @@ include( 'resources/includes/head.php' );
 include( 'resources/includes/navbar.php' );
 include( 'resources/includes/searchbarTest.php');
 include( 'resources/includes/categoryBar.php');
+include('resources/includes/Carrousel.php');
 ?><div class="container">
     <?php
 if(!isset($_GET['search'])) {
