@@ -11,7 +11,7 @@ class DB
         $this->connection = new MySQLi(
             'localhost',
             env('DATABASE_USER'),
-            env('DATABASE_PASSWORD'),
+            env('DATABASE_PASSWORD', ''),
             env('DATABASE_NAME')
         );
     }
