@@ -4,19 +4,15 @@
  */
 
 /**
- * Website name
- */
-define('WEBSITE_NAME', 'WorldWideImporters');
-/**
- * Website language
- */
-define('LANGUAGE', 'nl');
-/**
  * Server root
  */
-define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT']);
-define('HOST', 'localhost');
-define('DATABASE', 'wideworldimporters');
-define('DATABASE_USER', 'root');
-define('DATABASE_PASSWORD', '');
-define('DATABASE_PORT', 3306);
+define('SERVER_ROOT', $_SERVER[ 'DOCUMENT_ROOT' ]);
+
+/**
+ * Defines the environment variables
+ */
+$envFile = file_get_contents(SERVER_ROOT . '/.env');
+$envVars = explode("\n", $envFile);
+foreach($envVars as $var) {
+    putenv($var);
+}

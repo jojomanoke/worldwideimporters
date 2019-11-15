@@ -1,5 +1,5 @@
 <?php
-$connection = new mysqli(HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE, DATABASE_PORT);
+$connection = DB::conn();
 $categories = $connection->query('SELECT * FROM stockgroups');
 ?>
 

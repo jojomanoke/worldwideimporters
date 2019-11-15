@@ -6,13 +6,20 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine On
 RewriteBase /
 
+# Home page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
 RewriteRule ^ home [R=301,L]
 RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
 
+# Category
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=categories&category=([^\s&]+) [NC]
 RewriteRule ^ categories/%1? [R=301,L]
 RewriteRule ^categories/([^/]+)/?$ index.php?page=categories&category=$1 [L,QSA]
+
+# Product
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=products&product=([^\s&]+) [NC]
+RewriteRule ^ products/%1? [R=301,L]
+RewriteRule ^products/([^/]+)/?$ index.php?page=products&product=$1 [L,QSA]
 
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?search=([^\s&]+) [NC]
 RewriteRule ^ search/%1? [R=301,L]

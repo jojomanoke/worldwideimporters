@@ -2,3 +2,4 @@
 /cgi-bin
 /phpinfo.cgi
 /phpinfo.php
+/.env
