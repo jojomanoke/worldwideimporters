@@ -8,7 +8,8 @@ $statement->execute();
 $product = $statement->get_result()->fetch_object();
 ?>
     <h1 class="h1"><?php echo $product->StockItemName; ?></h1>
-
+<body
+<img
 
 <?php
 $statement->free_result();
