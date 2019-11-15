@@ -10,18 +10,13 @@ class DB
     {
         $this->connection = new MySQLi(
             'localhost',
-            env('DATABASE_USER'),
-            env('DATABASE_PASSWORD', ''),
-            env('DATABASE_NAME')
+            trim(env('DATABASE_USER')),
+            trim(env('DATABASE_PASSWORD', '')),
+            trim(env('DATABASE_NAME'))
         );
     }
     
-    public function __destruct()
-    {
-        $this->connection->close();
-    }
-    
-    public static function conn(): \MySQLi
+    public static function conn()
     {
         if ( self::$db == null ) {
             self::$db = new DB();

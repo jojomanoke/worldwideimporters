@@ -1,9 +1,5 @@
 <?php
-$host = HOST;
-$databasename = DATABASE;
-$user = DATABASE_USER;
-$pass = DATABASE_PASSWORD; //eigen password invullen
-$port = DATABASE_PORT;
+
 if (isset($_POST['ARPP'])) {
     $resultsPerPage = $_POST['ARPP'];
     $currentPage = 1;
@@ -14,11 +10,10 @@ if (isset($_POST['ARPP'])) {
 
 $currentPage = isset($_GET['pagenumber']) ? $_GET['pagenumber'] : 1;
 $thisPageFirstResult = ($currentPage - 1) * $resultsPerPage;
-$connection = new mysqli($host, $user, $pass, $databasename, $port);
+$connection = new mysqli('localhost', 'root', 'root', 'wideworldimporters');
 $category = $_GET['category'];
 $query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category) LIMIT $thisPageFirstResult, $resultsPerPage;";
 $results = $connection->query($query);
-
 
 $queryTwo = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
 $numberOfResults = $connection->query($queryTwo)->num_rows;
@@ -51,6 +46,7 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $row['StockItemName']; ?></h5>
                         <p class="card-text"><?php echo $row['SearchDetails']; ?></p>
+                        <a href="/products/<?php echo $row['StockItemID']; ?>" class="btn btn-primary">Bekijk product</a>
                     </div>
                 </div>
             </div>
