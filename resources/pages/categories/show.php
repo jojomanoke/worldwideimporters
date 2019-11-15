@@ -6,6 +6,8 @@ $pass = DATABASE_PASSWORD; //eigen password invullen
 $port = DATABASE_PORT;
 if (isset($_POST['ARPP'])) {
     $resultsPerPage = $_POST['ARPP'];
+    $currentPage = 1;
+    $_GET['pagenumber']=1;
 } else {
     $resultsPerPage = 25;
 }
@@ -28,12 +30,11 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
 
 ?>
     <form id="perPage" class="form-inline mt-5 pt-5" method="post">
-        <select class="form-control w-auto" name="ARPP">
+        <select onchange="submit()" class="form-control w-auto" name="ARPP">
             <option <?php if(isset($_POST['ARPP']) && $_POST['ARPP'] == 25){ echo "selected";} ?> value=25>25</option>
             <option <?php if(isset($_POST['ARPP']) && $_POST['ARPP'] == 50){ echo "selected";} ?> value=50>50</option>
             <option <?php if(isset($_POST['ARPP']) && $_POST['ARPP'] == 100){ echo "selected";} ?> value=100>100</option>
         </select>
-        <button class="btn btn-primary" type="submit">Aantal Resultaten</button>
     </form>
 
 
