@@ -1,5 +1,5 @@
 <?php
-include( 'resources/classes/DB.php' );
+include( 'resources/classes/Database.php' );
 include( 'resources/helpers/functions.php' );
 include( 'resources/config/globals.php' );
 include( 'resources/includes/head.php' );
@@ -7,6 +7,7 @@ include( 'resources/includes/navbar.php' );
 include( 'resources/includes/searchbarTest.php' );
 include( 'resources/includes/categoryBar.php' );
 include( 'resources/includes/scripts.php' );
+$connection = Database::getConnection();
 ?>
     <div class="container">
         <?php

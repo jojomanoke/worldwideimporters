@@ -1,5 +1,5 @@
 <?php
-$connection = DB::conn();
+$connection = Database::getConnection();
 $categories = $connection->query('SELECT * FROM stockgroups');
 ?>
 
@@ -15,5 +15,4 @@ $categories = $connection->query('SELECT * FROM stockgroups');
 
 <?php
 $categories->free();
-$connection->close();
 ?>

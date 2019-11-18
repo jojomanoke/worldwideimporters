@@ -10,9 +10,10 @@ if (isset($_POST['ARPP'])) {
 
 $currentPage = isset($_GET['pagenumber']) ? $_GET['pagenumber'] : 1;
 $thisPageFirstResult = ($currentPage - 1) * $resultsPerPage;
-$connection = new mysqli('localhost', 'root', 'root', 'wideworldimporters');
+$connection = Database::getConnection();
 $category = $_GET['category'];
 $query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category) LIMIT $thisPageFirstResult, $resultsPerPage;";
+$connection->prepare($query);
 $results = $connection->query($query);
 
 $queryTwo = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
@@ -77,5 +78,4 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
                 </nav>
 <?php
 $results->free();
-$connection->close();
 ?>

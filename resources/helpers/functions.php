@@ -98,14 +98,14 @@ if ( !function_exists('trans') ) {
 if( !function_exists('env') ){
     function env($environmentVariable, $default = null){
         if(!file_exists(SERVER_ROOT . '/.env')){
-            return $default;
+            return trim($default);
         }
         
         if(!getenv($environmentVariable)) {
-            return $default;
+            return trim($default);
         }
         
-        return getenv($environmentVariable);
+        return trim(getenv($environmentVariable));
     }
 }
 
