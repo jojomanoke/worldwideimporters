@@ -1,10 +1,10 @@
 <?php
 include( 'resources/classes/Database.php' );
 include( 'resources/helpers/functions.php' );
+include( 'resources/helpers/database.php' );
 include( 'resources/config/globals.php' );
 include( 'resources/includes/head.php' );
 include( 'resources/includes/navbar.php' );
-include( 'resources/includes/searchbarTest.php' );
 include( 'resources/includes/categoryBar.php' );
 include( 'resources/includes/scripts.php' );
 $connection = Database::getConnection();
@@ -24,6 +24,10 @@ $connection = Database::getConnection();
 
                 case 'products':
                     include 'resources/pages/products/show.php';
+                    break;
+    
+                case 'editProduct':
+                    include 'resources/pages/products/edit.php';
                     break;
 
                 case 'shoppingcart':

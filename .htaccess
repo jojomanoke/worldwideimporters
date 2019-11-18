@@ -28,3 +28,7 @@ RewriteRule ^search/([^/]+)/?$ index.php?search=$1 [L,QSA]
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
 RewriteRule ^ shoppingcart [R=301,L]
 RewriteRule ^shoppingcart index.php?page=shoppingcart [L,QSA]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=editProduct&product=([^\s&]+)& [NC]
+RewriteRule ^ products/%1?/edit [R=301,L]
+RewriteRule ^products/([^/]+)/?/edit$ index.php?page=editProduct&product=$1 [L,QSA]
