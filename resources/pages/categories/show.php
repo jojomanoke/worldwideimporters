@@ -1,9 +1,8 @@
 <?php
 
-if (isset($_POST['ARPP'])) {
-    $resultsPerPage = $_POST['ARPP'];
+if (isset($_GET['ARPP'])) {
+    $resultsPerPage = $_GET['ARPP'];
     $currentPage = 1;
-    $_GET['pagenumber']=1;
 } else {
     $resultsPerPage = 25;
 }
@@ -25,11 +24,11 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
 //}
 
 ?>
-    <form id="perPage" class="form-inline mt-5 pt-5" method="post">
+    <form id="perPage" class="form-inline mt-5 pt-5" method="get">
         <select onchange="submit()" class="form-control w-auto" name="ARPP">
-            <option <?php if(isset($_POST['ARPP']) && $_POST['ARPP'] == 25){ echo "selected";} ?> value=25>25</option>
-            <option <?php if(isset($_POST['ARPP']) && $_POST['ARPP'] == 50){ echo "selected";} ?> value=50>50</option>
-            <option <?php if(isset($_POST['ARPP']) && $_POST['ARPP'] == 100){ echo "selected";} ?> value=100>100</option>
+            <option <?php if(isset($_GET['ARPP']) && $_GET['ARPP'] == 25){ echo "selected";} ?> value=25>25</option>
+            <option <?php if(isset($_GET['ARPP']) && $_GET['ARPP'] == 50){ echo "selected";} ?> value=50>50</option>
+            <option <?php if(isset($_GET['ARPP']) && $_GET['ARPP'] == 100){ echo "selected";} ?> value=100>100</option>
         </select>
     </form>
 
@@ -47,7 +46,7 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $row['StockItemName']; ?></h5>
                         <p class="card-text"><?php echo $row['SearchDetails']; ?></p>
-                        <a href="/products/<?php echo $row['StockItemID']; ?>" class="btn btn-primary">Bekijk product</a>
+                        <a href="/products/<?php echo $row['StockItemID']; ?>" class="btn btn-primary">Product bekijken</a>
                     </div>
                 </div>
             </div>
@@ -58,7 +57,7 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center ">
                         <?php if(!($currentPage<=1)){?>
-                        <li class="page-item"><a class="page-link" href="<?php echo $currentPage-1;?>">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="?pagenumber=<?php echo $currentPage-1;?>&ARPP=<?php echo $resultsPerPage;?>">Previous</a></li>
                         <?php } ?>
                         <?php for ($page = 1; $page <= $numberOfPages; $page++) { ?>
                             <li class="page-item<?php if ($page == $currentPage) {
@@ -66,13 +65,13 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
                             } else {
                                 echo '';
                             } ?>">
-                                <a class="page-link" href="?pagenumber=<?php echo $page; ?>">
+                                <a class="page-link" href="?pagenumber=<?php echo $page; ?>&ARPP=<?php echo $resultsPerPage;?>">
                                     <?php echo $page; ?>
                                 </a>
                             </li>
                         <?php } ?>
                         <?php if(!($currentPage>=$numberOfPages)){?>
-                        <li class="page-item"><a class="page-link" href="?pagenumber=<?php echo $currentPage+1;?>">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?pagenumber=<?php echo $currentPage+1;?>&ARPP=<?php echo $resultsPerPage;?>">Next</a></li>
                         <?php }?>
                     </ul>
                 </nav>

@@ -1,5 +1,5 @@
 <?php
-$connection = new mysqli('localhost', 'root', 'root', 'wideworldimporters');
+$connection = new mysqli('localhost', 'root', '', 'wideworldimporters');
 $productId = $_GET[ 'product' ];
 $query = 'SELECT * FROM stockitems WHERE StockItemID = ? LIMIT 1';
 $statement = $connection->prepare($query);
