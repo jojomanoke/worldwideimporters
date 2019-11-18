@@ -25,6 +25,10 @@ $connection = Database::getConnection();
                 case 'products':
                     include 'resources/pages/products/show.php';
                     break;
+
+                case 'shoppingcart':
+                    include 'resources/pages/shoppingcart.php';
+                    break;
             }
         } else {
             include 'resources/pages/search.php';
