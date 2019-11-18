@@ -39,8 +39,8 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
         <?php while ($row = $results->fetch_assoc()) { ?>
             <div class="col-4 my-3">
                 <div class="card">
-                    <img src="<?php if (isset($row['photo'])) {
-                        echo $row['photo'];
+                    <img src="<?php if (isset($row['Photo']) && ( $row[ 'Photo' ] != null )) {
+                        echo getBlob($row[ 'Photo' ]);
                     } else {
                         echo 'https://via.placeholder.com/350x200';
                     } ?>" class="card-img-top" alt="...">

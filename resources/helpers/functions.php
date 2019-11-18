@@ -120,3 +120,11 @@ if( !function_exists('redirect')){
         header('Location: ' . $url ?? activeUrl());
     }
 }
+
+if(!function_exists('getBlob')){
+    function getBlob($blob) {
+        $type = 'image/png'; //or the actual mime type of the file
+        $base64blob = base64_encode($blob); //encode to base64
+        return "data:$type;base64,$base64blob";
+    }
+}
