@@ -1,6 +1,6 @@
 <?php
 $connection = Database::getConnection();
-$categories = $connection->query('SELECT * FROM stockgroups');
+$categories = $connection->query('SELECT * FROM stockgroups') or die($connection->error);
 ?>
 
 
