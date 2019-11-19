@@ -4,13 +4,12 @@
  * This is a debug function to dump and die a variable or function
  */
 if ( !function_exists('dd') ) {
-    /**
-     * @param $variable // The variable to dump
-     */
-    function dd( $variable )
+    function dd()
     {
         echo '<pre>';
-        var_dump($variable);
+        foreach ( func_get_args() as $variable ) {
+            var_dump($variable);
+        }
         echo '</pre>';
         exit();
     }
@@ -95,13 +94,14 @@ if ( !function_exists('trans') ) {
     }
 }
 
-if( !function_exists('env') ){
-    function env($environmentVariable, $default = null){
-        if(!file_exists(SERVER_ROOT . '/.env')){
+if ( !function_exists('env') ) {
+    function env( $environmentVariable, $default = null )
+    {
+        if ( !file_exists(SERVER_ROOT . '/.env') ) {
             return trim($default);
         }
         
-        if(!getenv($environmentVariable)) {
+        if ( !getenv($environmentVariable) ) {
             return trim($default);
         }
         
@@ -109,22 +109,43 @@ if( !function_exists('env') ){
     }
 }
 
-if( !function_exists('session')){
-    function session($key = null) {
-        return $key ? $_SESSION[$key] : $_SESSION;
+if ( !function_exists('session') ) {
+    function session( $key = null )
+    {
+        return $key ? $_SESSION[ $key ] : $_SESSION;
     }
 }
 
-if( !function_exists('redirect')){
-    function redirect($url = null) {
+if ( !function_exists('redirect') ) {
+    function redirect( $url = null )
+    {
         header('Location: ' . $url ?? activeUrl());
     }
 }
 
-if(!function_exists('getBlob')){
-    function getBlob($blob) {
+if ( !function_exists('getBlob') ) {
+    function getBlob( $blob )
+    {
         $type = 'image/png'; //or the actual mime type of the file
         $base64blob = base64_encode($blob); //encode to base64
         return "data:$type;base64,$base64blob";
+    }
+}
+
+if ( !function_exists('resizeImage') ) {
+    function resizeImage( $imageWidth, $imageHeight, $maxWidth, $maxHeight )
+    {
+        $imageSize[ 'width' ] = $imageWidth;
+        $imageSize[ 'height' ] = $imageHeight;
+        if ( $imageWidth > $maxWidth || $imageHeight > $maxHeight ) {
+            if ( $imageWidth > $imageHeight ) {
+                $imageSize[ 'height' ] = floor(( $imageHeight / $imageWidth ) * $maxWidth);
+                $imageSize[ 'width' ] = $maxWidth;
+            } else {
+                $imageSize[ 'width' ] = floor(( $imageWidth / $imageHeight ) * $maxHeight);
+                $imageSize[ 'height' ] = $maxHeight;
+            }
+        }
+        return $imageSize;
     }
 }

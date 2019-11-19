@@ -1,16 +1,10 @@
 <?php
-$conn = Database::getConnection();
 $stockItemID = $_GET[ 'product' ];
-$queryProduct = 'SELECT * FROM stockitems WHERE StockItemID = ? LIMIT 1';
-$stmtProduct = $conn->prepare($queryProduct);
-$stmtProduct->bind_param('i', $stockItemID);
-$stmtProduct->execute();
-$product = $stmtProduct->get_result()->fetch_object();
 
-$suppliers = getResults('suppliers', 'SupplierID, SupplierName');
-$colors = getResults('colors', 'ColorID, ColorName');
-$packageTypes = getResults('packagetypes', 'PackageTypeID, PackageTypeName');
-
+$product = Query::get('stockitems')->where('StockItemID', $stockItemID)->first();
+$suppliers = Query::get('suppliers', 'SupplierID, SupplierName');
+$colors = Query::get('colors', 'ColorID, ColorName');
+$packageTypes = Query::get('packagetypes', 'PackageTypeID, PackageTypeName');
 ?>
 
 <div class="card">
@@ -24,13 +18,45 @@ $packageTypes = getResults('packagetypes', 'PackageTypeID, PackageTypeName');
                 <div class="col">
                     <div class="form-group">
                         <label for="StockItemName"><?= trans('products.name') ?></label>
-                        <input id="StockItemName" name="StockItemName" class="form-control" type="text">
+                        <input id="StockItemName" value="<?=$product->StockItemName?>" name="StockItemName" class="form-control" type="text">
                     </div>
                     <div class="form-group">
                         <label for="SupplierID"><?= trans('products.supplier') ?></label>
                         <select id="SupplierID" name="SupplierID" class="form-control">
-                            <?php while ( $supplier = $suppliers->fetch_object() ) { ?>
-                                <option value="<?=$supplier->SupplierID?>"><?=$supplier->SupplierName?></option>
+                            <?php foreach ( $suppliers as $supplier ) { ?>
+                                <option
+                                        <?php if($supplier->SupplierID === $product->SupplierID) echo 'selected';?>
+                                        value="<?= $supplier->SupplierID ?>"><?= $supplier->SupplierName ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="UnitPackageID"><?= trans('products.supplier') ?></label>
+                        <select id="UnitPackageID" name="UnitPackageID" class="form-control">
+                            <?php foreach ( $packageTypes as $packageType ) { ?>
+                                <option
+                                    <?php if ( $packageType->PackageTypeID === $product->OuterPackageID ) {
+                                        echo 'selected';
+                                    } ?>
+                                        value="<?= $packageType->PackageTypeID ?>"
+                                >
+                                    <?= $packageType->PackageTypeName ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="OuterPackageID"><?= trans('products.supplier') ?></label>
+                        <select id="OuterPackageID" name="OuterPackageID" class="form-control">
+                            <?php foreach ( $packageTypes as $packageType ) { ?>
+                                <option
+                                        value="<?= $packageType->PackageTypeID ?>"
+                                    <?php if ( $packageType->PackageTypeID === $product->OuterPackageID ) {
+                                        echo 'selected';
+                                    } ?>
+                                >
+                                    <?= $packageType->PackageTypeName ?>
+                                </option>
                             <?php } ?>
                         </select>
                     </div>
@@ -39,4 +65,3 @@ $packageTypes = getResults('packagetypes', 'PackageTypeID, PackageTypeName');
         </form>
     </div>
 </div>
-

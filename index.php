@@ -12,7 +12,7 @@ if(!isset($_SESSION)){
 
 include( 'resources/classes/Database.php' );
 include( 'resources/helpers/functions.php' );
-include( 'resources/helpers/database.php' );
+include( 'resources/classes/Query.php' );
 include( 'resources/config/globals.php' );
 include( 'resources/includes/head.php' );
 include( 'resources/includes/navbar.php' );

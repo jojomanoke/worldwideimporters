@@ -1,44 +1,43 @@
-
 <?php
-$conn = Database::getConnection();
-$query = 'SELECT * FROM stockitems';
-$statement = $conn->prepare($query);
-$statement->execute();
-$productCount = $statement->num_rows;
-$results = $statement->get_result();
+$products = Query::get('stockitems')->take(10);
 ?>
-<div id="productsCarousel" class="carousel slide" data-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-        <?php for ( $i = 0; $i <= $productCount; $i++ ) { ?>
-            <li data-target="#productsCarousel" data-slide-to="<?= $i ?>"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <?php for ( $i = 1; $i < $products->count(); $i++ ) { ?>
+            <li data-target="#carouselExampleIndicators" data-slide-to="<?= $i ?>"></li>
         <?php } ?>
     </ol>
     <div class="carousel-inner">
-        <?php while ( $product = $results->fetch_object() ) { ?>
-            <div class="carousel-item">
-                <img src="<?php if ( $product->Photo != null ) {
-                    echo getBlob($product->Photo);
-                } else {
-                    echo 'https://via.placeholder.com/350x200';
-                } ?>>" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5><?=$product->StockItemName?>></h5>
-                    <p><?=$product->MarketingComments ?>></p>
-                </div>
+        <?php foreach ( $products as $key => $product ) { ?>
+            <div class="carousel-item h-100 <?php if ( (int)$key === 0 ) {
+                echo 'active';
+            } ?>">
+                
+                <?php if ( strlen($product->Photo) ) {
+                    $imageHeight = imagesy(imagecreatefromstring($product->Photo));
+                    $imageWidth = imagesx(imagecreatefromstring($product->Photo));
+                    $newImageSize = resizeImage($imageWidth, $imageHeight, 450, 450);
+                    ?>
+                    <img style="max-height: <?=$newImageSize['height']?>px; max-width: <?=$newImageSize['width']?>px;>"
+                         src="<?= getBlob($product->Photo) ?>"
+                         class="d-block w-100"
+                         alt="<?= $product->StockItemName ?>">
+                <?php } else { ?>
+                    <img style="height: 450px" src="https://via.placeholder.com/380" class="d-block w-100"
+                         alt="<?= $product->StockItemName ?>">
+                <?php } ?>
             </div>
         <?php } ?>
     </div>
-    <a class="carousel-control-prev" href="#productsCarousel" role="button" data-slide="prev">
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#productsCarousel" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
     </a>
 </div>
 
 
-
-</body>
-</html>
