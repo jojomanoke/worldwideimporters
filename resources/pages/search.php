@@ -1,5 +1,5 @@
 <?php
-$connection = new mysqli('localhost', 'root', '', 'wideworldimporters');
+$connection = Database::getConnection();
 
 if ( isset($_GET[ 'search' ]) ) {
     $q = $_GET[ 'search' ];
