@@ -1,3 +1,4 @@
+
 <?php
 $conn = Database::getConnection();
 $query = 'SELECT * FROM stockitems';
@@ -36,3 +37,8 @@ $results = $statement->get_result();
         <span class="sr-only">Next</span>
     </a>
 </div>
+
+
+
+</body>
+</html>

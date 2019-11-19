@@ -9,7 +9,7 @@
             <?php include 'navItems.php'; ?>
         </div>
         <form class="form-inline" action="" method="GET">
-            <a href="/shoppingcart" class="btn btn-outline-success my-2 my-sm-0 mr-sm-2" type="submit"><?php echo trans("general.shoppingcart") ?></a>
+            <a href="/shoppingcart" class="btn btn-outline-success my-2 my-sm-0 mr-sm-2"><?php echo trans("general.shoppingcart") ?></a>
             <input id="searchForm" class="form-control mr-sm-2" type="search" placeholder="<?php echo trans("general.search") ?>" aria-label="Search">
             <button class="btn btn-outline-primary my-2 my-sm-0" onclick="search()" type="submit"><?php echo trans("general.search") ?></button>
         </form>

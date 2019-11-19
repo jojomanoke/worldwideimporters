@@ -6,6 +6,27 @@ $statement = $connection->prepare($query);
 $statement->bind_param('i', $productId);
 $statement->execute();
 $product = $statement->get_result()->fetch_object();
+
+$gebruikersnaam = $product->StockItemName;
+
+/**
+ * @todo Product niet gelijk toevoegen op pagina bezoeken maar wanneer er op de knop gedrukt wordt
+ * @todo als product al in winkelwagentje staat voeg dan niet extra toe
+ */
+
+$shoppingarray = array(
+    "id" => $product->StockItemID,
+    "Naam" => $product->StockItemName,
+);
+//
+//function WinkelMand(){
+//     $_SESSION["shoppingcart"] = [];
+//
+//
+//    array_push($_SESSION["shoppingcart"], $shoppingarray);
+//}
+
+
 ?>
     <h1 class="h1"><?php echo $product->StockItemName; ?></h1>
 
@@ -128,10 +149,20 @@ $product = $statement->get_result()->fetch_object();
     </div>
     <div class="col-6">
         <h2><?= "<span style=\"color:#ff0000;\"> $product->RecommendedRetailPrice </span>" ?></h2>
-        <button type="button" class="btn btn-warning"><?=trans('products.addToCart'); ?></button>
-
+        <button class="btn btn-success btn-sm" onclick="addToCart()">Add To Cart</button>
     </div>
 </div>
+
+<script>
+    function addToCart() {
+        let data = '<?=json_encode($shoppingarray) ?>';
+        let url = '/shoppingcart';
+
+        $.post(url, data)
+            .on('success', alert('WHEJOW SUCCESS'))
+            .on('error', alert('ERROR'));
+    }
+</script>
     <script src="/js/productweergave.js"></script>
 <?php
 $statement->free_result();

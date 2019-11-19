@@ -1,4 +1,15 @@
 <?php
+
+if(!isset($_SESSION)){
+    session_start();
+}
+
+
+
+
+
+
+
 include( 'resources/classes/Database.php' );
 include( 'resources/helpers/functions.php' );
 include( 'resources/helpers/database.php' );
@@ -7,7 +18,7 @@ include( 'resources/includes/head.php' );
 include( 'resources/includes/navbar.php' );
 include( 'resources/includes/categoryBar.php' );
 include( 'resources/includes/scripts.php' );
-$connection = Database::getConnection();
+
 ?>
     <div class="container">
         <?php
@@ -41,4 +52,5 @@ $connection = Database::getConnection();
     </div>
 <?php
 include( 'resources/includes/footer.php' );
+
 ?>
