@@ -100,7 +100,7 @@ $shoppingarray = array(
 
                 <!-- Thumbnail images -->
                 <div class="row">
-                    <div class="column">
+                    <div class="column" onclick="">
                         <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
                             echo getBlob($row['Photo']);
                         } else {
