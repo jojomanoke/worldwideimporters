@@ -6,6 +6,9 @@ return [
     'edit'         => 'Edit product',
     'addToCart'         => 'Add product to cart',
     'supplier'     => 'Supplier',
+    'color'        => 'Color',
+    'weight'       => 'Weight',
+    'size'         => 'Size',
     'CustomFields' => [
         'CountryOfManufacture' => 'Country of manufacturing',
         'Tags'                 => 'Tags',

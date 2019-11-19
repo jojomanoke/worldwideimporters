@@ -4,8 +4,11 @@ return [
     'products'     => 'Producten',
     'name'         => 'Product naam',
     'edit'         => 'Product aanpassen',
-    'addToCart'         => 'Product toevoegen aan winkelwagentje',
+    'addToCart'         => '+ Winkelwagen',
     'supplier'     => 'Leverancier',
+    'color'        =>  'Kleur',
+    'weight'       => 'Gewicht',
+    'size'         => 'Grootte',
     'CustomFields' => [
         'CountryOfManufacture' => 'Land van herkomst',
         'Tags'                 => 'Labels',
