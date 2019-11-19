@@ -90,5 +90,4 @@ if ( isset($_GET[ 'search' ]) ) {
     <?php
     $result->free();
 }
-$connection->close();
 ?>
