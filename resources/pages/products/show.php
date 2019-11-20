@@ -26,10 +26,11 @@ $shoppingarray = array(
 
 
 ?>
-    <h1 class="h1"><?php echo $product->StockItemName; ?></h1>
 
     <div class="row">
+
         <div class="col-6">
+            <br>
             <link rel="stylesheet" type="text/css" href="/css/style_productweergave.css">
             <!-- Container for the image gallery -->
             <div class="container">
@@ -145,11 +146,17 @@ $shoppingarray = array(
                 </div>
             </div>
         </div>
+        <div>
+
+        </div>
         <div class="col-6">
-            <h2><?= "<span style=\"color:#ff0000;\"> $product->RecommendedRetailPrice </span>" ?></h2>
+            <br>
+            <h1 class="h1"><?php echo $product->StockItemName; ?></h1>
+            <div class="text-sm-right" style="border: #1b1e21"> World Wide Importers</div>
+            <h2 class="container">    <?= "<span style=\"color:#ff0000;\"> $product->RecommendedRetailPrice </span>" ?></h2>
             <button type="button" onclick="AddtoShoppingCart()" name="shoppingcart"
                     class="btn btn-warning"><?= trans('products.addToCart'); ?></button>
-            <img src="/images/favourite.jpg"  height="40" width="50" onclick="AddtoFavourite() "> <br><br>
+            <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
             <div class="">
                 <h3><?php echo 'Product Details' ?> </h3>
                 <?php echo $product->SearchDetails; ?> <br>
@@ -159,7 +166,7 @@ $shoppingarray = array(
                     echo trans('products.size') . " : " . $product->Size;
                 } ?>
             </div>
-            <div >
+            <div>
                 <br><br>
                 Gratis Bezorging <br>
                 Klantservice 24/7 <br>
@@ -167,6 +174,8 @@ $shoppingarray = array(
             </div>
         </div>
     </div>
+    <h3>Reviews</h3>
+    <i class="fa fa-star fa-2x" style="color:white"></i>
     <script src="/js/productweergave.js"></script>
 
     <script>    function AddtoShoppingCart() {
