@@ -54,7 +54,7 @@ if ( isset($_GET[ 'search' ]) ) {
                         <h5 class="card-title"><?php echo $row['StockItemName']; ?></h5>
                         <p class="card-text"><?php echo $row['SearchDetails']; ?></p>
                         <small class="card-text">Artikelnummer: <?php echo $row['StockItemID']; ?></small><br><br>
-                        <a href="#" class="btn btn-primary">Product bekijken</a>
+                        <a href="/products/<?php echo $row['StockItemID']; ?>" class="btn btn-primary">Product bekijken</a>
                     </div>
                 </div>
             </div>
