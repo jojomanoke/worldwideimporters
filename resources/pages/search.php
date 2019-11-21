@@ -62,7 +62,7 @@ if ( isset($_GET[ 'search' ]) ) {
     </div>
 
     <?php
-    if(isset($resultsPerPage)){
+    if(isset($resultsPerPage) && isset($currentPage) && isset($numberOfPages)){
     ?>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center ">

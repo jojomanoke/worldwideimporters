@@ -183,7 +183,7 @@ $shoppingarray = array(
             let url = '/shoppingcart';
 
             $.post(url, data)
-                .on('success', alert('WHEJOW SUCCESS'))
+                .on('success', alert('Succesvol toegevoegd aan winkelwagentje!'))
                 .on('error', alert('ERROR'));
         }
 
