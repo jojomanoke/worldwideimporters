@@ -11,12 +11,21 @@
             <?php include 'navItems.php'; ?>
         </div>
         <form class="form-inline" action="" method="GET">
-            <a href="/shoppingcart"
-               class="btn btn-outline-success my-2 my-sm-0 mr-sm-2"><?php echo trans("general.shoppingcart") ?></a>
             <input id="searchForm" class="form-control mr-sm-2" type="search"
                    placeholder="<?php echo trans("general.search") ?>" aria-label="Search">
             <button class="btn btn-outline-primary my-2 my-sm-0" onclick="search()"
-                    type="submit"><?php echo trans("general.search") ?></button>
+                    type="submit"><?php echo trans("general.search") ?></button>&nbsp;&nbsp;
+            <a href="/shoppingcart"
+               class="btn btn-outline-success my-2 my-sm-0 mr-sm-2"><?php echo trans("general.shoppingcart") ?></a>
+                    <div class="dropdown show">
+                    <a class="btn btn-primary dropdown-toggle" href="" role="button" id="profiel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+                    <div class="dropdown-menu" aria-labelledby="profiel">
+                        <a class="dropdown-item" href="/">Inloggen</a>
+                        <a class="dropdown-item" href="">Registreren</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="">Mijn profiel</a>
+                </div>
+            </div>
         </form>
     </div>
 </nav>
