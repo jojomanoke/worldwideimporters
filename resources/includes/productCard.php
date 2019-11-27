@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <div class="col-auto ml-auto">
-                    <button class="btn btn-success material-button"><i class="material-icons">shopping_basket</i></button>
+                    <button class="btn btn-success material-button"><i class="material-icons">add_shopping_cart</i></button>
                 </div>
             </div>
         </div>
