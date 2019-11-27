@@ -1,13 +1,14 @@
 <?php
 $stockItemID = $_GET[ 'product' ];
-
+use Classes\Query\Query;
 $product = Query::get('stockitems')->where('StockItemID', $stockItemID)->first();
 $suppliers = Query::get('suppliers', 'SupplierID, SupplierName');
 $colors = Query::get('colors', 'ColorID, ColorName');
 $packageTypes = Query::get('packagetypes', 'PackageTypeID, PackageTypeName');
+
 ?>
 
-<div class="card">
+<div class="card my-5">
     <div class="card-header">
         <h2 class="h2"><?= trans('products.edit') ?></h2>
     </div>
@@ -18,14 +19,15 @@ $packageTypes = Query::get('packagetypes', 'PackageTypeID, PackageTypeName');
                 <div class="col">
                     <div class="form-group">
                         <label for="StockItemName"><?= trans('products.name') ?></label>
-                        <input id="StockItemName" value="<?=$product->StockItemName?>" name="StockItemName" class="form-control" type="text">
+                        <input id="StockItemName" value="<?= $product->StockItemName ?>" name="StockItemName"
+                               class="form-control" type="text">
                     </div>
                     <div class="form-group">
                         <label for="SupplierID"><?= trans('products.supplier') ?></label>
                         <select id="SupplierID" name="SupplierID" class="form-control">
                             <?php foreach ( $suppliers as $supplier ) { ?>
                                 <option
-                                        <?php if($supplier->SupplierID === $product->SupplierID) echo 'selected';?>
+                                    <?php if ( $supplier->SupplierID === $product->SupplierID ) echo 'selected'; ?>
                                         value="<?= $supplier->SupplierID ?>"><?= $supplier->SupplierName ?></option>
                             <?php } ?>
                         </select>

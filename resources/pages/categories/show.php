@@ -9,7 +9,7 @@ if (isset($_GET['ARPP'])) {
 
 $currentPage = isset($_GET['pagenumber']) ? $_GET['pagenumber'] : 1;
 $thisPageFirstResult = ($currentPage - 1) * $resultsPerPage;
-$connection = Database::getConnection();
+$connection = \Classes\Database::getConnection();
 $category = $_GET['category'];
 $query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category) LIMIT $thisPageFirstResult, $resultsPerPage;";
 $connection->prepare($query);
@@ -35,22 +35,9 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
 
     <div class="row mb-5">
 
-        <?php while ($row = $results->fetch_assoc()) { ?>
-            <div class="col-4 my-3">
-                <div class="card">
-                    <img src="<?php if (isset($row['Photo']) && ( $row[ 'Photo' ] != null )) {
-                        echo getBlob($row[ 'Photo' ]);
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $row['StockItemName']; ?></h5>
-                        <p class="card-text"><?php echo $row['SearchDetails']; ?></p>
-                        <a href="/products/<?php echo $row['StockItemID']; ?>" class="btn btn-primary">Product bekijken</a>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
+        <?php while ($row = $results->fetch_assoc()) {
+            include SERVER_ROOT . '/resources/includes/productCard.php';
+        } ?>
     </div>
 
 

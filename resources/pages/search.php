@@ -1,5 +1,5 @@
 <?php
-$connection = Database::getConnection();
+$connection = Classes\Database::getConnection();
 
 if ( isset($_GET[ 'search' ]) ) {
     $q = $_GET[ 'search' ];
@@ -42,23 +42,10 @@ if ( isset($_GET[ 'search' ]) ) {
 
     <div class="row mb-5">
 
-        <?php while ($row = $result->fetch_assoc()) { ?>
-            <div class="col-4 my-3">
-                <div class="card">
-                    <img src="<?php if (isset($row['photo'])) {
-                        echo $row['photo'];
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $row['StockItemName']; ?></h5>
-                        <p class="card-text"><?php echo $row['SearchDetails']; ?></p>
-                        <small class="card-text">Artikelnummer: <?php echo $row['StockItemID']; ?></small><br><br>
-                        <a href="/products/<?php echo $row['StockItemID']; ?>" class="btn btn-primary">Product bekijken</a>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
+        <?php while ($row = $result->fetch_assoc()) {
+            include SERVER_ROOT . '/resources/includes/productCard.php';
+        } ?>
+        
     </div>
 
     <?php

@@ -1,5 +1,5 @@
 <?php
-$connection = Database::getConnection();
+$connection = Classes\Database::getConnection();
 $productId = $_GET['product'];
 $query = 'SELECT s.*, c.ColorName FROM stockitems s left join colors c ON c.ColorID = s.ColorID WHERE StockItemID = ?';
 $statement = $connection->prepare($query);
@@ -29,7 +29,7 @@ $shoppingarray = array(
 
     <div class="row">
 
-        <div class="col-6">
+        <div class="col-md-6 col-12">
             <br>
             <link rel="stylesheet" type="text/css" href="/css/style_productweergave.css">
             <!-- Container for the image gallery -->

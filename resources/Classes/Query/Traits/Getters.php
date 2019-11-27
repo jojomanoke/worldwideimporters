@@ -1,17 +1,20 @@
 <?php
+namespace Classes\Query\Traits;
 
+use Classes\Query\Query;
+use Classes\Database;
 
-class Query
+trait Getters
 {
     /**
      * Creates a collection from all data that has been fetched from the database
      *
      * @param $table
      * @param string $columns
-     * @return \Query
+     * @return \Classes\Query\Query
      * @author sylvano verkuyl<sylvanoverkuyl@hotmail.com>
      */
-    public static function get( $table, $columns = '*' ): \Query
+    public static function get( $table, $columns = '*' ): Query
     {
         /**
          * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
@@ -30,29 +33,29 @@ class Query
              * Creates an empty object.
              * Will be used in the while loop and will be populated with database records
              */
-            $totalResults = new self();
-    
+            $totalResults = new Query();
+            
             /**
              * Is used to create a key for every database record
              * e.g. $array[0] = $databaseRecord;
              */
             $index = 0;
-    
+            
             /**
              * Simple while loop to loop over all database records
              */
             while ( $databaseRecord = $results->fetch_object() ) {
-    
+                
                 /**
                  * Adds the record to the empty object
                  */
-                $totalResults->$index = $databaseRecord;
+                $totalResults->$index = self::convertToQueryObject($databaseRecord);
                 $index++;
             }
             $results->free_result();
             return $totalResults;
         }
-        return new self();
+        return new Query();
     }
     
     /**
@@ -60,19 +63,19 @@ class Query
      *
      * @param string $column WHERE column = ...
      * @param string $value WHERE ... = value
-     * @return \Query
+     * @return Query
      */
-    public function where( $column, $value ): \Query
+    public function where( $column, $value ): Query
     {
         /**
          * Creates an empty object which will be populated in the foreach loop
          */
-        $results = new self();
-        $loop = 0;
+        $results = new Query();
+        $resultCount = 0;
         /**
          * This loop will loop over each database record fetched by: Query::get('tableName');
          */
-        if($this->count() !== null) {
+        if ( $this->count() !== null ) {
             foreach ( $this as $key => $object ) {
                 /**
                  * $column is the name of the column that needs to be searched
@@ -82,9 +85,9 @@ class Query
                     /**
                      * Once it finds something, the loop will add the data object to the empty object earlier
                      */
-                    $results->$loop = $object;
+                    $results->$resultCount = $object;
+                    $resultCount++;
                 }
-                $loop++;
             }
         }
         return $results;
@@ -93,11 +96,11 @@ class Query
     /**
      * Limit a collection to a certain amount of objects
      * @param $amount
-     * @return \Query
+     * @return Query
      */
-    public function take( $amount ): \Query
+    public function take( $amount ): Query
     {
-        $returnCollection = new self();
+        $returnCollection = new Query();
         for ( $i = 0; $i < $amount; $i++ ) {
             $returnCollection->$i = $this->$i;
         }
@@ -107,33 +110,10 @@ class Query
     
     /**
      * Returns the first result of a data collection
-     * @return \stdClass
+     * @return Query
      */
-    public function first(): \stdClass
+    public function first(): Query
     {
         return $this->{0};
     }
-    
-    /**
-     * Moves the data objects to an array
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $returnArray = [];
-        foreach ( $this as $key => $object ) {
-            $returnArray[ $key ] = $object;
-        }
-        return $returnArray;
-    }
-    
-    /**
-     * Returns the count of a collection
-     * @return int
-     */
-    public function count(): int
-    {
-        return count($this->toArray());
-    }
-    
 }

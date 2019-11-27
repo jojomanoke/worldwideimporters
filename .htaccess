@@ -21,9 +21,9 @@ RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=products&product=([^\s
 RewriteRule ^ products/%1? [R=301,L]
 RewriteRule ^products/([^/]+)/?$ index.php?page=products&product=$1 [L,QSA]
 
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?search=([^\s&]+) [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=search&search=([^\s&]+) [NC]
 RewriteRule ^ search/%1? [R=301,L]
-RewriteRule ^search/([^/]+)/?$ index.php?search=$1 [L,QSA]
+RewriteRule ^search/([^/]+)/?$ index.php?page=search&search=$1 [L,QSA]
 
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
 RewriteRule ^ shoppingcart [R=301,L]
