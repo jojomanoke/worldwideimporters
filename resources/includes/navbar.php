@@ -38,8 +38,8 @@
             <a href="/shoppingcart"
                class="nav-link <?php if(getUrl() === '/shoppingcart') echo 'active'; ?>"><i class="material-icons-outlined">shopping_basket</i></a>
             <div class="dropdown show">
-                <a class="btn btn-primary dropdown-toggle" href="" role="button" id="profiel" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Account</a>
+                <a class="nav-link dropdown-toggle " href="" role="button" id="profiel" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profiel">
                     <a class="dropdown-item" href="/">Inloggen</a>
                     <a class="dropdown-item" href="">Registreren</a>
