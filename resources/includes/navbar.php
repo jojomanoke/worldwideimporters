@@ -38,7 +38,19 @@
             <a class="nav-link" href="favorites.php"><i class="material-icons" style="color: black">favorite_border</i></a>
 
             <a href="/shoppingcart"
-               class="nav-link <?php if(getUrl() === '/shoppingcart') echo 'active'; ?>"><i class="material-icons-outlined" style="color: black">shopping_basket</i></a>
+               class="nav-link <?php if(getUrl() === '/shoppingcart') echo 'active'; ?>">
+                <i class="material-icons-outlined" style="color: black">
+                    shopping_basket
+                </i>
+                <?php if(count($_SESSION['shoppingcart'])){?>
+                <span
+                        class="badge badge-light"><?= count($_SESSION[ 'shoppingcart' ]) ?>
+                </span>
+                <span class="sr-only">
+                    items in basket
+                </span>
+                <?php } ?>
+            </a>
             <div class="dropdown show">
                 <a class="nav-link dropdown-toggle" href="" role="button" id="profiel" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>
