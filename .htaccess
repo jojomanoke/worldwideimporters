@@ -8,7 +8,7 @@ RewriteBase /
 
 # Home page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
-RewriteRule ^ home [R=301,L]
+RewriteRule ^home [R=301,L]
 RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
 
 # Category
@@ -18,17 +18,21 @@ RewriteRule ^categories/([^/]+)/?$ index.php?page=categories&category=$1 [L,QSA]
 
 # Product
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=products&product=([^\s&]+) [NC]
-RewriteRule ^ products/%1? [R=301,L]
+RewriteRule ^products/%1? [R=301,L]
 RewriteRule ^products/([^/]+)/?$ index.php?page=products&product=$1 [L,QSA]
 
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=search&search=([^\s&]+) [NC]
-RewriteRule ^ search/%1? [R=301,L]
+RewriteRule ^search/%1? [R=301,L]
 RewriteRule ^search/([^/]+)/?$ index.php?page=search&search=$1 [L,QSA]
 
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
-RewriteRule ^ shoppingcart [R=301,L]
-RewriteRule ^shoppingcart index.php?page=shoppingcart [L,QSA]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart&action=add [NC]
+RewriteRule ^shoppingcart/add [R=301,L]
+RewriteRule ^shoppingcart/add index.php?page=shoppingcart&action=add [L,QSA]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart [NC]
+RewriteRule ^shoppingcart/ [R=301,L]
+RewriteRule ^shoppingcart/ index.php?page=shoppingcart [L,QSA]
 
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=editProduct&product=([^\s&]+)& [NC]
-RewriteRule ^ products/%1?/edit [R=301,L]
+RewriteRule ^products/%1?/edit [R=301,L]
 RewriteRule ^products/([^/]+)/?/edit$ index.php?page=editProduct&product=$1 [L,QSA]

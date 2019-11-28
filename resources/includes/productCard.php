@@ -1,7 +1,7 @@
-<link href="/css/style_productweergave.css" rel="stylesheet" type="text/css">
+<link href="/css/category_search_pages.css" rel="stylesheet" type="text/css">
 
 
-<div class="col-12 col-md-6 col-lg-4 my-3">
+<div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
     <div class="card h-100 hover" id="<?= $row[ 'StockItemID' ] ?>">
         <?php if ( $_GET[ 'page' ] === 'search' ) { ?>
             <div class="card-header">
@@ -22,7 +22,6 @@
         <div class="card-body">
             <h5 class="card-title"><?php echo $row[ 'StockItemName' ]; ?></h5>
             <p class="card-text"><?php echo $row[ 'SearchDetails' ]; ?></p>
-
         </div>
         <div class="card-footer">
             <div class="row h-100 text-center">
@@ -32,7 +31,10 @@
                     </a>
                 </div>
                 <div class="col-auto ml-auto">
-                    <button class="btn btn-success material-button"><i class="material-icons">shopping_basket</i></button>
+                    <form action="/shoppingcart/add" method="post">
+                        <input type="hidden" name="product" value="<?=$row['StockItemID']?>">
+                        <button type="submit" class="btn btn-success material-button"><i class="material-icons">shopping_basket</i></button>
+                    </form>
                 </div>
             </div>
         </div>

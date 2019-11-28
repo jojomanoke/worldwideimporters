@@ -28,7 +28,7 @@ if($page === 'categories' || $page === 'search') {
     <!--        </div>-->
     <!--    </div>-->
 <div class="col-9 mx-auto">
-    <ul class="nav nav-tabs justify-content-center">
+    <ul class="nav nav-tabs justify-content-center sticky-top bg-white">
         <?php foreach ( $categories as $category ) { ?>
             <li class="nav-item">
                 <a class="nav-link <?php if ( $cate == $category->StockGroupID ) echo 'active'; ?>"

@@ -1,13 +1,7 @@
 <?php
-dd($_REQUEST);
-if($_REQUEST['post']){
-
-
-    return 404;
+if($_POST['product'] && $_GET['action'] === 'add'){
+    $shoppingCart = $_SESSION[ 'shoppingcart' ] ?? [];
+    $shoppingCart[] = $_POST[ 'product' ];
 }
-//if(isset($_SESSION["shoppingcart"])) {
-////    $gebruikersnaam = $_SESSION["shoppingcart"];
-////    dd($gebruikersnaam);
-////}
 
-
+dd($shoppingCart);

@@ -10,11 +10,12 @@ include( 'resources/config/globals.php' );
 include( 'resources/includes/head.php' );
 include( 'resources/includes/navbar.php' );
 ?>
-    <div class="container-fluid"><div class="row">
-        <?php
-        include( 'resources/includes/scripts.php' );
-        include( 'resources/includes/categoryBar.php' );
-        ?><?php
+    <div class="container-fluid">
+        <div class="row">
+            <?php
+            include( 'resources/includes/scripts.php' );
+            include( 'resources/includes/categoryBar.php' );
+            ?><?php
             switch ( $_GET[ 'page' ] ) {
                 default:
                 case 'home':
@@ -36,13 +37,13 @@ include( 'resources/includes/navbar.php' );
                 case 'shoppingcart':
                     include 'resources/pages/shoppingcart.php';
                     break;
-                    
+                
                 case 'search':
                     include 'resources/pages/search.php';
                     break;
             }
-        ?></div>
-        </div>
+            ?></div>
+    </div>
     </div>
 <?php
 include( 'resources/includes/footer.php' );

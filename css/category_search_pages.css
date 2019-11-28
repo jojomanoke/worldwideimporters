@@ -1,0 +1,21 @@
+.material-button {
+    vertical-align: middle !important;
+    padding-bottom: 3px;
+    padding-top: 8px;
+}
+
+.floating-buttons {
+    top: 20%;
+    right: -5%;
+    opacity: 0 !important;
+    transition: right 0.5s linear, opacity 0.5s linear;
+}
+
+.hover:hover > *.floating-buttons {
+    right: 5%;
+    opacity: 1 !important;
+}
+
+.hover:hover > *.floating-buttons > *.material-button {
+    padding-top: 10px;
+}

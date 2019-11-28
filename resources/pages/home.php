@@ -48,5 +48,3 @@ $products = Classes\Query\Query::get('stockitems')->take(10);
         </div>
     </div>
 </div>
-
-
