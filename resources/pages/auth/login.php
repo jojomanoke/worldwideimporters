@@ -31,18 +31,25 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<div class="container" style="margin-top: 100px;">
+<div class="container" style="margin-top: 0px;">
     <div class="row justify-content-center">
         <div class="col-md-6 col-md-offset-3" align="center"><br><br>
             <?php if ($msg !="") echo $msg . "<br><br>"; ?>
             <h1>Inloggen</h1>
-            <i class="material-icons">lock</i>
             <br>
             <div>
 
             <form method="post" action="login.php">
+                <div class="input-container">
+                    <i class="material-icons">mail</i>
             <input class="form-control" type="text" name="email" placeholder="E-mail..."><br>
+                </div>
+                <div class="input-container">
+                    <i class="material-icons">lock</i>
             <input class="form-control" type="password" name="wachtwoord" placeholder="Wachtwoord..."><br>
+
+                </div>
             <input type="submit" class="btn btn-primary" value="Log in!" name="submit">
+
             </form>
             </div>
