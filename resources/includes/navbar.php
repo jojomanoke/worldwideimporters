@@ -55,10 +55,10 @@
                 <a class="nav-link dropdown-toggle" href="" role="button" id="profiel" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profiel">
-                    <a class="dropdown-item" href=/resources/includes/login.php>Inloggen</a>
-                    <a class="dropdown-item" href=/resources/includes/register.php>Registreren</a>
+                    <a class="dropdown-item" href="/login">Inloggen</a>
+                    <a class="dropdown-item" href="/register">Registreren</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="">Mijn profiel</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Mijn profiel</a>
                 </div>
         </div>
     </div>

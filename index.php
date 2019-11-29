@@ -41,6 +41,14 @@ include( 'resources/includes/navbar.php' );
                 case 'search':
                     include 'resources/pages/search.php';
                     break;
+                
+                case 'login':
+                    include 'resources/pages/auth/login.php';
+                    break;
+                
+                case 'register':
+                    include 'resources/pages/auth/register.php';
+                    break;
             }
             ?></div>
     </div>

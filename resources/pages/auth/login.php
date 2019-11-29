@@ -3,7 +3,7 @@
 $msg = "";
 
 if (isset($_POST['submit'])) {
-    $connection = new mysqli('localhost', 'root', '', 'users');
+    $connection = \Classes\Database::getConnection();
     $email = $connection->real_escape_string($_POST['email']);
     $password = $connection->real_escape_string($_POST['wachtwoord']);
 
