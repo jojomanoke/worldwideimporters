@@ -29,12 +29,18 @@ if ( isset($_POST[ 'submit' ]) ) {
         <div class="col-md-6 col-md-offset-3 text-center"><br><br>
             <?php if ( $msg != "" ) echo $msg . "<br><br>"; ?>
             <h1>Inloggen</h1>
-            <i class="material-icons">lock</i>
             <br>
             <div>
                 <form method="post" action="/login">
-                    <input class="form-control" type="text" name="email" placeholder="E-mail"><br>
-                    <input class="form-control" type="password" name="wachtwoord" placeholder="Wachtwoord"><br>
+                    <div class="input-container">
+                        <i class="material-icons">mail</i>
+                        <input class="form-control" type="text" name="email" placeholder="E-mail..."><br>
+                    </div>
+                    <div class="input-container">
+                        <i class="material-icons">lock</i>
+                        <input class="form-control" type="password" name="wachtwoord" placeholder="Wachtwoord..."><br>
+
+                    </div>
                     <input type="submit" class="btn btn-primary" value="Log in!" name="submit">
                 </form>
             </div>
