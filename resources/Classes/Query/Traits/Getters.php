@@ -59,6 +59,62 @@ trait Getters
     }
     
     /**
+     * Creates a collection from all data that has been fetched from the database
+     *
+     * @param $table
+     * @param string $columns
+     * @return \Classes\Query\Query
+     * @author sylvano verkuyl<sylvanoverkuyl@hotmail.com>
+     */
+    public static function in( $table, $columns, $collection ): Query
+    {
+        /**
+         * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
+         */
+        $conn = Database::getConnection();
+        $query = "SELECT $columns FROM $table";
+        /**
+         * $stmt is the same as $statement
+         */
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        
+        if ( $results->num_rows > 0 ) {
+            /**
+             * Creates an empty object.
+             * Will be used in the while loop and will be populated with database records
+             */
+            $totalResults = new Query();
+            
+            /**
+             * Is used to create a key for every database record
+             * e.g. $array[0] = $databaseRecord;
+             */
+            $index = 0;
+            
+            /**
+             * Simple while loop to loop over all database records
+             */
+            while ( $databaseRecord = $results->fetch_object() ) {
+                
+                /**
+                 * Adds the record to the empty object
+                 */
+                $totalResults->$index = self::convertToQueryObject($databaseRecord);
+                $index++;
+            }
+            $results->free_result();
+            return $totalResults;
+        }
+        return new Query();
+    }
+    
+    
+    
+    
+    
+    /**
      * Returns all database records where a columns equals value
      *
      * @param string $column WHERE column = ...
