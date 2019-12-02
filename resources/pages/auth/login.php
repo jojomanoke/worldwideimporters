@@ -28,9 +28,12 @@ if ( isset($_POST[ 'submit' ]) ) {
     <div class="row justify-content-center">
         <div class="col-md-6 col-md-offset-3 text-center"><br><br>
             <?php if ( $msg != "" ) echo $msg . "<br><br>"; ?>
-            <h1>Inloggen</h1>
-            <br>
-            <div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Inloggen</h2>
+                                    <br>
+                    <div>
+                        <div class="card-body">
                 <form method="post" action="/login">
                     <div class="input-container">
                         <i class="material-icons">mail</i>
@@ -41,7 +44,8 @@ if ( isset($_POST[ 'submit' ]) ) {
                         <input class="form-control" type="password" name="password" placeholder="Wachtwoord..."><br>
 
                     </div>
-                    <input type="submit" class="btn btn-primary" value="Log in!" name="submit">
+                    <input type="submit" class="btn btn-primary" value="Log in!" name="submit"><br><br>
+                    Bent u nieuw? <a href=/register>Registreren</a>
                 </form>
             </div>
         </div>

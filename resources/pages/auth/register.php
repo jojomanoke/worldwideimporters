@@ -20,6 +20,7 @@ if ( isset($_POST[ 'submit' ]) ) {
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Registreren</h2>
+                    <small class="card-subtitle text-muted">Velden met een <font color="black" size="4px">*</font> zijn verplicht!
                 </div>
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">Persoonlijke Informatie</h6>
@@ -73,7 +74,7 @@ if ( isset($_POST[ 'submit' ]) ) {
                                 delen.</small>
                         </div>
                         <div class="form-group col-12">
-                            <label for="phone">Telefoonnummer</label>
+                            <label for="phone">Telefoonnummer*</label>
                             <input id="phone" value="<?=old('phoneNumber')?>" class="form-control" name="phoneNumber" type="tel" placeholder="0612345678">
                         </div>
                     </div>
