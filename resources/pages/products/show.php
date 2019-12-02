@@ -1,4 +1,8 @@
 <?php
+
+
+use \Classes\Login;
+
 $connection = Classes\Database::getConnection();
 $productId = $_GET['product'];
 $query = 'SELECT s.*, c.ColorName FROM stockitems s left join colors c ON c.ColorID = s.ColorID WHERE StockItemID = ?';
@@ -6,6 +10,30 @@ $statement = $connection->prepare($query);
 $statement->bind_param('i', $productId);
 $statement->execute();
 $product = $statement->get_result()->fetch_object();
+
+if (Login::isLoggedIn()) {
+    $userID = Login::id();
+}
+
+
+$reviewscore = 0;
+if (isset($_POST['stars'], $_POST['review'])) {
+    $reviewscore = (int)$_POST['stars'];
+    $reviewbeschrijving = $_POST['review'];
+    $query = "INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID) VALUES (?, ?, ?,?)";
+    $statement =$connection->prepare($query);
+    $statement->bind_param('isii',$reviewscore, $reviewbeschrijving, $userID,$productId);
+    $statement->execute();
+}
+$reviews = \Classes\Query\Query::get('reviews')->where('StockItemID', $productId);
+$totaalreviewscore = 0.00;
+$aantalreviews = $reviews->count();
+if ($aantalreviews != 0) {
+    foreach ($reviews as $review) {
+$totaalreviewscore = ($totaalreviewscore+$review->ReviewScore);
+}
+$gemiddeldescore = $totaalreviewscore/$reviews->count();
+}
 
 /**
  * @todo Product niet gelijk toevoegen op pagina bezoeken maar wanneer er op de knop gedrukt wordt
@@ -25,159 +53,68 @@ $shoppingarray = array(
 //}
 
 
-?>
+include('C:\xampp\htdocs\worldwideimporters\resources\includes\productCarrousel.php');
 
-    <div class="row">
+ ?>
 
-        <div class="col-md-6 col-12">
-            <br>
-            <link rel="stylesheet" type="text/css" href="/css/style_productweergave.css">
-            <!-- Container for the image gallery -->
-            <div class="container">
+    <div class="col-6">
+        <?php $ENGLretailprice = $product->RecommendedRetailPrice;
+        $NLretailprice = str_replace(".", ",", $ENGLretailprice);
+        ?>
+        <br>
+        <h1 class="h1"><?php echo $product->StockItemName; ?></h1>
+        <div class="text-sm-right" style="border: #1b1e21"> World Wide Importers</div>
+        <br><br>
+        <h2 class="container"
+            style="border-width: thin ">    <?= "<span style=\"color:#3CB371;\"> € $product->RecommendedRetailPrice </span>" ?></h2>
+        <button type="button" onclick="AddtoShoppingCart()" name="shoppingcart"
+                class="btn btn-warning"><?= trans('products.addToCart'); ?></button>
+        <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
+        <div class="">
+            <?php $ENGLretailprice = $product->RecommendedRetailPrice;
+            $NLretailprice = str_replace(".", ",", $ENGLretailprice);
 
-                <!-- Full-width images with number text -->
-                <div class="mySlides">
-                    <div class="numbertext">1 / 6</div>
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                        echo getBlob($row['Photo']);
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" style="width:100%" height="60%">
-                </div>
+            ?>
 
-                <div class="mySlides">
-                    <div class="numbertext">2 / 6</div>
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                        echo getBlob($row['Photo']);
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" style="width:100%" height="60%">
-                </div>
-
-                <div class="mySlides">
-                    <div class="numbertext">3 / 6</div>
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                        echo getBlob($row['Photo']);
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" style="width:100%" height="60%">
-                </div>
-
-                <div class="mySlides">
-                    <div class="numbertext">4 / 6</div>
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                        echo getBlob($row['Photo']);
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" style="width:100%" height="60%">
-                </div>
-
-                <div class="mySlides">
-                    <div class="numbertext">5 / 6</div>
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                        echo getBlob($row['Photo']);
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" style="width:100%" height="60%">
-                </div>
-
-                <div class="mySlides">
-                    <div class="numbertext">6 / 6</div>
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                        echo getBlob($row['Photo']);
-                    } else {
-                        echo 'https://via.placeholder.com/350x200';
-                    } ?>" style="width:100%" height="60%">
-                </div>
-
-                <!-- Next and previous buttons -->
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-                <!-- Image text -->
-                <div class="caption-container">
-                    <p id="caption"></p>
-                </div>
-
-                <!-- Thumbnail images -->
-                <div class="row">
-                    <div class="column" onclick="">
-                        <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                            echo getBlob($row['Photo']);
-                        } else {
-                            echo 'https://via.placeholder.com/350x200';
-                        } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
-                    </div>
-                    <div class="column">
-                        <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                            echo getBlob($row['Photo']);
-                        } else {
-                            echo 'https://via.placeholder.com/350x200';
-                        } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
-                    </div>
-                    <div class="column">
-                        <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                            echo getBlob($row['Photo']);
-                        } else {
-                            echo 'https://via.placeholder.com/350x200';
-                        } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
-                    </div>
-                    <div class="column">
-                        <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                            echo getBlob($row['Photo']);
-                        } else {
-                            echo 'https://via.placeholder.com/350x200';
-                        } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
-                    </div>
-                    <div class="column">
-                        <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                            echo getBlob($row['Photo']);
-                        } else {
-                            echo 'https://via.placeholder.com/350x200';
-                        } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
-                    </div>
-                    <div class="column">
-                        <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
-                            echo getBlob($row['Photo']);
-                        } else {
-                            echo 'https://via.placeholder.com/350x200';
-                        } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-
-        </div>
-        <div class="col-6">
-            <br>
-            <h1 class="h1"><?php echo $product->StockItemName; ?></h1>
-            <div class="text-sm-right" style="border: #1b1e21"> World Wide Importers</div>
-            <h2 class="container">    <?= "<span style=\"color:#ff0000;\"> $product->RecommendedRetailPrice </span>" ?></h2>
-            <button type="button" onclick="AddtoShoppingCart()" name="shoppingcart"
-                    class="btn btn-warning"><?= trans('products.addToCart'); ?></button>
-            <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
-            <div class="">
-                <h3><?php echo 'Product Details' ?> </h3>
-                <?php echo $product->SearchDetails; ?> <br>
-                <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
-                <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
-                <?php If ($product->Size != "") {
-                    echo trans('products.size') . " : " . $product->Size;
-                } ?>
-            </div>
-            <div>
-                <br><br>
-                Gratis Bezorging <br>
-                Klantservice 24/7 <br>
-                Gratis retouneren <br>
-            </div>
+            <h3><?php echo 'Product Details' ?> </h3>
+            <?php echo $product->SearchDetails; ?> <br>
+            <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
+            <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
+            <?php If ($product->Size != "") {
+                echo trans('products.size') . " : " . $product->Size;
+            } ?>
         </div>
     </div>
-    <h3>Reviews</h3>
-    <i class="fa fa-star fa-2x" style="color:white"></i>
-    <script src="/js/productweergave.js"></script>
+    </div>
+<?php
+if (Login::isLoggedIn()) { ?>
+     <div class="row mt-5">
+        <div class="col-6">
+            <form action="/products/<?= $product->StockItemID ?>" method="post">
+                <div class="container">
+                    <h3>Reviews</h3>
 
+                    <i class="material-icons reviewssterren" id="star1">star</i>
+                    <i class="material-icons reviewssterren" id="star2">star</i>
+                    <i class="material-icons reviewssterren" id="star3">star</i>
+                    <i class="material-icons reviewssterren" id="star4">star</i>
+                    <i class="material-icons reviewssterren" id="star5">star</i> <h1><?php  echo $reviewscore ?></h1>
+
+                    <div>
+                        <input type="hidden" id="stars" name="stars" value="0">
+                        <br><textarea name="review" value="" placeholder="Type hier uw Review" cols="50"
+                                      rows="6"></textarea>
+                        <br><button type="submit" >verzend</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <?php
+}
+?>
+<?php include 'C:\xampp\htdocs\worldwideimporters\resources\includes\review.php'; ?>
     <script>    function AddtoShoppingCart() {
             let data = '<?=json_encode($shoppingarray) ?>';
             let url = '/shoppingcart';
@@ -193,7 +130,31 @@ $shoppingarray = array(
         }
 
     </script>
+    <script>
+        $('.reviewssterren').mouseenter(function () {
+            let currentStar = parseInt($(this).attr('id').replace(/[^\d.]/g, ''));
 
+            for (let i = 1; i <= currentStar; i++) {
+                $(`#star${i}`).addClass('text-danger');
+            }
+        }).mouseleave(function () {
+            let currentStar = parseInt($(this).attr('id').replace(/[^\d.]/g, ''));
+
+            for (let i = 1; i <= currentStar; i++) {
+                $(`#star${i}`).removeClass('text-danger');
+            }
+        }).on('click', function () {
+            let currentStar = parseInt($(this).attr('id').replace(/[^\d.]/g, ''));
+            $('.reviewssterren').each(function () {
+                $(this).css('color', 'black');
+            });
+            for (let i = 1; i <= currentStar; i++) {
+                $(`#star${i}`).css('color', 'red');
+            }
+            $('#stars').attr('value', currentStar);
+        });
+
+    </script>
 <?php
 
 
