@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <?php if($_GET['page'] === 'categories' || $_GET['page'] === 'search') {?>
     <button class="navbar-toggler" id="filterToggle" type="button" data-toggle="collapse" data-target="#filterNav"
@@ -42,7 +41,7 @@
                 <i class="material-icons-outlined" style="color: black">
                     shopping_basket
                 </i>
-                <?php if(count($_SESSION['shoppingcart'])){?>
+                <?php if(isset($_SESSION['shoppingcart']) && count($_SESSION['shoppingcart'])){?>
                 <span
                         class="badge badge-light"><?= count($_SESSION[ 'shoppingcart' ]) ?>
                 </span>
@@ -55,10 +54,15 @@
                 <a class="nav-link dropdown-toggle" href="" role="button" id="profiel" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profiel">
-                    <a class="dropdown-item" href="/login">Inloggen</a>
-                    <a class="dropdown-item" href="/register">Registreren</a>
-                    <div class="dropdown-divider"></div>
+                    <?php if(!(\Classes\Login::isLoggedIn())) {?>
+                        <a class="dropdown-item" href="/login">Inloggen</a>
+                        <a class="dropdown-item" href="/register">Registreren</a>
+                        <div class="dropdown-divider"></div>
+                    <?php } ?>
                     <a class="dropdown-item" href="javascript:void(0)">Mijn profiel</a>
+                    <?php if(\Classes\Login::isLoggedIn()) {?>
+                    <a class="dropdown-item" href="/logout">Uitloggen</a
+                    <?php } ?>
                 </div>
         </div>
     </div>
@@ -69,6 +73,5 @@
         window.event.preventDefault();
         let toSearch = document.getElementById('searchForm').value;
         window.location.href = `/search/${toSearch}`
-
     }
 </script>

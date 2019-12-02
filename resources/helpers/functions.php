@@ -149,3 +149,15 @@ if ( !function_exists('resizeImage') ) {
         return $imageSize;
     }
 }
+
+if(!function_exists('post')){
+    function post($postKey){
+        return $_POST[$postKey] ?? null;
+    }
+}
+
+if(!function_exists('old')){
+    function old($key, $default = ''){
+        return $_POST[$key] ?? $default;
+    }
+}

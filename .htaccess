@@ -50,3 +50,8 @@ RewriteRule ^login index.php?page=login [L,QSA]
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
 RewriteRule ^register [R=301,L]
 RewriteRule ^register index.php?page=register [L,QSA]
+
+# Logout page
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
+RewriteRule ^logout [R=301,L]
+RewriteRule ^logout index.php?page=logout [L,QSA]

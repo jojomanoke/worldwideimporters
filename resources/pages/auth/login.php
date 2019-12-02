@@ -5,15 +5,15 @@ if ( isset($_POST[ 'submit' ]) ) {
     /** @var \mysqli $connection is the same as new mysqli($usern, $passw, $dbname, $port) */
     $connection = \Classes\Database::getConnection();
     $email = $connection->real_escape_string($_POST[ 'email' ]);
-    $password = $connection->real_escape_string($_POST[ 'wachtwoord' ]);
+    $password = $connection->real_escape_string($_POST[ 'password' ]);
     /** @var $stmt //Prepares the sql statement with a question mark */
-    $stmt = $connection->query("SELECT wachtwoord FROM users WHERE email = $email LIMIT 1");
+    $stmt = $connection->query("SELECT password FROM users WHERE email = '$email' LIMIT 1");
     if ( $stmt && $stmt->num_rows > 0 ) {
         /** @var \mysqli $data Fetch the results */
         $data = $stmt->fetch_array();
-        if ( password_verify($password, $data[ 'wachtwoord' ]) ) {
+        if ( password_verify($password, $data[ 'password' ]) ) {
             /** @var $msg //TODO: Beveiligen */
-            // $_SESSION['userSession'] = $data['email'];
+            \Classes\Login::login();
             
             $msg = "Je bent ingelogd!";
         } else
@@ -38,7 +38,7 @@ if ( isset($_POST[ 'submit' ]) ) {
                     </div>
                     <div class="input-container">
                         <i class="material-icons">lock</i>
-                        <input class="form-control" type="password" name="wachtwoord" placeholder="Wachtwoord..."><br>
+                        <input class="form-control" type="password" name="password" placeholder="Wachtwoord..."><br>
 
                     </div>
                     <input type="submit" class="btn btn-primary" value="Log in!" name="submit">
