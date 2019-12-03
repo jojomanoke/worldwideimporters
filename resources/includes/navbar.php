@@ -34,8 +34,9 @@
         </div>
 
         <div class="navbar-nav ml-auto">
+            <?php if(\Classes\Login::isLoggedIn()) {?>
             <a class="nav-link" href="favorites.php"><i class="material-icons" style="color: black">favorite_border</i></a>
-
+            <?php } ?>
             <a href="/shoppingcart"
                class="nav-link <?php if(getUrl() === '/shoppingcart') echo 'active'; ?>">
                 <i class="material-icons-outlined" style="color: black">
