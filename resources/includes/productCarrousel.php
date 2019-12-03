@@ -1,11 +1,11 @@
-<div class="row my-5">
-    <div class="col-md-6 col-12">
+<div class="row my-5" style="width: 95%; height: 50%;">
+    <div class="col-md-6 col-12" style="height: 400px">
         <link rel="stylesheet" type="text/css" href="/css/style_productweergave.css">
         <!-- Container for the image gallery -->
-        <div class="container" style="height: 100%; width: 100%;">
+        <div class="container" style="height: 90px; width: 100%;">
 
             <!-- Full-width images with number text -->
-            <div class="mySlides">
+            <div class="mySlides" style="height: 90px">
                 <div class="numbertext">1 / 6</div>
                 <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
                     echo getBlob($row['Photo']);

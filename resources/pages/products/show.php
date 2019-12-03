@@ -21,8 +21,8 @@ if (isset($_POST['stars'], $_POST['review'])) {
     $reviewscore = (int)$_POST['stars'];
     $reviewbeschrijving = $_POST['review'];
     $query = "INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID) VALUES (?, ?, ?,?)";
-    $statement =$connection->prepare($query);
-    $statement->bind_param('isii',$reviewscore, $reviewbeschrijving, $userID,$productId);
+    $statement = $connection->prepare($query);
+    $statement->bind_param('isii', $reviewscore, $reviewbeschrijving, $userID, $productId);
     $statement->execute();
 }
 $reviews = \Classes\Query\Query::get('reviews')->where('StockItemID', $productId);
@@ -30,9 +30,9 @@ $totaalreviewscore = 0.00;
 $aantalreviews = $reviews->count();
 if ($aantalreviews != 0) {
     foreach ($reviews as $review) {
-$totaalreviewscore = ($totaalreviewscore+$review->ReviewScore);
-}
-$gemiddeldescore = $totaalreviewscore/$reviews->count();
+        $totaalreviewscore = ($totaalreviewscore + $review->ReviewScore);
+    }
+    $gemiddeldescore = $totaalreviewscore / $reviews->count();
 }
 
 /**
@@ -55,40 +55,38 @@ $shoppingarray = array(
 
 include('C:\xampp\htdocs\worldwideimporters\resources\includes\productCarrousel.php');
 
- ?>
+?>
 
-    <div class="col-6">
+    <div class="col-6" xmlns="http://www.w3.org/1999/html">
         <?php $ENGLretailprice = $product->RecommendedRetailPrice;
         $NLretailprice = str_replace(".", ",", $ENGLretailprice);
         ?>
-        <br>
-        <h1 class="h1"><?php echo $product->StockItemName; ?></h1>
-        <div class="text-sm-right" style="border: #1b1e21"> World Wide Importers</div>
-        <br><br>
-        <h2 class="container"
-            style="border-width: thin ">    <?= "<span style=\"color:#3CB371;\"> € $product->RecommendedRetailPrice </span>" ?></h2>
-        <button type="button" onclick="AddtoShoppingCart()" name="shoppingcart"
-                class="btn btn-warning"><?= trans('products.addToCart'); ?></button>
-        <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
-        <div class="">
-            <?php $ENGLretailprice = $product->RecommendedRetailPrice;
-            $NLretailprice = str_replace(".", ",", $ENGLretailprice);
+    <h1 class="h1 mt-3"><?php echo $product->StockItemName; ?></h1>
 
-            ?>
-
-            <h3><?php echo 'Product Details' ?> </h3>
-            <?php echo $product->SearchDetails; ?> <br>
-            <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
-            <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
-            <?php If ($product->Size != "") {
-                echo trans('products.size') . " : " . $product->Size;
-            } ?>
-        </div>
+        <h2 class="container mt-5 "
+        style="border-width: 1px; border-color: black; ">    <?= "<span style=\"color:#3CB371;\"> € $product->RecommendedRetailPrice </span>" ?></h2>
+    <button type="button" onclick="AddtoShoppingCart()" name="shoppingcart"
+            class="btn btn-warning"><?= trans('products.addToCart'); ?></button>
+    <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
+<?php $ENGLretailprice = $product->RecommendedRetailPrice;
+$NLretailprice = str_replace(".", ",", $ENGLretailprice);
+?><div class="card">
+    <div class="card-header" >
+<?php echo 'Product Details' ?>
+    </div>
+    <div class="card-body ">
+        <?php echo $product->SearchDetails; ?> <br>
+        <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
+        <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
+        <?php If ($product->Size != "") {
+            echo trans('products.size') . " : " . $product->Size;
+        } ?>
     </div>
     </div>
+</div>
 <?php
 if (Login::isLoggedIn()) { ?>
-     <div class="row mt-5">
+    <div class="row mt-5">
         <div class="col-6">
             <form action="/products/<?= $product->StockItemID ?>" method="post">
                 <div class="container">
@@ -98,13 +96,15 @@ if (Login::isLoggedIn()) { ?>
                     <i class="material-icons reviewssterren" id="star2">star</i>
                     <i class="material-icons reviewssterren" id="star3">star</i>
                     <i class="material-icons reviewssterren" id="star4">star</i>
-                    <i class="material-icons reviewssterren" id="star5">star</i> <h1><?php  echo $reviewscore ?></h1>
+                    <i class="material-icons reviewssterren" id="star5">star</i>
+                    <h1><?php echo $reviewscore ?></h1>
 
                     <div>
                         <input type="hidden" id="stars" name="stars" value="0">
                         <br><textarea name="review" value="" placeholder="Type hier uw Review" cols="50"
                                       rows="6"></textarea>
-                        <br><button type="submit" >verzend</button>
+                        <br>
+                        <button type="submit">verzend</button>
                     </div>
                 </div>
             </form>
