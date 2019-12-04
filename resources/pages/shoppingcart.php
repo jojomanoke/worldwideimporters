@@ -18,10 +18,9 @@ if (isset($_GET['action']) && isset($_GET['action'])) {
     } elseif ($_GET['action'] === 'removeAmount') {
 
 
-        if ($shoppingCart[$key]['amount'] <= 1) {
+        $shoppingCart[$key]['amount'] = $shoppingCart[$key]['amount'] - 1;
+        if ($shoppingCart[$key]['amount'] < 1) {
             unset($shoppingCart[$key]);
-        }else{
-            $shoppingCart[$key]['amount'] = $shoppingCart[$key]['amount'] - 1;
         }
 
 
@@ -36,6 +35,7 @@ $query = "SELECT * FROM stockitems WHERE StockItemID IN (" . implode(', ', $ids)
 $results = $conn->query($query);
 
 $totalPrice = (float)0.00;
+
 ?>
 <?php
 if ($results) { ?>
@@ -81,7 +81,7 @@ if ($results) { ?>
                         </p>
                         <div class="clearfix"></div>
                         <p class="card-text float-right">
-                            Prijs: €<?= number_format($product->RecommendedRetailPrice * $amount, 2, ',', '.') ?>
+                            Aantal: <?= $amount ?> Prijs: €<?= number_format($product->RecommendedRetailPrice * $amount, 2, ',', '.') ?>
                         </p>
                     </div>
                 </div>
