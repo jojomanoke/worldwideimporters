@@ -2,10 +2,11 @@
 
 if ( !isset($_SESSION) ) {
     session_start();
+    $_SESSION['language'] = 'en';
 }
+include( 'resources/helpers/functions.php' );
 include 'resources/config/autoload.php';
 
-include( 'resources/helpers/functions.php' );
 include( 'resources/config/globals.php' );
 include( 'resources/includes/head.php' );
 include( 'resources/includes/navbar.php' );

@@ -19,43 +19,8 @@ trait Getters
         /**
          * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
          */
-        $conn = Database::getConnection();
         $query = "SELECT $columns FROM $table";
-        /**
-         * $stmt is the same as $statement
-         */
-        $stmt = $conn->prepare($query);
-        $stmt->execute();
-        $results = $stmt->get_result();
-        
-        if ( $results->num_rows > 0 ) {
-            /**
-             * Creates an empty object.
-             * Will be used in the while loop and will be populated with database records
-             */
-            $totalResults = new Query();
-            
-            /**
-             * Is used to create a key for every database record
-             * e.g. $array[0] = $databaseRecord;
-             */
-            $index = 0;
-            
-            /**
-             * Simple while loop to loop over all database records
-             */
-            while ( $databaseRecord = $results->fetch_object() ) {
-                
-                /**
-                 * Adds the record to the empty object
-                 */
-                $totalResults->$index = self::convertToQueryObject($databaseRecord);
-                $index++;
-            }
-            $results->free_result();
-            return $totalResults;
-        }
-        return new Query();
+        return self::getResults($query);
     }
     
     /**
@@ -66,38 +31,54 @@ trait Getters
      * @return \Classes\Query\Query
      * @author sylvano verkuyl<sylvanoverkuyl@hotmail.com>
      */
-    public static function in( $table, $columns, $collection ): Query
+    public static function in( $table, $column, $keys ): Query
     {
         /**
          * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
          */
+        $query = "SELECT * FROM $table WHERE $column IN (";
+        
+        foreach ($keys as $index => $key){
+            $query .= is_string($key) ? "'$key'" : $key;
+            if($index !== ( count($keys) - 1)){
+                $query .= ', ';
+            } else {
+                $query .= ')';
+            }
+        }
+        
+        return self::getResults($query);
+    }
+    
+    
+    private static function getResults(string $query): Query
+    {
         $conn = Database::getConnection();
-        $query = "SELECT $columns FROM $table";
         /**
          * $stmt is the same as $statement
          */
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $results = $stmt->get_result();
-        
+    
         if ( $results->num_rows > 0 ) {
             /**
              * Creates an empty object.
              * Will be used in the while loop and will be populated with database records
              */
             $totalResults = new Query();
-            
+        
             /**
              * Is used to create a key for every database record
              * e.g. $array[0] = $databaseRecord;
              */
             $index = 0;
-            
+        
             /**
              * Simple while loop to loop over all database records
              */
             while ( $databaseRecord = $results->fetch_object() ) {
-                
+            
                 /**
                  * Adds the record to the empty object
                  */
@@ -111,14 +92,11 @@ trait Getters
     }
     
     
-    
-    
-    
     /**
      * Returns all database records where a columns equals value
      *
      * @param string $column WHERE column = ...
-     * @param string $value WHERE ... = value
+     * @param mixed $value WHERE ... = value
      * @return Query
      */
     public function where( $column, $value ): Query
@@ -132,21 +110,104 @@ trait Getters
          * This loop will loop over each database record fetched by: Query::get('tableName');
          */
         if ( $this->count() !== null ) {
-            foreach ( $this as $key => $object ) {
-                /**
-                 * $column is the name of the column that needs to be searched
-                 * This checks if the column value is the same as the value to find
-                 */
-                if ( $object->$column == $value ) {
+            if(str_contains($column, ',')){
+                foreach($this as $key => $object) {
+                    foreach(explode(',', $column) as $col){
+                        
+                        if(is_array($value)){
+                            if( in_array($object->$col, $value, false)){
+                                $results->$resultCount = $object;
+                                $resultCount++;
+                                break;
+                            }
+                        } else {
+                            if($object->$col == $value){
+                                $results->$resultCount = $object;
+                                $resultCount++;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } elseif(is_array($value) || str_contains($value, ',')){
+                if(is_string($value)){
+                    $value = explode(',', $value);
+                }
+                foreach ( $this as $key => $object ) {
                     /**
-                     * Once it finds something, the loop will add the data object to the empty object earlier
+                     * $column is the name of the column that needs to be searched
+                     * This checks if the column value is the same as the value to find
                      */
-                    $results->$resultCount = $object;
-                    $resultCount++;
+                    if (in_array($object->$column, $value, false)) {
+                        /**
+                         * Once it finds something, the loop will add the data object to the empty object earlier
+                         */
+                        $results->$resultCount = $object;
+                        $resultCount++;
+                    }
+                }
+            } else {
+                foreach ( $this as $key => $object ) {
+                    /**
+                     * $column is the name of the column that needs to be searched
+                     * This checks if the column value is the same as the value to find
+                     */
+                    if ( $object->$column == $value ) {
+                        /**
+                         * Once it finds something, the loop will add the data object to the empty object earlier
+                         */
+                        $results->$resultCount = $object;
+                        $resultCount++;
+                    }
                 }
             }
+            
+            
+            
         }
         return $results;
+    }
+    
+    /**
+     * same as SELECT ... FROM ... WHERE ... LIKE '%...%'
+     *
+     * @param array $columns
+     * @param string $value
+     * @return \Classes\Query\Query
+     */
+    public function like (array $columns, string $value): Query {
+        $returnCollection = new Query();
+        $resultsCount = 0;
+        foreach($this as $item){
+            foreach($columns as $key => $column){
+                if(stripos($item->{$column}, $value) !== false){
+                    $returnCollection->{$resultsCount} = $item;
+                    $resultsCount++;
+                    break;
+                }
+//                if(in_array($item->{$column}, $values, false)){
+//                    $returnCollection->{$resultsCount} = $item;
+//                }
+            }
+        }
+        
+        return $returnCollection;
+    }
+    
+    public function limit(int $first, int $second = 0) {
+        $returnCollection = new Query();
+        $resultsCount = 0;
+        foreach($this as $key => $item){
+            if($second && ($key >= $first && $resultsCount < $second)){
+                $returnCollection->{$resultsCount} = $item;
+                $resultsCount++;
+            } elseif(!$second && ($key < $first)) {
+                $returnCollection->{$resultsCount} = $item;
+                $resultsCount++;
+            }
+        }
+        
+        return $returnCollection;
     }
     
     /**

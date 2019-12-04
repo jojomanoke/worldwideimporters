@@ -16,3 +16,6 @@ while($product = $results->fetch_object()){ ?>
     <p><?= $product->StockItemName ?></p>
     <?php } ?>
 
+<?php
+dd(\Classes\Auth::user());
+?>

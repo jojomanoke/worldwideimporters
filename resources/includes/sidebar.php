@@ -5,11 +5,20 @@
                 <div class="lead">Filters</div>
                 <form method="get" action="<?=getUrl()?>">
                     <div class="form-group">
-                        <label for="resultsPerPage">Aantal resultaten per pagina</label>
-                        <select id="resultsPerPage" name="resultsPerPage" onchange="submit()" class="form-control">
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                        <label for="ARPP">Resultaten per pagina</label>
+                        <select id="ARPP" onchange="submit()" class="form-control w-auto" name="ARPP">
+                            <option <?php if (isset($_GET['ARPP']) && $_GET['ARPP'] == 25) {
+                                echo "selected";
+                            } ?> value=25>25
+                            </option>
+                            <option <?php if (isset($_GET['ARPP']) && $_GET['ARPP'] == 50) {
+                                echo "selected";
+                            } ?> value=50>50
+                            </option>
+                            <option <?php if (isset($_GET['ARPP']) && $_GET['ARPP'] == 100) {
+                                echo "selected";
+                            } ?> value=100>100
+                            </option>
                         </select>
                     </div>
                 </form>
