@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -16,7 +15,8 @@ if (getUrl() === '/shoppingcart/add' && isset($_POST['product']) && $_GET['actio
             'id' => (int)$_POST['product'],
             'amount' => 1,
         ];
-        $_SESSION['shoppingcart'] = $shoppingCart;
+        $_SESSION['shoppingcart'] = array_merge($shoppingCart);
+        echo '<script>window.location.href="/shoppingcart"</script>';
     }
 }
 
@@ -27,7 +27,8 @@ if (getUrl() === '/shoppingcart/delete' && isset($_POST['product']) && $_GET['ac
                 unset($shoppingCart[$key]);
             }
         }
-        $_SESSION['shoppingcart'] = $shoppingCart;
+        $_SESSION['shoppingcart'] = array_merge($shoppingCart);
+        echo '<script>window.location.href="/shoppingcart"</script>';
     }
 }
 
