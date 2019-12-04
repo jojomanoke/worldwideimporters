@@ -35,16 +35,17 @@
 
         <div class="navbar-nav ml-auto">
             <?php if(\Classes\Login::isLoggedIn()) {?>
-            <a class="nav-link" href="favorites.php"><i class="material-icons" style="color: black">favorite_border</i></a>
+            <a class="nav-link" href="favorites.php"><i class="material-icons" style="color: red">favorite_border</i></a>
             <?php } ?>
+
             <a href="/shoppingcart"
                class="nav-link <?php if(getUrl() === '/shoppingcart') echo 'active'; ?>">
-                <i class="material-icons-outlined" style="color: black">
+                <i class="material-icons-outlined" style="color: lightgreen">
                     shopping_basket
                 </i>
                 <?php if(isset($_SESSION['shoppingcart']) && count($_SESSION['shoppingcart'])){?>
                 <span
-                        class="badge badge-light"><?= count($_SESSION[ 'shoppingcart' ]) ?>
+                        class="badge badge-light" style="color: black"><?= count($_SESSION[ 'shoppingcart' ]) ?>
                 </span>
                 <span class="sr-only">
                     items in basket
@@ -52,7 +53,7 @@
                 <?php } ?>
             </a>
             <div class="dropdown show">
-                <a class="nav-link dropdown-toggle" href="" role="button" id="profiel" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" style="color: blue" href="" role="button" id="profiel" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profiel">
                     <?php if(!(\Classes\Login::isLoggedIn())) {?>

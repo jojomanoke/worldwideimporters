@@ -11,20 +11,6 @@ $product = $statement->get_result()->fetch_object();
  * @todo Product niet gelijk toevoegen op pagina bezoeken maar wanneer er op de knop gedrukt wordt
  * @todo als product al in winkelwagentje staat voeg dan niet extra toe
  */
-
-$shoppingarray = array(
-    "id" => $product->StockItemID,
-    "Naam" => $product->StockItemName,
-);
-//
-//function WinkelMand(){
-//     $_SESSION["shoppingcart"] = [];
-//
-//
-//    array_push($_SESSION["shoppingcart"], $shoppingarray);
-//}
-
-
 ?>
 
     <div class="row">
@@ -82,7 +68,7 @@ $shoppingarray = array(
                 </div>
 
                 <div class="mySlides">
-                    <div class="numbertext">6 / 6</div>
+                    <div class="numbetext">6 / 6</div>
                     <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
                         echo getBlob($row['Photo']);
                     } else {
