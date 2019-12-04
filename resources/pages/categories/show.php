@@ -70,37 +70,40 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
         } ?>
     </div>
 
-    <?php if($numberOfPages > 1){ ?>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center ">
-                <?php if (!($currentPage <= 1)) { ?>
-                    <li class="page-item"><a class="page-link"
-                                             href="?pagenumber=<?php echo $currentPage - 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Previous</a>
-                    </li>
-                <?php } ?>
-                <?php
-                for ($page = 1;
-                     $page <= $numberOfPages;
-                     $page++) { ?>
-                    <li class="page-item<?php if ($page == $currentPage) {
-                        echo ' active';
-                    } else {
-                        echo '';
-                    } ?>">
-                        <a class="page-link"
-                           href="?pagenumber=<?php echo $page; ?>&ARPP=<?php echo $resultsPerPage; ?>">
-                            <?php echo $page; ?>
-                        </a>
-                    </li>
-                <?php } ?>
-                <?php if (!($currentPage >= $numberOfPages)) { ?>
-                    <li class="page-item"><a class="page-link"
-                                             href="?pagenumber=<?php echo $currentPage + 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Next</a>
-                    </li>
-                <?php } ?>
-            </ul>
-        </nav>
-    <?php }
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            <?php if (!($currentPage <= 1)) { ?>
+                <li class="page-item"><a class="page-link"
+                                         href="?pagenumber=<?php echo $currentPage - 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Previous</a>
+                </li>
+            <?php } ?>
+            <?php for ($page = 1;
+                       $page <= $numberOfPages;
+                       $page++) { ?>
+                <li class="page-item<?php if ($page == $currentPage) {
+                    echo ' active';
+                } else {
+                    echo '';
+                } ?>">
+                    <a class="page-link"
+                       href="?pagenumber=<?php echo $page; ?>&ARPP=<?php echo $resultsPerPage; ?>">
+                        <?php echo $page; ?>
+                    </a>
+                </li>
+            <?php } ?>
+            <?php if (!($currentPage >= $numberOfPages)) { ?>
+                <li class="page-item"><a class="page-link"
+                                         href="?pagenumber=<?php echo $currentPage + 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Next</a>
+                </li>
+            <?php } ?>
+        </ul>
+    </nav>
+    <?php
+    function HomeBTTN()
+    {
+        header("Location: http://worldwideimporters.local/home");
+    }
 }
 $results->free();
 ?>
