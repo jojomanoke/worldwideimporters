@@ -1,5 +1,10 @@
 <?php
-spl_autoload_register(function ( $className ) {
+
+/**
+ * Laad classes automatisch zodat er bovenaan de index.php niet elke keer ---include('/resources/classes/ClassName.php')
+ * geschreven hoeft te worden
+ */
+spl_autoload_register(static function ( $className ) {
     $className = ltrim($className, '\\');
     $fileName = SERVER_ROOT.'/resources/';
     if ( $lastNsPos = strrpos($className, '\\') ) {

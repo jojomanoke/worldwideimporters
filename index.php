@@ -1,6 +1,7 @@
 <?php
 if (!isset($_SESSION)) {
     session_start();
+    $_SESSION['language'] = 'en';
 }
 include 'resources/config/autoload.php';
 
