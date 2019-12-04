@@ -28,28 +28,28 @@
                         </div><br>
                             <label for="colour">Kleur</label><br>
                         <label class="btn btn-outline btn-sm">
-                            <input type="checkbox" value="colour" name="alles" checked> Alle
+                            <input type="checkbox" value="all" name="colour" checked> Alle
                         </label>
                             <label class="btn btn-outline-primary btn-sm">
-                                <input type="checkbox" value="colour" name="blauw"> Blauw
+                                <input type="checkbox" value="colour" name="colour"> Blauw
                             </label>
                         <label class="btn btn-outline-danger btn-sm">
-                            <input type="checkbox" value="colour" name="rood"> Rood
+                            <input type="checkbox" value="colour" name="colour"> Rood
                         </label>
                         <label class="btn btn-outline-secondary btn-sm">
-                            <input type="checkbox" value="colour" name="grijs"> Grijs
+                            <input type="checkbox" value="colour" name="colour"> Grijs
                         </label>
                         <label class="btn btn-outline-success btn-sm">
-                            <input type="checkbox" value="colour" name="groen"> Groen
+                            <input type="checkbox" value="colour" name="colour"> Groen
                         </label>
                         <label class="btn btn-outline-warning btn-sm">
-                            <input type="checkbox" value="colour" name="geel"> Geel
+                            <input type="checkbox" value="colour" name="yellow"> Geel
                         </label>
                         <label class="btn btn-outline-dark btn-sm">
-                            <input type="checkbox" value="colour" name="zwart"> Zwart
+                            <input type="checkbox" value="colour" name="black"> Zwart
                         </label><br>
                         <p align="center">
-                        <br><br><button type="submit" class="btn btn-success">Filter</button></p>
+                        <br><br><button type="submit" class="btn btn-success" name="filter">Filter</button></p>
                     </div>
                 </form>
             </div>

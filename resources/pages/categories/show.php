@@ -7,11 +7,31 @@ if (isset($_GET['ARPP'])) {
     $resultsPerPage = 25;
 }
 
+
+
 $currentPage = isset($_GET['pagenumber']) ? $_GET['pagenumber'] : 1;
 $thisPageFirstResult = ($currentPage - 1) * $resultsPerPage;
 $connection = \Classes\Database::getConnection();
 $category = $_GET['category'];
-$query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category) LIMIT $thisPageFirstResult, $resultsPerPage;";
+
+if ( isset($_GET['priceFilter']) ) {
+    $f = $_GET['priceFilter'];
+    $query.=" ORDER BY UnitPrice";
+    if ($f === 'hooglaag') {
+        $query.=" DESC";
+    }
+}
+
+//TODO: afmaken
+//$query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
+//if ( isset($_GET['blue'])) {
+//    $alles = $_GET['blue'];
+//    $query.=" WHERE StockItemName LIKE '%Blue%'";
+//    if ($alles === '')
+//}
+
+
+$query.= " LIMIT $thisPageFirstResult, $resultsPerPage;";
 $connection->prepare($query);
 $results = $connection->query($query);
 
