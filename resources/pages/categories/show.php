@@ -15,13 +15,6 @@ $connection = \Classes\Database::getConnection();
 $category = $_GET['category'];
 $query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
 
-if ( isset($_GET['priceFilter']) ) {
-    $f = $_GET['priceFilter'];
-    $query.=" ORDER BY UnitPrice";
-    if ($f === 'hooglaag') {
-        $query.=" DESC";
-    }
-}
 
 //TODO: afmaken
 //$query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
@@ -40,6 +33,12 @@ while($item = $results->fetch_object()){
     $ids[] = $item->StockItemID;
 }
 $totalProducts = \Classes\Query\Query::get('stockitems')->where('StockItemID', $ids);
+if(isset($_GET['colour'])){
+    $totalProducts = $totalProducts->where('ColorID', $_GET['colour']);
+}
+if ( isset($_GET['priceFilter']) ) {
+    $totalProducts->sort('UnitPrice', ($_GET['priceFilter'] === 'hooglaag'));
+}
 $products = $totalProducts->limit($thisPageFirstResult, $resultsPerPage);
 
 //$queryTwo = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";

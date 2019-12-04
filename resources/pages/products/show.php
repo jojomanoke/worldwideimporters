@@ -20,7 +20,7 @@ $reviewscore = 0;
 if (isset($_POST['stars'], $_POST['review'])) {
     $reviewscore = (int)$_POST['stars'];
     $reviewbeschrijving = $_POST['review'];
-    $query = "INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID) VALUES (?, ?, ?,?)";
+    $query = 'INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID) VALUES (?, ?, ?, ?)';
     $statement = $connection->prepare($query);
     $statement->bind_param('isii', $reviewscore, $reviewbeschrijving, $userID, $productId);
     $statement->execute();
@@ -30,7 +30,7 @@ $totaalreviewscore = 0.00;
 $aantalreviews = $reviews->count();
 if ($aantalreviews != 0) {
     foreach ($reviews as $review) {
-        $totaalreviewscore = ($totaalreviewscore + $review->ReviewScore);
+        $totaalreviewscore += $review->ReviewScore;
     }
     $gemiddeldescore = $totaalreviewscore / $reviews->count();
 }
@@ -40,20 +40,7 @@ if ($aantalreviews != 0) {
  * @todo als product al in winkelwagentje staat voeg dan niet extra toe
  */
 
-$shoppingarray = array(
-    "id" => $product->StockItemID,
-    "Naam" => $product->StockItemName,
-);
-//
-//function WinkelMand(){
-//     $_SESSION["shoppingcart"] = [];
-//
-//
-//    array_push($_SESSION["shoppingcart"], $shoppingarray);
-//}
-
-
-include('C:\xampp\htdocs\worldwideimporters\resources\includes\productCarrousel.php');
+include(SERVER_ROOT . '/resources/includes/productCarrousel.php');
 
 ?>
 
@@ -118,7 +105,7 @@ if (Login::isLoggedIn()) { ?>
     <?php
 }
 ?>
-<?php include 'C:\xampp\htdocs\worldwideimporters\resources\includes\review.php'; ?>
+<?php include SERVER_ROOT . '/resources/includes/review.php'; ?>
     <script>    function AddtoShoppingCart() {
             let data = '<?=json_encode($shoppingarray) ?>';
             let url = '/shoppingcart';
