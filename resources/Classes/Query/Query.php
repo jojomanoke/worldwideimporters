@@ -34,11 +34,11 @@ class Query
     /**
      * recast stdClass object to an object of a type
      *
-     * @param \stdClass $object
+     * @param mixed $object
      * @return mixed new, typed object
      * @throws \InvalidArgumentException
      */
-    private static function convertToQueryObject( \stdClass $object )
+    private static function convertToQueryObject( $object )
     {
         $newCollection = new self();
         
@@ -48,6 +48,10 @@ class Query
         }
         unset($value);
         return $newCollection;
+    }
+    
+    private static function convertArrayToQueryObject($array){
+        return self::convertToQueryObject((object)$array);
     }
     
 }
