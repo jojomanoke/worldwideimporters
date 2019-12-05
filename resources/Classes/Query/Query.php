@@ -50,6 +50,10 @@ class Query
         return $newCollection;
     }
     
+    /**
+     * @param $array
+     * @return mixed
+     */
     private static function convertArrayToQueryObject($array){
         return self::convertToQueryObject((object)$array);
     }

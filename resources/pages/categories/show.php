@@ -7,47 +7,39 @@ if (isset($_GET['ARPP'])) {
     $resultsPerPage = 25;
 }
 
-
-
 $currentPage = isset($_GET['pagenumber']) ? $_GET['pagenumber'] : 1;
 $thisPageFirstResult = ($currentPage - 1) * $resultsPerPage;
 $connection = \Classes\Database::getConnection();
 $category = $_GET['category'];
 $query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
+if(isset($_GET['colour'])){
+    $query .= ' AND ColorID IN (';
+    foreach($_GET['colour'] as $key => $color){
+        $query .= $color;
+        if($key !== (count($_GET['colour']) - 1)){
+            $query .= ', ';
+        }
+    }
+    $query .=')';
+}
 
-
-//TODO: afmaken
-//$query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
-//if ( isset($_GET['blue'])) {
-//    $alles = $_GET['blue'];
-//    $query.=" WHERE StockItemName LIKE '%Blue%'";
-//    if ($alles === '')
-//}
-
-
-$query.= " LIMIT $thisPageFirstResult, $resultsPerPage;";
+if(isset($_GET['priceFilter'])){
+        $query .= ' ORDER BY UnitPrice';
+    if($_GET['priceFilter'] === 'hooglaag'){
+        $query .= ' DESC';
+    }
+}
+$query .= " LIMIT $thisPageFirstResult, $resultsPerPage;";
 $connection->prepare($query);
 $results = $connection->query($query);
-$ids = [];
-while($item = $results->fetch_object()){
-    $ids[] = $item->StockItemID;
-}
-$totalProducts = \Classes\Query\Query::get('stockitems')->where('StockItemID', $ids);
-if(isset($_GET['colour'])){
-    $totalProducts = $totalProducts->where('ColorID', $_GET['colour']);
-}
-if ( isset($_GET['priceFilter']) ) {
-    $totalProducts->sort('UnitPrice', ($_GET['priceFilter'] === 'hooglaag'));
-}
-$products = $totalProducts->limit($thisPageFirstResult, $resultsPerPage);
 
-//$queryTwo = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
-$numberOfResults = $totalProducts->count();
+$queryTwo = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
+$numberOfResults = $connection->query($queryTwo)->num_rows;
+
 $numberOfPages = ceil($numberOfResults / $resultsPerPage);
 //for ($page = 1; $page <= $numberOfPages; $page++) {
 //    echo '<a href="?pagenumber=' . $page . '">' . $page . '</a>';
 //}
-
 
 ?>
 
@@ -62,11 +54,32 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
     </div>
     <?php
 } else { ?>
+    <form id="perPage" class="form-inline mt-5 pt-5" method="get">
+        <select onchange="submit()" class="form-control w-auto" name="ARPP">
+            <option <?php if (isset($_GET['ARPP']) && $_GET['ARPP'] == 25) {
+                echo "selected";
+            } ?> value=25>25
+            </option>
+            <option <?php if (isset($_GET['ARPP']) && $_GET['ARPP'] == 50) {
+                echo "selected";
+            } ?> value=50>50
+            </option>
+            <option <?php if (isset($_GET['ARPP']) && $_GET['ARPP'] == 100) {
+                echo "selected";
+            } ?> value=100>100
+            </option>
+        </select>
+    </form>
 
     <div class="row mb-5">
-        <?php foreach ( $products as $product ) {
+
+
+        <?php while ($product = $results->fetch_object()) {
             include SERVER_ROOT . '/resources/includes/productCard.php';
-        } ?>
+        }
+
+
+        ?>
     </div>
 
 

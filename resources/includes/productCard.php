@@ -7,9 +7,9 @@
                 <small class="card-text mr-auto">
                     Artikelnummer: <?= $product->StockItemID ?>
                 </small>
-<!--                <small class="card-text ml-auto">-->
-<!--                    Prijs: --><?//= $product->UnitPrice ?>
-<!--                </small>-->
+                <small class="card-text float-right">
+                    Prijs: €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
+                </small>
             </div>
         <img src="<?php if ( isset($product->Photo) && ( $product->Photo ) ) {
             echo getBlob($product->Photo);

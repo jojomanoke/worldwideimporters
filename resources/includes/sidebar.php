@@ -25,28 +25,28 @@
                     </div>
                     <br>
                     <div class="form-group">
-<!--                        <label for="priceFilter">Prijs</label>-->
-<!--                        <div class="form-check">-->
-<!--                            <input class="form-check-input"-->
-<!--                                --><?php //if (!isset($_GET['priceFilter']) || ( isset($_GET[ 'priceFilter' ]) && $_GET[ 'priceFilter' ] === 'laaghoog' )) {
-//                                    echo 'checked';
-//                                } ?>
-<!--                                   type="radio" name="priceFilter" id="priceFilterLowHigh" value="laaghoog">-->
-<!--                            <label class="form-check-label" for="priceFilterLowHigh">-->
-<!--                                Laag naar hoog-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                        <div class="form-check">-->
-<!--                            <input class="form-check-input"-->
-<!--                                --><?php //if ( isset($_GET[ 'priceFilter' ]) && $_GET[ 'priceFilter' ] === 'hooglaag' ) {
-//                                    echo 'checked';
-//                                } ?>
-<!---->
-<!--                                   type="radio" name="priceFilter" id="priceFilterHighLow" value="hooglaag">-->
-<!--                            <label class="form-check-label" for="priceFilterHighLow">-->
-<!--                                Hoog naar laag-->
-<!--                            </label>-->
-<!--                        </div>-->
+                        <label for="priceFilter">Prijs</label>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                <?php if (!isset($_GET['priceFilter']) || ( isset($_GET[ 'priceFilter' ]) && $_GET[ 'priceFilter' ] === 'laaghoog' )) {
+                                    echo 'checked';
+                                } ?>
+                                   type="radio" name="priceFilter" id="priceFilterLowHigh" value="laaghoog">
+                            <label class="form-check-label" for="priceFilterLowHigh">
+                                Laag naar hoog
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                <?php if ( isset($_GET[ 'priceFilter' ]) && $_GET[ 'priceFilter' ] === 'hooglaag' ) {
+                                    echo 'checked';
+                                } ?>
+
+                                   type="radio" name="priceFilter" id="priceFilterHighLow" value="hooglaag">
+                            <label class="form-check-label" for="priceFilterHighLow">
+                                Hoog naar laag
+                            </label>
+                        </div>
                         <br>
                         <label for="colour">Kleur</label><br>
                         <button class="btn btn-outline-secondary" type="button" data-toggle="collapse"
