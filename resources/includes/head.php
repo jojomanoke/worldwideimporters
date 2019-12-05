@@ -10,5 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
           rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="/images/wwi2.png" sizes="32x32">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>

@@ -6,7 +6,7 @@
 /**
  * Server root
  */
-define('SERVER_ROOT', $_SERVER[ 'DOCUMENT_ROOT' ]);
+define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT']);
 
 /**
  * Defines the environment variables
@@ -16,8 +16,8 @@ $envVars = explode("\n", $envFile);
 foreach($envVars as $var) {
     putenv($var);
     $explodedVar = explode('=', $var);
-    if( isset($_SESSION[ 'LANGUAGE' ]) && $explodedVar[ 0 ] === 'LANGUAGE' && ($explodedVar[1] === 'en' || $explodedVar === 'nl') ){
-        putenv('LANGUAGE='. $_SESSION[ 'LANGUAGE' ]);
+    if(isset($_SESSION['LANGUAGE']) && $explodedVar[0] === 'LANGUAGE' && ($explodedVar[1] === 'en' || $explodedVar === 'nl')) {
+        putenv('LANGUAGE=' . $_SESSION['LANGUAGE']);
     } else {
         putenv($var);
     }

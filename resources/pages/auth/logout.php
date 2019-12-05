@@ -1,2 +1,5 @@
 <?php
-\Classes\Login::logout();
+
+use Classes\Login;
+
+Login::logout();

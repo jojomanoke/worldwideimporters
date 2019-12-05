@@ -2,8 +2,8 @@
 
 namespace Classes\Query\Traits;
 
-use Classes\Query\Query;
 use Classes\Database;
+use Classes\Query\Query;
 
 trait Getters
 {
@@ -18,12 +18,12 @@ trait Getters
      * @return \Classes\Query\Query
      * @author sylvano verkuyl<sylvanoverkuyl@hotmail.com>
      */
-    public static function get( $table, $columns = '*' ): Query
+    public static function get($table, $columns = '*'): Query
     {
         /**
          * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
          */
-        if(str_contains($table, ' ')){
+        if(str_contains($table, ' ')) {
             $query = $table;
         } else {
             $query = "SELECT $columns FROM $table";
@@ -41,37 +41,38 @@ trait Getters
      * @return \Classes\Query\Query
      * @author sylvano verkuyl<sylvanoverkuyl@hotmail.com>
      */
-    public static function in( $table, $column, $keys ): Query
+    public static function in($table, $column, $keys): Query
     {
         /**
          * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
          */
         $query = "SELECT * FROM $table WHERE $column IN (";
         
-        foreach ( $keys as $index => $key ) {
-            $query .= is_string($key) ? "'$key'" : $key;
-            if ( $index !== ( count($keys) - 1 ) ) {
-                $query .= ', ';
-            } else {
-                $query .= ')';
+        foreach($keys as $index => $key) {
+            if($key !== null && $key !== 0) {
+                $query .= is_string($key) ? "'$key'" : $key;
+                if($index !== (count($keys) - 1)) {
+                    $query .= ', ';
+                } else {
+                    $query .= ')';
+                }
             }
         }
-        
         return self::getResults($query);
     }
     
     
-    private static function getResults( string $query ): Query
+    private static function getResults(string $query): Query
     {
         $conn = Database::getConnection();
         /**
          * $stmt is the same as $statement
          */
-        if ( $stmt = $conn->prepare($query) ) {
+        if($stmt = $conn->prepare($query)) {
             $stmt->execute();
             $results = $stmt->get_result();
             
-            if ( $results->num_rows > 0 ) {
+            if($results->num_rows > 0) {
                 /**
                  * Creates an empty object.
                  * Will be used in the while loop and will be populated with database records
@@ -87,7 +88,7 @@ trait Getters
                 /**
                  * Simple while loop to loop over all database records
                  */
-                while ( $databaseRecord = $results->fetch_object() ) {
+                while($databaseRecord = $results->fetch_object()) {
                     
                     /**
                      * Adds the record to the empty object
@@ -110,7 +111,7 @@ trait Getters
      * @param mixed $value WHERE ... = value
      * @return Query
      */
-    public function where( $column, $value ): Query
+    public function where($column, $value): Query
     {
         /**
          * Creates an empty object which will be populated in the foreach loop
@@ -120,19 +121,19 @@ trait Getters
         /**
          * This loop will loop over each database record fetched by: Query::get('tableName');
          */
-        if ( $this->count() !== null ) {
-            if ( str_contains($column, ',') ) {
-                foreach ( $this as $key => $object ) {
-                    foreach ( explode(',', $column) as $col ) {
+        if($this->count() !== null) {
+            if(str_contains($column, ',')) {
+                foreach($this as $key => $object) {
+                    foreach(explode(',', $column) as $col) {
                         
-                        if ( is_array($value) ) {
-                            if ( in_array($object->$col, $value, false) ) {
+                        if(is_array($value)) {
+                            if(in_array($object->$col, $value, false)) {
                                 $results->$resultCount = $object;
                                 $resultCount++;
                                 break;
                             }
                         } else {
-                            if ( $object->$col == $value ) {
+                            if($object->$col == $value) {
                                 $results->$resultCount = $object;
                                 $resultCount++;
                                 break;
@@ -140,16 +141,16 @@ trait Getters
                         }
                     }
                 }
-            } elseif ( is_array($value) || str_contains($value, ',') ) {
-                if ( is_string($value) ) {
+            } elseif(is_array($value) || str_contains($value, ',')) {
+                if(is_string($value)) {
                     $value = explode(',', $value);
                 }
-                foreach ( $this as $key => $object ) {
+                foreach($this as $key => $object) {
                     /**
                      * $column is the name of the column that needs to be searched
                      * This checks if the column value is the same as the value to find
                      */
-                    if ( in_array($object->$column, $value, false) ) {
+                    if(in_array($object->$column, $value, false)) {
                         /**
                          * Once it finds something, the loop will add the data object to the empty object earlier
                          */
@@ -158,12 +159,12 @@ trait Getters
                     }
                 }
             } else {
-                foreach ( $this as $key => $object ) {
+                foreach($this as $key => $object) {
                     /**
                      * $column is the name of the column that needs to be searched
                      * This checks if the column value is the same as the value to find
                      */
-                    if ( $object->$column == $value ) {
+                    if($object->$column == $value) {
                         /**
                          * Once it finds something, the loop will add the data object to the empty object earlier
                          */
@@ -185,13 +186,13 @@ trait Getters
      * @param string $value
      * @return \Classes\Query\Query
      */
-    public function like( array $columns, string $value ): Query
+    public function like(array $columns, string $value): Query
     {
         $returnCollection = new Query();
         $resultsCount = 0;
-        foreach ( $this as $item ) {
-            foreach ( $columns as $key => $column ) {
-                if ( stripos($item->{$column}, $value) !== false ) {
+        foreach($this as $item) {
+            foreach($columns as $key => $column) {
+                if(stripos($item->{$column}, $value) !== false) {
                     $returnCollection->{$resultsCount} = $item;
                     $resultsCount++;
                     break;
@@ -205,15 +206,15 @@ trait Getters
         return $returnCollection;
     }
     
-    public function limit( int $first, int $second = 0 )
+    public function limit(int $first, int $second = 0)
     {
         $returnCollection = new Query();
         $resultsCount = 0;
-        foreach ( $this as $key => $item ) {
-            if ( $second && ( $key >= $first && $resultsCount < $second ) ) {
+        foreach($this as $key => $item) {
+            if($second && ($key >= $first && $resultsCount < $second)) {
                 $returnCollection->{$resultsCount} = $item;
                 $resultsCount++;
-            } elseif ( !$second && ( $key < $first ) ) {
+            } elseif(!$second && ($key < $first)) {
                 $returnCollection->{$resultsCount} = $item;
                 $resultsCount++;
             }
@@ -227,34 +228,39 @@ trait Getters
      * @param $amount
      * @return Query
      */
-    public function take( $amount ): Query
+    public function take($amount): Query
     {
         $returnCollection = new Query();
-        for ( $i = 0; $i < $amount; $i++ ) {
+        for($i = 0; $i < $amount; $i++) {
             $returnCollection->$i = $this->$i;
         }
         
         return $returnCollection;
     }
     
-    public function sort($key, $desc = false){
+    public function sort($key, $desc = false, $deb = false)
+    {
         self::$key = $key;
         self::$desc = $desc;
         $array = $this->toArray();
         usort($array, array(Query::class, 'uSortFunction'));
+        foreach($array as $key => $item) {
+            $array[$key] = Query::convertArrayToQueryObject($item);
+        }
         return Query::convertArrayToQueryObject($array);
     }
     
-    private static function uSortFunction ($a, $b){
+    private static function uSortFunction($a, $b)
+    {
         $key = self::$key;
-        if($a->{$key} === $b->{$key}) {
+        if($a[$key] === $b[$key]) {
             return 0;
         }
         
-        if(self::$desc){
-            return ($a->{$key} < $b->{$key}) ? 1 : -1;
+        if(self::$desc) {
+            return ($a[$key] < $b[$key]) ? 1 : -1;
         }
-        return ($a->{$key} < $b->{$key}) ? -1 : 1;
+        return ($a[$key] < $b[$key]) ? -1 : 1;
     }
     
     /**

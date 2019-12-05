@@ -11,22 +11,22 @@ $products = Classes\Query\Query::get('stockitems')->take(10);
         <div id="carouselExampleIndicators" class="carousel slide bg-transparent" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <?php for ( $i = 1; $i < $products->count(); $i++ ) { ?>
+                <?php for($i = 1; $i < $products->count(); $i++) { ?>
                     <li data-target="#carouselExampleIndicators" data-slide-to="<?= $i ?>"></li>
                 <?php } ?>
             </ol>
             <div class="carousel-inner bg-transparent">
-                <?php foreach ( $products as $key => $product ) { ?>
-                    <div class="carousel-item bg-transparent h-100 <?php if ( (int)$key === 0 ) {
+                <?php foreach($products as $key => $product) { ?>
+                    <div class="carousel-item bg-transparent h-100 <?php if((int)$key === 0) {
                         echo 'active';
                     } ?>">
                         
-                        <?php if ( strlen($product->Photo) ) {
+                        <?php if(strlen($product->Photo)) {
                             $imageHeight = imagesy(imagecreatefromstring($product->Photo));
                             $imageWidth = imagesx(imagecreatefromstring($product->Photo));
                             $newImageSize = resizeImage($imageWidth, $imageHeight, 450, 450);
                             ?>
-                            <img style="max-height: <?= $newImageSize[ 'height' ] ?>px; max-width: <?= $newImageSize[ 'width' ] ?>px;>"
+                            <img style="max-height: <?= $newImageSize['height'] ?>px; max-width: <?= $newImageSize['width'] ?>px;>"
                                  src="<?= getBlob($product->Photo) ?>"
                                  class="d-block w-100 mx-auto"
                                  alt="<?= $product->StockItemName ?>">

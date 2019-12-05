@@ -3,15 +3,15 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
     <div class="card h-100 hover" id="<?= $product->StockItemID ?>">
-            <div class="card-header">
-                <small class="card-text mr-auto">
-                    Artikelnummer: <?= $product->StockItemID ?>
-                </small>
-                <small class="card-text float-right">
-                    Prijs: €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
-                </small>
-            </div>
-        <img src="<?php if ( isset($product->Photo) && ( $product->Photo ) ) {
+        <div class="card-header">
+            <small class="card-text mr-auto">
+                Artikelnummer: <?= $product->StockItemID ?>
+            </small>
+            <small class="card-text float-right">
+                Prijs: €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
+            </small>
+        </div>
+        <img src="<?php if($product->Photo !== null && $product->Photo !== '') {
             echo getBlob($product->Photo);
         } else {
             echo 'https://via.placeholder.com/350x200';
@@ -32,9 +32,10 @@
                     </a>
                 </div>
                 <div class="col-auto ml-auto">
-                    <form action="/shoppingcart/add" method="post">
-                        <input type="hidden" name="product" value="<?=$product->StockItemID?>">
-                        <button type="submit" class="btn btn-success material-button"><i class="material-icons">shopping_basket</i></button>
+                    <form action="<?= url('shoppingcart/add') ?>" method="post">
+                        <input type="hidden" name="product" value="<?= $product->StockItemID ?>">
+                        <button type="submit" class="btn btn-success material-button"><i class="material-icons">shopping_basket</i>
+                        </button>
                     </form>
                 </div>
             </div>

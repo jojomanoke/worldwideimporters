@@ -1,7 +1,8 @@
 <?php
 
 
-use \Classes\Login;
+use Classes\Login;
+use Classes\Query\Query;
 
 $connection = Classes\Database::getConnection();
 $productId = $_GET['product'];
@@ -11,13 +12,13 @@ $statement->bind_param('i', $productId);
 $statement->execute();
 $product = $statement->get_result()->fetch_object();
 
-if (Login::isLoggedIn()) {
+if(Login::isLoggedIn()) {
     $userID = Login::id();
 }
 
 
 $reviewscore = 0;
-if (isset($_POST['stars'], $_POST['review'])) {
+if(isset($_POST['stars'], $_POST['review'])) {
     $reviewscore = (int)$_POST['stars'];
     $reviewbeschrijving = $_POST['review'];
     $query = 'INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID) VALUES (?, ?, ?, ?)';
@@ -25,11 +26,11 @@ if (isset($_POST['stars'], $_POST['review'])) {
     $statement->bind_param('isii', $reviewscore, $reviewbeschrijving, $userID, $productId);
     $statement->execute();
 }
-$reviews = \Classes\Query\Query::get('reviews')->where('StockItemID', $productId);
+$reviews = Query::get('reviews')->where('StockItemID', $productId);
 $totaalreviewscore = 0.00;
 $aantalreviews = $reviews->count();
-if ($aantalreviews != 0) {
-    foreach ($reviews as $review) {
+if($aantalreviews != 0) {
+    foreach($reviews as $review) {
         $totaalreviewscore += $review->ReviewScore;
     }
     $gemiddeldescore = $totaalreviewscore / $reviews->count();
@@ -57,26 +58,26 @@ include(SERVER_ROOT . '/resources/includes/productCarrousel.php');
             <button type="submit" class="btn btn-success material-button"><i class="material-icons">shopping_basket</i>
             </button>
         </form>
-    <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
-<?php $ENGLretailprice = $product->RecommendedRetailPrice;
-$NLretailprice = str_replace(".", ",", $ENGLretailprice);
-?>
-    <div class="card">
-        <div class="card-header">
-            <?php echo 'Product Details' ?>
+        <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
+        <?php $ENGLretailprice = $product->RecommendedRetailPrice;
+        $NLretailprice = str_replace(".", ",", $ENGLretailprice);
+        ?>
+        <div class="card">
+            <div class="card-header">
+                <?php echo 'Product Details' ?>
+            </div>
+            <div class="card-body ">
+                <?php echo $product->SearchDetails; ?> <br>
+                <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
+                <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
+                <?php If($product->Size != "") {
+                    echo trans('products.size') . " : " . $product->Size;
+                } ?>
+            </div>
         </div>
-        <div class="card-body ">
-            <?php echo $product->SearchDetails; ?> <br>
-            <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
-            <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
-            <?php If ($product->Size != "") {
-                echo trans('products.size') . " : " . $product->Size;
-            } ?>
-        </div>
-    </div>
     </div>
 <?php
-if (Login::isLoggedIn()) { ?>
+if(Login::isLoggedIn()) { ?>
     <div class="row mt-5">
         <div class="col-6">
             <form action="/products/<?= $product->StockItemID ?>" method="post">

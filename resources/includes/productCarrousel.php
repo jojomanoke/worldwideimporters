@@ -7,7 +7,7 @@
             <!-- Full-width images with number text -->
             <div class="mySlides" style="height: 90px">
                 <div class="numbertext">1 / 6</div>
-                <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                     echo getBlob($row['Photo']);
                 } else {
                     echo 'https://via.placeholder.com/350x200';
@@ -16,7 +16,7 @@
 
             <div class="mySlides">
                 <div class="numbertext">2 / 6</div>
-                <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                     echo getBlob($row['Photo']);
                 } else {
                     echo 'https://via.placeholder.com/350x200';
@@ -25,7 +25,7 @@
 
             <div class="mySlides">
                 <div class="numbertext">3 / 6</div>
-                <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                     echo getBlob($row['Photo']);
                 } else {
                     echo 'https://via.placeholder.com/350x200';
@@ -34,7 +34,7 @@
 
             <div class="mySlides">
                 <div class="numbertext">4 / 6</div>
-                <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                     echo getBlob($row['Photo']);
                 } else {
                     echo 'https://via.placeholder.com/350x200';
@@ -43,7 +43,7 @@
 
             <div class="mySlides">
                 <div class="numbertext">5 / 6</div>
-                <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                     echo getBlob($row['Photo']);
                 } else {
                     echo 'https://via.placeholder.com/350x200';
@@ -52,7 +52,7 @@
 
             <div class="mySlides">
                 <div class="numbertext">6 / 6</div>
-                <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                     echo getBlob($row['Photo']);
                 } else {
                     echo 'https://via.placeholder.com/350x200';
@@ -71,42 +71,42 @@
             <!-- Thumbnail images -->
             <div class="row">
                 <div class="column" onclick="">
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                    <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                         echo getBlob($row['Photo']);
                     } else {
                         echo 'https://via.placeholder.com/350x200';
                     } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
                 </div>
                 <div class="column">
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                    <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                         echo getBlob($row['Photo']);
                     } else {
                         echo 'https://via.placeholder.com/350x200';
                     } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
                 </div>
                 <div class="column">
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                    <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                         echo getBlob($row['Photo']);
                     } else {
                         echo 'https://via.placeholder.com/350x200';
                     } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
                 </div>
                 <div class="column">
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                    <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                         echo getBlob($row['Photo']);
                     } else {
                         echo 'https://via.placeholder.com/350x200';
                     } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
                 </div>
                 <div class="column">
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                    <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                         echo getBlob($row['Photo']);
                     } else {
                         echo 'https://via.placeholder.com/350x200';
                     } ?>" class="card-img-top" alt="..." style="width:100%" onclick="currentSlide(1)">
                 </div>
                 <div class="column">
-                    <img src="<?php if (isset($row['Photo']) && ($row['Photo'] != null)) {
+                    <img src="<?php if(isset($row['Photo']) && ($row['Photo'] != null)) {
                         echo getBlob($row['Photo']);
                     } else {
                         echo 'https://via.placeholder.com/350x200';

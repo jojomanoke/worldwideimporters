@@ -4,9 +4,9 @@ return [
     'products'     => 'Producten',
     'name'         => 'Product naam',
     'edit'         => 'Product aanpassen',
-    'addToCart'         => '+ Winkelwagen',
+    'addToCart'    => 'Toevoegen aan winkelwagentje',
     'supplier'     => 'Leverancier',
-    'color'        =>  'Kleur',
+    'color'        => 'Kleur',
     'weight'       => 'Gewicht',
     'size'         => 'Grootte',
     'CustomFields' => [

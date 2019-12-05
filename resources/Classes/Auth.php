@@ -8,18 +8,19 @@ use Classes\Query\Query;
 
 class Auth
 {
-    public static function user() {
-        if(!isset($_SESSION['userSession'])){
-            return false;
+    public static function user(): Auth
+    {
+        if(!isset($_SESSION['userSession'])) {
+            return new self();
         }
         
-        $userQuery = Query::get('users')->where('UserID', $_SESSION['userSession'][2]);
-        return self::convertToAuthObject($userQuery);
+        return self::convertToAuthObject(Query::get('users')->where('UserID', $_SESSION['userSession'][2]));
     }
     
-    public static function id(){
-        if(!self::user()){
-            return false;
+    public static function id(): int
+    {
+        if(!self::user()) {
+            return 0;
         }
         
         return (self::user())->UserID;
@@ -28,15 +29,15 @@ class Auth
     /**
      * recast stdClass object to an object of a type
      *
-     * @param \stdClass $object
+     * @param mixed $object
      * @return mixed new, typed object
      * @throws \InvalidArgumentException
      */
-    private static function convertToAuthObject( \stdClass $object )
+    private static function convertToAuthObject($object)
     {
         $newCollection = new self();
         
-        foreach ( $object as $property => &$value ) {
+        foreach($object as $property => &$value) {
             $newCollection->$property = &$value;
             unset($object->$property);
         }

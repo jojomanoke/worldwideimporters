@@ -1,6 +1,8 @@
 <?php
-$stockItemID = $_GET[ 'product' ];
+$stockItemID = $_GET['product'];
+
 use Classes\Query\Query;
+
 $product = Query::get('stockitems')->where('StockItemID', $stockItemID)->first();
 $suppliers = Query::get('suppliers', 'SupplierID, SupplierName');
 $colors = Query::get('colors', 'ColorID, ColorName');
@@ -25,9 +27,9 @@ $packageTypes = Query::get('packagetypes', 'PackageTypeID, PackageTypeName');
                     <div class="form-group">
                         <label for="SupplierID"><?= trans('products.supplier') ?></label>
                         <select id="SupplierID" name="SupplierID" class="form-control">
-                            <?php foreach ( $suppliers as $supplier ) { ?>
+                            <?php foreach($suppliers as $supplier) { ?>
                                 <option
-                                    <?php if ( $supplier->SupplierID === $product->SupplierID ) echo 'selected'; ?>
+                                    <?php if($supplier->SupplierID === $product->SupplierID) echo 'selected'; ?>
                                         value="<?= $supplier->SupplierID ?>"><?= $supplier->SupplierName ?></option>
                             <?php } ?>
                         </select>
@@ -35,9 +37,9 @@ $packageTypes = Query::get('packagetypes', 'PackageTypeID, PackageTypeName');
                     <div class="form-group">
                         <label for="UnitPackageID"><?= trans('products.supplier') ?></label>
                         <select id="UnitPackageID" name="UnitPackageID" class="form-control">
-                            <?php foreach ( $packageTypes as $packageType ) { ?>
+                            <?php foreach($packageTypes as $packageType) { ?>
                                 <option
-                                    <?php if ( $packageType->PackageTypeID === $product->OuterPackageID ) {
+                                    <?php if($packageType->PackageTypeID === $product->OuterPackageID) {
                                         echo 'selected';
                                     } ?>
                                         value="<?= $packageType->PackageTypeID ?>"
@@ -50,10 +52,10 @@ $packageTypes = Query::get('packagetypes', 'PackageTypeID, PackageTypeName');
                     <div class="form-group">
                         <label for="OuterPackageID"><?= trans('products.supplier') ?></label>
                         <select id="OuterPackageID" name="OuterPackageID" class="form-control">
-                            <?php foreach ( $packageTypes as $packageType ) { ?>
+                            <?php foreach($packageTypes as $packageType) { ?>
                                 <option
                                         value="<?= $packageType->PackageTypeID ?>"
-                                    <?php if ( $packageType->PackageTypeID === $product->OuterPackageID ) {
+                                    <?php if($packageType->PackageTypeID === $product->OuterPackageID) {
                                         echo 'selected';
                                     } ?>
                                 >

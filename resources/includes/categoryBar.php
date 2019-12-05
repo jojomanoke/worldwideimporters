@@ -1,6 +1,9 @@
 <?php
-$categories = \Classes\Query\Query::get('stockgroups');
-$cate = $_GET[ 'category' ] ?? 0;
+
+use Classes\Query\Query;
+
+$categories = Query::get('stockgroups');
+$category = $_GET['category'] ?? 0;
 $page = $_GET['page'];
 if($page === 'categories' || $page === 'search') {
     include SERVER_ROOT . '/resources/includes/sidebar.php';
@@ -27,12 +30,12 @@ if($page === 'categories' || $page === 'search') {
     <!--            </aside>-->
     <!--        </div>-->
     <!--    </div>-->
-<div class="col-9 mx-auto">
+    <div class="col-9 mx-auto">
     <ul class="nav nav-tabs justify-content-center sticky-top bg-white">
-        <?php foreach ( $categories as $category ) { ?>
+        <?php foreach($categories as $item) { ?>
             <li class="nav-item">
-                <a class="nav-link <?php if ( $cate == $category->StockGroupID ) echo 'active'; ?>"
-                   href="/categories/<?php echo $category->StockGroupID; ?>"><?php echo $category->StockGroupName; ?></a>
+                <a class="nav-link <?= ((int)$category === (int)$item->StockGroupID) ? 'active' : '' ?>"
+                   href="/categories/<?php echo $item->StockGroupID; ?>"><?php echo $item->StockGroupName; ?></a>
             </li>
         <?php } ?>
     </ul>

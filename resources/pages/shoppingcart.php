@@ -1,33 +1,38 @@
 <?php
+
+use Classes\Database;
 $shoppingCart = $_SESSION['shoppingcart'] ?? [];
-$conn = \Classes\Database::getConnection();
+$conn = Database::getConnection();
 $ids = [];
-foreach ($shoppingCart as $key => $item) {
+foreach($shoppingCart as $key => $item) {
     $ids[] = $item['id'];
 }
 
-if (isset($_GET['action']) && isset($_GET['action'])) {
-
+if(isset($_GET['action'])) {
+    
     // Eerst gaan we het product zoeken in de shopping cart array
-    $key = array_search($_POST['productId'], array_column($shoppingCart, 'id'));
-
-
-    if ($_GET['action'] === 'addAmount') {
+    $key = array_search($_POST['productId'], array_column($shoppingCart, 'id'), false);
+//    dd($_GET['action']);
+    if($_GET['action'] === 'addAmount') {
+        
         // Vervolgens voegen we 1 toe aan de hoeveelheid
-        $shoppingCart[$key]['amount'] = $shoppingCart[$key]['amount'] + 1;
-    } elseif ($_GET['action'] === 'removeAmount') {
-
-
-        $shoppingCart[$key]['amount'] = $shoppingCart[$key]['amount'] - 1;
-        if ($shoppingCart[$key]['amount'] < 1) {
+        $shoppingCart[$key]['amount'] += 1;
+    } elseif($_GET['action'] === 'removeAmount') {
+    
+        // of verwijderen we er eentje
+        $shoppingCart[$key]['amount'] -= 1;
+        
+        // Zodra de hoeveelheid onder de 1 komt moet dit product verwijderd worden.
+        if($shoppingCart[$key]['amount'] < 1) {
             unset($shoppingCart[$key]);
         }
-
-
+        
+        
     }
-
-
+    
+    
     $_SESSION['shoppingcart'] = array_merge($shoppingCart);
+//    dd();
     echo '<script>window.location.href="/shoppingcart"</script>';
 }
 
@@ -38,12 +43,12 @@ $totalPrice = (float)0.00;
 
 ?>
 <?php
-if ($results) { ?>
+if($results) { ?>
     <div class="row"> <?php
-        while ($product = $results->fetch_object()) {
+        while($product = $results->fetch_object()) {
             // Eerst halen we de key voor de shopping cart weer op
             $key = array_search($product->StockItemID, array_column($shoppingCart, 'id'));
-
+            
             $productSession = $shoppingCart[$key];
             $amount = $productSession['amount'];
             $totalPrice += $product->RecommendedRetailPrice * $amount;
@@ -81,7 +86,8 @@ if ($results) { ?>
                         </p>
                         <div class="clearfix"></div>
                         <p class="card-text float-right">
-                            Aantal: <?= $amount ?> Prijs: €<?= number_format($product->RecommendedRetailPrice * $amount, 2, ',', '.') ?>
+                            Aantal: <?= $amount ?> Prijs:
+                            €<?= number_format($product->RecommendedRetailPrice * $amount, 2, ',', '.') ?>
                         </p>
                     </div>
                 </div>
