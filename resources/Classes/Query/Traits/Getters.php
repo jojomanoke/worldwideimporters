@@ -23,7 +23,12 @@ trait Getters
         /**
          * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
          */
-        $query = "SELECT $columns FROM $table";
+        if(str_contains($table, ' ')){
+            $query = $table;
+        } else {
+            $query = "SELECT $columns FROM $table";
+        }
+        
         return self::getResults($query);
     }
     
