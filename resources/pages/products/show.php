@@ -46,7 +46,7 @@ include(SERVER_ROOT . '/resources/includes/productCarrousel.php');
 
     <div class="col-6" xmlns="http://www.w3.org/1999/html">
         <?php $ENGLretailprice = $product->RecommendedRetailPrice;
-        $NLretailprice = str_replace(".", ",", $ENGLretailprice);
+        $NLretailprice = str_replace('.', ',', $ENGLretailprice);
         ?>
         <h1 class="h1 mt-3"><?php echo $product->StockItemName; ?></h1>
 

@@ -3,13 +3,14 @@
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
     <div class="card h-100 hover" id="<?= $product->StockItemID ?>">
-        <?php if ( $_GET[ 'page' ] === 'search' ) { ?>
             <div class="card-header">
-                <small class="card-text">
+                <small class="card-text mr-auto">
                     Artikelnummer: <?= $product->StockItemID ?>
                 </small>
+<!--                <small class="card-text ml-auto">-->
+<!--                    Prijs: --><?//= $product->UnitPrice ?>
+<!--                </small>-->
             </div>
-        <?php } ?>
         <img src="<?php if ( isset($product->Photo) && ( $product->Photo ) ) {
             echo getBlob($product->Photo);
         } else {

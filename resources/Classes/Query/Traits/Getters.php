@@ -236,15 +236,16 @@ trait Getters
         self::$key = $key;
         self::$desc = $desc;
         $array = $this->toArray();
-        usort($array, array(Query::class, 'tests'));
-        return Query::convertToQueryObject($array);
+        usort($array, array(Query::class, 'uSortFunction'));
+        return Query::convertArrayToQueryObject($array);
     }
     
-    private static function tests ($a, $b){
+    private static function uSortFunction ($a, $b){
         $key = self::$key;
         if($a->{$key} === $b->{$key}) {
             return 0;
         }
+        
         if(self::$desc){
             return ($a->{$key} < $b->{$key}) ? 1 : -1;
         }
