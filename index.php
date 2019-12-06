@@ -21,7 +21,7 @@ if ( isset($_GET[ 'action' ], $_POST[ 'product' ]) && $_GET[ 'action' ] === 'add
     echo '<script>window.location.href="'.getUrl().'"</script>';
 }
 
-if ( isset($_POST[ 'product' ], $_GET['action']) && $_GET[ 'action' ] === 'delete' && getUrl() === '/shoppingcart/delete' && in_array((int)$_POST[ 'product' ], array_column($shoppingCart, 'id'), false) ) {
+if ( isset($_POST[ 'product' ], $_GET['action']) && $_GET[ 'action' ] === 'delete' && $_GET['page'] === 'shoppingcart' && in_array((int)$_POST[ 'product' ], array_column($shoppingCart, 'id'), false) ) {
     foreach ($shoppingCart as $key => $item) {
         if ($item['id'] === (int)$_POST['product']) {
             unset($shoppingCart[$key]);
