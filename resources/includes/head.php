@@ -5,7 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= env('WEBSITE_NAME') ?></title>
-    <meta name="theme-color" content="blue" />
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#00bcf2">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#00bcf2">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#00bcf2">
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/custom_bootstrap.css">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
