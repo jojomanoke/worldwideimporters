@@ -18,7 +18,7 @@ if(isset($_GET['search'])) {
     $totalResultCount = $allResults->count();
     
     $numberOfPages = ceil($totalResultCount / $resultsPerPage);
-    if(!preg_match("/(^[a-z ]+$)/i", $q)) {
+    if(!preg_match('/(^[a-z ]+$)/i', $q)) {
 //        $sql = 'SELECT * From stockitems where StockItemID like ? LIMIT 1';
         $products = Query::get('stockitems')->where('StockItemID', $q);
     } else {
@@ -31,16 +31,16 @@ if(isset($_GET['search'])) {
 
     <form id="perPage" class="form-inline mt-5 pt-5" method="get">
         <select onchange="submit()" class="form-control w-auto" name="ARPP">
-            <option <?php if(isset($_GET['ARPP']) && $_GET['ARPP'] == 25) {
-                echo "selected";
+            <option <?php if(isset($_GET['ARPP']) && (int)$_GET['ARPP'] === 25) {
+                echo 'selected';
             } ?> value=25>25
             </option>
-            <option <?php if(isset($_GET['ARPP']) && $_GET['ARPP'] == 50) {
-                echo "selected";
+            <option <?php if(isset($_GET['ARPP']) && (int)$_GET['ARPP'] === 50) {
+                echo 'selected';
             } ?> value=50>50
             </option>
-            <option <?php if(isset($_GET['ARPP']) && $_GET['ARPP'] == 100) {
-                echo "selected";
+            <option <?php if(isset($_GET['ARPP']) && (int)$_GET['ARPP'] === 100) {
+                echo 'selected';
             } ?> value=100>100
             </option>
         </select>
@@ -55,30 +55,42 @@ if(isset($_GET['search'])) {
     </div>
     
     <?php
-    if(isset($resultsPerPage) && isset($currentPage) && isset($numberOfPages)) {
+    if(isset($resultsPerPage, $currentPage, $numberOfPages)) {
         ?>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center ">
                 <?php if(!($currentPage <= 1)) { ?>
-                    <li class="page-item"><a class="page-link"
-                                             href="?pagenumber=<?php echo $currentPage - 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Previous</a>
+                    <li class="page-item">
+                        <form action="<?=getUrl()?>" method="get">
+                            <input type="hidden" name="pagenumber" value="<?php echo $currentPage - 1; ?>">
+                            <button class="page-link" type="submit">Vorige</button>
+                        </form>
                     </li>
                 <?php } ?>
                 <?php for($page = 1; $page <= $numberOfPages; $page++) { ?>
-                    <li class="page-item<?php if($page == $currentPage) {
+                    <li class="page-item<?php if($page === (int)$currentPage) {
                         echo ' active';
                     } else {
                         echo '';
                     } ?>">
-                        <a class="page-link"
-                           href="?pagenumber=<?php echo $page; ?>&ARPP=<?php echo $resultsPerPage; ?>">
-                            <?php echo $page; ?>
-                        </a>
+    
+                        <form action="<?=getUrl()?>" method="get">
+                            <input type="hidden" name="pagenumber" value="<?php echo $page; ?>">
+                            <button class="page-link" type="submit"><?=$page?></button>
+                        </form>
+                        
+<!--                        <a class="page-link"-->
+<!--                           href="?pagenumber=--><?php //echo $page; ?><!--&ARPP=--><?php //echo $resultsPerPage; ?><!--">-->
+<!--                            --><?php //echo $page; ?>
+<!--                        </a>-->
                     </li>
                 <?php } ?>
                 <?php if(!($currentPage >= $numberOfPages)) { ?>
-                    <li class="page-item"><a class="page-link"
-                                             href="?pagenumber=<?php echo $currentPage + 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Next</a>
+                    <li class="page-item">
+                        <form id="nextPageButton" action="<?=getUrl()?>" method="get">
+                            <input type="hidden" name="pagenumber" value="<?php echo $currentPage + 1; ?>">
+                            <button class="page-link" type="submit">Volgende</button>
+                        </form>
                     </li>
                 <?php } ?>
             </ul>
@@ -87,3 +99,16 @@ if(isset($_GET['search'])) {
     }
 }
 ?>
+
+<script>
+    document.addEventListener('mousedown', function(e){
+        console.debug(e);
+        if(e.buttons === 8){
+        
+        }
+        // 16 -> 8 <-
+        if(e.buttons === 16){
+            $('#nextPageButton').submit();
+        }
+    });
+</script>

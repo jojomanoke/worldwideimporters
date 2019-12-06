@@ -6,11 +6,12 @@
 if(!function_exists('dd')) {
     function dd()
     {
-        echo '<pre>';
+        
         foreach(func_get_args() as $variable) {
+            echo '<pre style="background-color: lightgray">';
             var_dump($variable);
+            echo '</pre>';
         }
-        echo '</pre>';
         exit();
     }
 }
