@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
     <?php }
-
+    
     use Classes\Login; ?>
     <a href="<?= url('home') ?>">
         <img alt="logo" class="img-fluid" style="height: 50px; width: 150px;" src="/images/Wideworldimporters.png">
@@ -55,7 +55,31 @@
                 </span>
                 <?php } ?>
             </a>
-            <div class="dropdown show">
+
+            <div class="dropdown">
+                <a href=""
+                   class="nav-link dropdown-toggle"
+                   role="button"
+                   id="categoryToggle"
+                   data-toggle="dropdown"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    Categoriëen
+                </a>
+                <div id="categoryDropdown" class="dropdown-menu">
+                    <?php $categories = \Classes\Query\Query::get('stockgroups'); ?>
+                    <?php foreach($categories as $key => $category) { ?>
+                        <?php if((int)$key !== 0) { ?>
+                            <div class="dropdown-divider"></div>
+                        <?php } ?>
+                        <a class="dropdown-item" href="/categories/<?= $category->StockGroupID ?>">
+                            <?= $category->StockGroupName ?>
+                        </a>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class="dropdown">
                 <a class="nav-link dropdown-toggle" style="color: blue" href="" role="button" id="profiel"
                    data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>

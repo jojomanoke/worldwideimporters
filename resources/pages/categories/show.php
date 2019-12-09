@@ -16,8 +16,7 @@ $connection = Database::getConnection();
 $category = $_GET['category'];
 
 
-$query = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
-$query = filterQuery($query);
+$query = filterQuery("SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)");
 $allProductsWithoutPagination = Query::get($query);
 $query .= " LIMIT $thisPageFirstResult, $resultsPerPage;";
 $products = Query::get($query);
@@ -25,10 +24,7 @@ $products = Query::get($query);
 $connection->prepare($query);
 $results = $connection->query($query);
 
-$queryTwo = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
-$numberOfResults = $connection->query($queryTwo)->num_rows;
-
-$numberOfPages = ceil($numberOfResults / $resultsPerPage);
+$numberOfPages = ceil($allProductsWithoutPagination->count() / $resultsPerPage);
 
 ?>
 
@@ -55,13 +51,13 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
         <ul class="pagination justify-content-center ">
             <?php if(!($currentPage <= 1)) { ?>
                 <li class="page-item"><a class="page-link"
-                                         href="?pagenumber=<?php echo $currentPage - 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Previous</a>
+                                         href="?pagenumber=<?php echo $currentPage - 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Vorige</a>
                 </li>
             <?php } ?>
             <?php for($page = 1;
                       $page <= $numberOfPages;
                       $page++) { ?>
-                <li class="page-item<?php if($page == $currentPage) {
+                <li class="page-item<?php if($page === (int)$currentPage) {
                     echo ' active';
                 } else {
                     echo '';
@@ -74,16 +70,12 @@ $numberOfPages = ceil($numberOfResults / $resultsPerPage);
             <?php } ?>
             <?php if(!($currentPage >= $numberOfPages)) { ?>
                 <li class="page-item"><a class="page-link"
-                                         href="?pagenumber=<?php echo $currentPage + 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Next</a>
+                                         href="?pagenumber=<?php echo $currentPage + 1; ?>&ARPP=<?php echo $resultsPerPage; ?>">Volgende</a>
                 </li>
             <?php } ?>
         </ul>
     </nav>
     <?php
-    function HomeBTTN()
-    {
-        header("Location: http://worldwideimporters.local/home");
-    }
 }
 $results->free();
 ?>
