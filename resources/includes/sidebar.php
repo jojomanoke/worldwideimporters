@@ -75,7 +75,7 @@
                                     foreach($colors as $color) { ?>
                                         <label class="btn btn-outline btn-sm">
                                             <input type="checkbox"
-                                                   <?= isset($_GET['colour']) && !(in_array($color->ColorID, $_GET['colour'], false)) ? 'checked' : '' ?>
+                                                   <?= (isset($_GET['colour']) && (in_array($color->ColorID, $_GET['colour'], false))) ? 'checked' : '' ?>
                                                    value="<?= $color->ColorID ?>" name="colour[]">
                                             <?= $color->ColorName ?>
                                         </label>

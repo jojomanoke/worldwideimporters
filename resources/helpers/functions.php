@@ -120,7 +120,7 @@ if(!function_exists('session')) {
 if(!function_exists('redirect')) {
     function redirect($url = null)
     {
-        header('Location: ' . $url ?? activeUrl());
+        echo ('<script>window.location.href = "' . $url ?? activeUrl() . '</script>');
     }
 }
 
@@ -168,22 +168,40 @@ if(!function_exists('old')) {
 if(!function_exists('filterQuery')) {
     function filterQuery(string $query)
     {
-        if(isset($_GET['colour'])) {
-            $query .= ' AND ColorID IN (';
-            foreach($_GET['colour'] as $key => $color) {
-                $query .= $color;
-                if($key !== (count($_GET['colour']) - 1)) {
-                    $query .= ', ';
+        $filters = [];
+        foreach($_GET as $key => $item){
+            if(is_array($item)){
+                foreach($item as $iteration => $id) {
+                    $item[$iteration] = addslashes($id);
                 }
+                $filters[$key] = $item;
+            } else {
+                $filters[$key] = addslashes($item);
             }
-            $query .= ')';
+        }
+        if(isset($filters['colour'])) {
+            $query .= ' AND ColorID IN ('. implode(', ', $filters['colour']) . ')';
         }
         
-        if(isset($_GET['priceFilter'])) {
+        if(isset($filters['sizeFilter'])){
+            $query .= ' AND Size = \''.$filters['sizeFilter'].'\'';
+        }
+    
+    
+        if(isset($filters['brandFilter'])){
+            $query .= ' AND Brand = \''.$filters['brandFilter'].'\'';
+        }
+        
+        if(isset($filters['sizeFilter'])){
+            $query .= ' AND Size = \''.$filters['sizeFilter'].'\'';
+        }
+        
+        if(isset($filters['priceFilter'])) {
             $query .= ' ORDER BY UnitPrice';
-            if($_GET['priceFilter'] === 'hooglaag') {
+            if($filters['priceFilter'] === 'hooglaag') {
                 $query .= ' DESC';
             }
+    
         }
         
         return $query;
