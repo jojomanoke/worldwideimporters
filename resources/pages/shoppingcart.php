@@ -35,11 +35,10 @@ if(isset($_GET['action'])) {
 //    dd();
     echo '<script>window.location.href="/shoppingcart"</script>';
 }
-
-$query = "SELECT * FROM stockitems WHERE StockItemID IN (" . implode(', ', $ids) . ')';
+$query = 'SELECT * FROM stockitems WHERE StockItemID IN ('.implode(', ', $ids).')';
 $results = $conn->query($query);
 
-$totalPrice = (float)0.00;
+$totalPrice = 0.00;
 
 ?>
 <?php
@@ -47,7 +46,7 @@ if($results) { ?>
     <div class="row"> <?php
         while($product = $results->fetch_object()) {
             // Eerst halen we de key voor de shopping cart weer op
-            $key = array_search($product->StockItemID, array_column($shoppingCart, 'id'));
+            $key = array_search($product->StockItemID, array_column($shoppingCart, 'id'), false);
             
             $productSession = $shoppingCart[$key];
             $amount = $productSession['amount'];
@@ -62,20 +61,20 @@ if($results) { ?>
                         <p class="card-text float-">
                             <?= $product->MarketingComments ?>
                         </p>
-                        <form action="/shoppingcart/delete" method="post">
+                        <form action="<?=url('shoppingcart/delete')?>" method="post">
                             <input type="hidden" name="product" value="<?= $product->StockItemID ?>">
                             <button class="btn float-right" type="submit" style="color:red"><i class="material-icons">delete</i>Verwijderen
                             </button>
                         </form>
                         <p>
-                        <form action="/shoppingcart/addAmount" method="post">
+                        <form action="<?=url('shoppingcart/addAmount')?>" method="post">
                             <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
                             <button class="btn float-right" type="submit" style="color:blue"><i class="material-icons">add</i>Toevoegen
                             </button>
                         </form>
                         </p>
                         <p>
-                        <form action="/shoppingcart/removeAmount" method="post">
+                        <form action="<?=url('shoppingcart/removeAmount')?>" method="post">
                             <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
                             <button class="btn float-right" type="submit" style="color:blue"><i class="material-icons">remove</i>minder
                             </button>
