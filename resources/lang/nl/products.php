@@ -13,4 +13,5 @@ return [
         'CountryOfManufacture' => 'Land van herkomst',
         'Tags'                 => 'Labels',
     ],
+    'leverancier'   => 'Leverancier',
 ];

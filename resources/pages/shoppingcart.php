@@ -105,5 +105,6 @@ if($results) { ?>
 <?php } else { ?>
     <div class="container w-100 text-center mt-5">
         <h1>...Geen producten gevonden in de winkelwagen...</h1>
+        <img src="/images/winkelwagen.jpg"  alt=" " />
     </div>
 <?php } ?>
