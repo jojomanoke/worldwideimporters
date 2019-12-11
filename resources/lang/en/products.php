@@ -13,4 +13,5 @@ return [
         'CountryOfManufacture' => 'Country of manufacturing',
         'Tags'                 => 'Tags',
     ],
-];
+    'leverancier'   => 'Supplier',
+    ];
