@@ -16,14 +16,14 @@ if(Login::isLoggedIn()) {
     $userID = Login::id();
 }
 
-
 $reviewscore = 0;
 if(isset($_POST['stars'], $_POST['review'])) {
     $reviewscore = (int)$_POST['stars'];
+    $datum = (new DateTime())->format('Y-m-d H:i:s');
     $reviewbeschrijving = $_POST['review'];
-    $query = 'INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID) VALUES (?, ?, ?, ?)';
+    $query = 'INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID, Date) VALUES (?, ?, ?, ?, ?)';
     $statement = $connection->prepare($query);
-    $statement->bind_param('isii', $reviewscore, $reviewbeschrijving, $userID, $productId);
+    $statement->bind_param('isiis', $reviewscore, $reviewbeschrijving, $userID, $productId, $datum);
     $statement->execute();
 }
 $reviews = Query::get('reviews')->where('StockItemID', $productId);
@@ -71,6 +71,8 @@ include(SERVER_ROOT . '/resources/includes/productCarrousel.php');
                 <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
                 <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
                 <?php If($product->Size != "") {
+                    echo trans('products.size') . " : " . $product->Size;
+                If ($product-> != "") {
                     echo trans('products.size') . " : " . $product->Size;
                 } ?>
             </div>
