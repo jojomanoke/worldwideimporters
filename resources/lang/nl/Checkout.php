@@ -17,5 +17,13 @@ return [
     'email'          => 'E-mail',
     'Fullname'       => 'Volledige naam',
     'State'          => 'Provincie',
+    'Payment'        => 'Betaalmethode',
+    'Name on card'   => 'Naam',
+    'Credit card number' => 'Creditcardnummer',
+    'Exp month'      => 'Vervaldatum maand',
+    'Exp year'       => 'Vervaldatum jaar',
+    'Shipping address same as billing'  => 'Bezorgadres hetzelfde als factuuradres',
+    'Continue to checkout'  => 'Verder naar betalen',
+    'Billing Address' => 'Factuur Adres'
 
 ];

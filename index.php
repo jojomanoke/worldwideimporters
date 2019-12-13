@@ -75,6 +75,10 @@ include('resources/includes/navbar.php');
                 case 'logout':
                     include 'resources/pages/auth/logout.php';
                     break;
+
+                case 'checkout':
+                    include 'resources/pages/checkout/checkout.php';
+                    break;
             }
             ?></div>
     </div>

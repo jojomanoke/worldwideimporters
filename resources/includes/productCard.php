@@ -4,14 +4,18 @@
 <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
     <div class="card h-100 hover" id="<?= $product->StockItemID ?>">
         <div class="card-header">
+            <h6>
             <small class="card-text mr-auto">
                 Artikelnummer: <?= $product->StockItemID ?>
             </small>
-            <small class="card-text float-right">
-                Prijs: €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
-            </small>
+            </h6>
+            <h3>
+                <small class="card-text float-right" style="color: forestgreen">
+                    Prijs: €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
+                </small>
+            </h3>
         </div>
-        <img src="<?php if($product->Photo !== null && $product->Photo !== '') {
+        <img src="<?php if ($product->Photo !== null && $product->Photo !== '') {
             echo getBlob($product->Photo);
         } else {
             echo 'https://via.placeholder.com/350x200';

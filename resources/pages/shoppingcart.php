@@ -1,53 +1,52 @@
 <?php
 
 use Classes\Database;
+
 $shoppingCart = $_SESSION['shoppingcart'] ?? [];
 $conn = Database::getConnection();
 $ids = [];
-foreach($shoppingCart as $key => $item) {
+foreach ($shoppingCart as $key => $item) {
     $ids[] = $item['id'];
 }
 
-if(isset($_GET['action'])) {
-    
+if (isset($_GET['action'])) {
+
     // Eerst gaan we het product zoeken in de shopping cart array
     $key = array_search($_POST['productId'], array_column($shoppingCart, 'id'), false);
-//    dd($_GET['action']);
-    if($_GET['action'] === 'addAmount') {
-        
+    if ($_GET['action'] === 'addAmount') {
+
         // Vervolgens voegen we 1 toe aan de hoeveelheid
         $shoppingCart[$key]['amount'] += 1;
-    } elseif($_GET['action'] === 'removeAmount') {
-    
+    } elseif ($_GET['action'] === 'removeAmount') {
+
         // of verwijderen we er eentje
         $shoppingCart[$key]['amount'] -= 1;
-        
+
         // Zodra de hoeveelheid onder de 1 komt moet dit product verwijderd worden.
-        if($shoppingCart[$key]['amount'] < 1) {
+        if ($shoppingCart[$key]['amount'] < 1) {
             unset($shoppingCart[$key]);
         }
-        
-        
+
+
     }
-    
-    
+
+
     $_SESSION['shoppingcart'] = array_merge($shoppingCart);
-//    dd();
     echo '<script>window.location.href="/shoppingcart"</script>';
 }
-$query = 'SELECT * FROM stockitems WHERE StockItemID IN ('.implode(', ', $ids).')';
+$query = 'SELECT * FROM stockitems WHERE StockItemID IN (' . implode(', ', $ids) . ')';
 $results = $conn->query($query);
 
 $totalPrice = 0.00;
 
 ?>
 <?php
-if($results) { ?>
+if ($results) { ?>
     <div class="row"> <?php
-        while($product = $results->fetch_object()) {
+        while ($product = $results->fetch_object()) {
             // Eerst halen we de key voor de shopping cart weer op
             $key = array_search($product->StockItemID, array_column($shoppingCart, 'id'), false);
-            
+
             $productSession = $shoppingCart[$key];
             $amount = $productSession['amount'];
             $totalPrice += $product->RecommendedRetailPrice * $amount;
@@ -61,20 +60,20 @@ if($results) { ?>
                         <p class="card-text float-">
                             <?= $product->MarketingComments ?>
                         </p>
-                        <form action="<?=url('shoppingcart/delete')?>" method="post">
+                        <form action="<?= url('shoppingcart/delete') ?>" method="post">
                             <input type="hidden" name="product" value="<?= $product->StockItemID ?>">
                             <button class="btn float-right" type="submit" style="color:red"><i class="material-icons">delete</i>Verwijderen
                             </button>
                         </form>
                         <p>
-                        <form action="<?=url('shoppingcart/addAmount')?>" method="post">
+                        <form action="<?= url('shoppingcart/addAmount') ?>" method="post">
                             <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
                             <button class="btn float-right" type="submit" style="color:blue"><i class="material-icons">add</i>Toevoegen
                             </button>
                         </form>
                         </p>
                         <p>
-                        <form action="<?=url('shoppingcart/removeAmount')?>" method="post">
+                        <form action="<?= url('shoppingcart/removeAmount') ?>" method="post">
                             <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
                             <button class="btn float-right" type="submit" style="color:blue"><i class="material-icons">remove</i>minder
                             </button>
@@ -102,9 +101,13 @@ if($results) { ?>
             </div>
         </div>
     </div>
+    <p>
+        <a href="<?= url('checkout') ?>" class="mt-5 w-25 btn float-right btn-success">Afrekenen</a>
+    </p>
 <?php } else { ?>
     <div class="container w-100 text-center mt-5">
         <h1>...Geen producten gevonden in de winkelwagen...</h1>
         <img src="/images/winkelwagen.jpg"  alt=" " />
     </div>
+
 <?php } ?>
