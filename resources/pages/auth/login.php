@@ -2,6 +2,11 @@
 // session_start();
 use Classes\Database;
 use Classes\Login;
+$oldUrl = $_SERVER['HTTP_REFERER'];
+
+if(!str_contains($oldUrl, '/login') && !str_contains($oldUrl, '/register')){
+    $_SESSION['oldUrl'] = $_SERVER['HTTP_REFERER'];
+}
 
 if(isset($_POST['submit'])) {
     /** @var \mysqli $connection is the same as new mysqli($usern, $passw, $dbname, $port) */
