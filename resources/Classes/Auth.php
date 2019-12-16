@@ -6,6 +6,28 @@ namespace Classes;
 
 use Classes\Query\Query;
 
+/**
+ * Autocomplete for editors
+ *
+ * Class Auth
+ * @package Classes
+ *
+ * @property int UserID
+ * @property string FirstName
+ * @property string Infix
+ * @property string LastName
+ * @property string Email
+ * @property int GenderID
+ * @property int PhoneNumber
+ * @property string ZipCode
+ * @property string Address
+ * @property int CountryID
+ * @property string City
+ * @property int HouseNumber
+ * @property string Addition
+ *
+ */
+
 class Auth
 {
     public static function user(): Auth
