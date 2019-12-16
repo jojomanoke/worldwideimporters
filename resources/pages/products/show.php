@@ -17,7 +17,7 @@ if(Login::isLoggedIn()) {
 }
 
 $reviewscore = 0;
-if(isset($_POST['stars'], $_POST['review'])) {
+if(isset($_POST['stars'], $_POST['review'], $userID)) {
     $reviewscore = (int)$_POST['stars'];
     $datum = (new DateTime())->format('Y-m-d H:i:s');
     $reviewbeschrijving = $_POST['review'];
