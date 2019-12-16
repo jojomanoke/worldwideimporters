@@ -33,6 +33,14 @@ $reviews = Query::get('reviews')->where('StockItemID', $productId);
     $statement->execute();
     $leverancier = $statement->get_result()->fetch_object();
 
+$user = $reviews->userID;
+echo $user;
+$query =  "select FirstName from users where UserID = $user";
+$statement = $connection->prepare($query);
+$statement->bind_param('i', $user);
+$statement->execute();
+$name = $statement->get_result()->fetch_object();
+
 
 $totaalreviewscore = 0.00;
 $aantalreviews = $reviews->count();
