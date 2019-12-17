@@ -28,6 +28,7 @@ use Classes\Query\Query;
  *
  */
 
+
 class Auth
 {
     public static function user(): Auth

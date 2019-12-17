@@ -94,6 +94,7 @@ trait Getters
                      * Adds the record to the empty object
                      */
                     $totalResults->$index = self::convertToQueryObject($databaseRecord);
+
                     $index++;
                 }
                 $results->free_result();

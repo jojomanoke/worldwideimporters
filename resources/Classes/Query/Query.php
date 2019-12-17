@@ -5,6 +5,7 @@ namespace Classes\Query;
 use Classes\Query\Traits\Getters;
 use Classes\Query\Traits\Setters;
 
+
 class Query
 {
     use Getters, Setters;
