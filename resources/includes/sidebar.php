@@ -1,23 +1,29 @@
-<div id="filterBar" class="d-none collapse d-lg-block col-lg-3 col-xl-2 col-md-4 navbar-light bg-light">
+<?php
+
+use Classes\Query\Query;
+
+?>
+<div id="filterBar" class="d-none collapse d-lg-block col-lg-3 col-xl-2 col-12 navbar-light bg-light">
     <div class="sticky-top py-5">
         <aside id="filterNav" class="navbar navbar-expand-lg">
             <div class="flex-column w-100 bg-light">
-                <?php use Classes\Query\Query;
-
+                <?php
+                
                 if($_GET['page'] === 'categories' || $_GET['page'] === 'search') { ?>
                     <?php
                     $colorQuery = 'SELECT DISTINCT ColorID FROM stockitems';
                     if($_GET['page'] !== 'search') {
                         $colorQuery .= " WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = {$_GET['category']})";
                     } else {
-                        $colorQuery .= " WHERE StockItemName = '{$_GET['search']}' OR SearchDetails = '{$_GET['search']}'";
+                        $colorQuery .= " WHERE StockItemName LIKE '%{$_GET['search']}%' OR SearchDetails LIKE '%{$_GET['search']}%'";
                         if(is_int($_GET['search']) && $_GET['search'] > 0) {
                             $colorQuery .= " OR StockItemID = {$_GET['search']}";
                         }
+                        $colorQuery .= ' AND ColorID IN (' . implode(', ', $_GET['colour'] ?? Query::get('colors', 'ColorID')->toArray()) . ')';
                     }
-                    $colorIds = Query::get($colorQuery)->toArray();
-                    $colors = Query::in('colors', 'ColorID', $colorIds);
+                    $colors = Query::get($colorQuery);
                     $colors = $colors->sort('ColorID');
+    
                     ?>
                     <div class="lead mb-2">Filters</div>
                     <form method="get" action="<?= getUrl() ?>">

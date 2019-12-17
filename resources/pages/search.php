@@ -59,38 +59,43 @@ if(isset($_GET['search'])) {
         ?>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center ">
+                <?php
+                $paginationString = '';
+                foreach($_GET as $key => $value) {
+                    if(!in_array($key, ['ARPP', 'page', 'pagenumber', 'search'])) {
+                        if(is_array($value)){
+                            foreach($value as $value2){
+                                $paginationString .= "&$key%5B%5D=$value2";
+                            }
+                        }
+                        else {
+                            $paginationString .= "&$key=$value";
+                        }
+                    }
+                }
+                ?>
                 <?php if(!($currentPage <= 1)) { ?>
-                    <li class="page-item">
-                        <form action="<?=getUrl()?>" method="get">
-                            <input type="hidden" name="pagenumber" value="<?php echo $currentPage - 1; ?>">
-                            <button class="page-link" type="submit">Vorige</button>
-                        </form>
+                    <li class="page-item"><a class="page-link"
+                                             href="?pagenumber=<?php echo ($currentPage - 1); echo $paginationString;?>&ARPP=<?php echo $resultsPerPage; ?>">Vorige</a>
                     </li>
                 <?php } ?>
-                <?php for($page = 1; $page <= $numberOfPages; $page++) { ?>
+                <?php for($page = 1;
+                          $page <= $numberOfPages;
+                          $page++) { ?>
                     <li class="page-item<?php if($page === (int)$currentPage) {
                         echo ' active';
                     } else {
                         echo '';
                     } ?>">
-    
-                        <form action="<?=getUrl()?>" method="get">
-                            <input type="hidden" name="pagenumber" value="<?php echo $page; ?>">
-                            <button class="page-link" type="submit"><?=$page?></button>
-                        </form>
-                        
-<!--                        <a class="page-link"-->
-<!--                           href="?pagenumber=--><?php //echo $page; ?><!--&ARPP=--><?php //echo $resultsPerPage; ?><!--">-->
-<!--                            --><?php //echo $page; ?>
-<!--                        </a>-->
+                        <a class="page-link"
+                           href="?pagenumber=<?php echo $page; echo $paginationString;?>&ARPP=<?php echo $resultsPerPage; ?>">
+                            <?php echo $page; ?>
+                        </a>
                     </li>
                 <?php } ?>
                 <?php if(!($currentPage >= $numberOfPages)) { ?>
-                    <li class="page-item">
-                        <form id="nextPageButton" action="<?=getUrl()?>" method="get">
-                            <input type="hidden" name="pagenumber" value="<?php echo $currentPage + 1; ?>">
-                            <button class="page-link" type="submit">Volgende</button>
-                        </form>
+                    <li class="page-item"><a class="page-link"
+                                             href="?pagenumber=<?php echo $currentPage + 1; echo $paginationString;?>&ARPP=<?php echo $resultsPerPage; ?>">Volgende</a>
                     </li>
                 <?php } ?>
             </ul>

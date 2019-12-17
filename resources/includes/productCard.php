@@ -1,3 +1,8 @@
+<?php
+
+use Classes\Query\Query;
+
+?>
 <link href="/css/category_search_pages.css" rel="stylesheet" type="text/css">
 
 
@@ -15,8 +20,9 @@
                 </small>
             </h3>
         </div>
-        <img src="<?php if ($product->Photo !== null && $product->Photo !== '') {
-            echo getBlob($product->Photo);
+        <?php $photos = Query::get('photos')->where('StockItemID', $product->StockItemID) ?>
+        <img src="<?php if ($photos->count() !== 0) {
+            echo $photos->first()->PhotoLocation;
         } else {
             echo 'https://via.placeholder.com/350x200';
         } ?>" class="card-img-top" alt="...">
