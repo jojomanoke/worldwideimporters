@@ -4,7 +4,7 @@ return [
     'categories'          => 'Categorieën',
     'Novelty Items'       => 'Nieuwe producten',
     'Clothing'            => 'Kleren',
-    'Mugs'                => 'Kopjes',
+    'Mugs'                => 'Mokken',
     'T-Shirts'            => 'T-Shirts',
     'Airline Novelties'   => 'Luchtvaart',
     'Computing Novelties' => 'Computer',

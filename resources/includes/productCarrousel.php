@@ -124,7 +124,7 @@
                 <div class="carousel-item h-100 <?php if((int)$key === 0) {
                     echo 'active';
                 } ?>">
-                    <img src="<?= $photo->PhotoLocation ?>"
+                    <img src="/images/products/<?= $photo->StockItemID . '/' . $photo->PhotoName ?>"
                          class="d-block w-100 mx-auto"
                          alt="<?= $product->StockItemName ?>">
                 </div>
