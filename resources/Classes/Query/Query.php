@@ -42,7 +42,7 @@ class Query
      * @return mixed new, typed object
      * @throws \InvalidArgumentException
      */
-    private static function convertToQueryObject($object)
+    protected static function convertToQueryObject($object)
     {
         $newCollection = new self();
         foreach($object as $property => &$value) {
@@ -57,7 +57,7 @@ class Query
      * @param $array
      * @return mixed
      */
-    private static function convertArrayToQueryObject($array)
+    protected static function convertArrayToQueryObject($array)
     {
         return self::convertToQueryObject((object)$array);
     }

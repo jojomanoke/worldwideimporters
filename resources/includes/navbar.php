@@ -56,7 +56,7 @@
                 <?php } ?>
             </a>
 
-            <div class="dropdown">
+            <div class="dropdown d-lg-none">
                 <a href=""
                    class="nav-link dropdown-toggle"
                    role="button"
@@ -66,14 +66,14 @@
                    aria-expanded="false">
                     Categoriëen
                 </a>
-                <div id="categoryDropdown" class="dropdown-menu">
+                <div id="categoryDropdown" class="dropdown-menu dropdown-menu-md-right">
                     <?php $categories = \Classes\Query\Query::get('stockgroups'); ?>
                     <?php foreach($categories as $key => $category) { ?>
                         <?php if((int)$key !== 0) { ?>
                             <div class="dropdown-divider"></div>
                         <?php } ?>
                         <a class="dropdown-item" href="/categories/<?= $category->StockGroupID ?>">
-                            <?= $category->StockGroupName ?>
+                            <?= trans('categories.' . $category->StockGroupName) ?>
                         </a>
                     <?php } ?>
                 </div>

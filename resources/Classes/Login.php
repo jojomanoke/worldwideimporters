@@ -10,7 +10,7 @@ class Login
 {
     public static function login(): void
     {
-        $email = $_POST['email'];
+        $email = strtolower($_POST['email']);
         $hashedEmail = hash('md5', $email);
         $user = Query::get('users')->where('Email', $email)->first();
         $_SESSION['userSession'] = [$email, $hashedEmail, $user->UserID];

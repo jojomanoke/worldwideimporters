@@ -116,7 +116,10 @@ include(SERVER_ROOT . '/resources/includes/productCarrousel.php');
     ?>
     <?php include SERVER_ROOT . '/resources/includes/review.php'; ?>
     <script>    function AddtoShoppingCart() {
-            let data = '<?=json_encode($shoppingarray) ?>';
+            let data = {
+                'product': <?=$product->StockItemID?>,
+                'action': 'add'
+            };
             let url = '/shoppingcart';
 
             $.post(url, data)
