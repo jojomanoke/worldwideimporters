@@ -1,13 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <?php if($_GET['page'] === 'categories' || $_GET['page'] === 'search') { ?>
+    <?php if(!isset($_GET['page']) || $_GET['page'] === 'categories' || $_GET['page'] === 'search') { ?>
         <button class="navbar-toggler" id="filterToggle" type="button" data-toggle="collapse" data-target="#filterNav"
                 aria-controls="filterNav" aria-expanded="false" aria-label="Toggle filters">
             <span class="navbar-toggler-icon"></span>
         </button>
     <?php }
     
-    use Classes\Login; ?>
-    <a href="<?= url('home') ?>">
+    use Classes\Login;
+    use Classes\Query\Query; ?>
+    <a href="<?= url('categories') ?>">
         <img alt="logo" class="img-fluid" style="height: 50px; width: 150px;" src="/images/Wideworldimporters.png">
     </a>
 
@@ -41,8 +42,8 @@
                                                             style="color: red">favorite_border</i></a>
             <?php } ?>
 
-            <a href="/shoppingcart"
-               class="nav-link <?= (getUrl() === '/shoppingcart') ? 'active' : '' ?>">
+            <a href="<?=url('shoppingcart')?>"
+               class="nav-link <?= (activeUrl('shoppingcart')) ? 'active' : '' ?>">
                 <i class="material-icons-outlined" style="color: lightgreen">
                     shopping_basket
                 </i>
@@ -67,7 +68,7 @@
                     Categoriëen
                 </a>
                 <div id="categoryDropdown" class="dropdown-menu dropdown-menu-md-right">
-                    <?php $categories = \Classes\Query\Query::get('stockgroups'); ?>
+                    <?php $categories = Query::get('stockgroups'); ?>
                     <?php foreach($categories as $key => $category) { ?>
                         <?php if((int)$key !== 0) { ?>
                             <div class="dropdown-divider"></div>
@@ -85,13 +86,13 @@
                    aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profiel">
                     <?php if(!(Login::isLoggedIn())) { ?>
-                        <a class="dropdown-item" href="/login">Inloggen</a>
-                        <a class="dropdown-item" href="/register">Registreren</a>
+                        <a class="dropdown-item" href="<?=url('login')?>"><?=trans('auth.login')?></a>
+                        <a class="dropdown-item" href="<?=url('register')?>"><?=trans('auth.register')?></a>
                         <div class="dropdown-divider"></div>
                     <?php } ?>
-                    <a class="dropdown-item" href="javascript:void(0)">Mijn profiel</a>
+                    <a class="dropdown-item" href="<?=url('profile')?>"><?=trans('auth.profile')?></a>
                     <?php if(Login::isLoggedIn()) { ?>
-                        <a class="dropdown-item" href="/logout">Uitloggen</a
+                        <a class="dropdown-item" href="<?=url('logout')?>"><?=trans('auth.logout')?></a
                     <?php } ?>
                 </div>
             </div>

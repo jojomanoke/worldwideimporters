@@ -14,26 +14,26 @@ if(isset($_POST['submit'])) {
     <div class="container my-5">
         <?php if(isset($_SESSION['errors'])) { ?>
             <div class="alert alert-danger">
-                <h2>U heeft fouten bij enkele velden:</h2>
+                <h2><?=trans('register.errors.errors')?></h2>
                 <?php foreach($_SESSION['errors'] as $error) { ?>
                     <p><?= trans('register.' . $error) ?></p>
                 <?php } ?>
             </div>
         <?php } ?>
 
-        <form action="/register" method="POST">
+        <form action="<?=url('register')?>" method="POST">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Registreren</h2>
-                    <small class="card-subtitle text-muted">Velden met een <strong>*</strong> zijn verplicht!
+                    <h2 class="card-title"><?=trans('auth.register')?></h2>
+                    <small class="card-subtitle text-muted"><?=trans('register.requiredHelper')?>
                 </div>
                 <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">Persoonlijke Informatie</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><?=trans('register.personalInformation')?></h6>
                     <div class="form-row">
                         <div class="form-group col-12">
-                            <label for="gender">Geslacht*</label>
+                            <label for="gender"><?=trans('register.gender')?>*</label>
                             <select name="gender" id="gender" class="custom-select">
-                                <option value="" selected>Geslacht</option>
+                                <option value="" selected><?=trans('register.gender')?></option>
                                 <?php foreach($genders as $gender) { ?>
                                     <option
                                         <?= (old('gender') === $gender->GenderID) ? 'selected' : '' ?>
@@ -44,28 +44,28 @@ if(isset($_POST['submit'])) {
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-5 col-lg-5">
-                            <label for="firstName">Voornaam*</label>
+                            <label for="firstName"><?=trans('register.firstName')?>*</label>
                             <input type="text"
                                    id="firstName"
                                    name="firstName"
-                                   placeholder="Victor"
+                                   placeholder="<?=trans('register.firstName')?>"
                                    class="form-control"
                                    value="<?= old('firstName') ?>">
                         </div>
                         <div class="form-group col-md-3 col-lg-2">
-                            <label for="appendix">Tussenvoegsel</label>
+                            <label for="appendix"><?=trans('register.infix')?></label>
                             <input id="appendix"
                                    type="text"
                                    name="appendix"
-                                   placeholder="Von"
+                                   placeholder="<?=trans('register.infix')?>"
                                    class="form-control"
-                                   value="<?= old('appendix') ?>">
+                                   value="<?= old('infix') ?>">
                         </div>
                         <div class="form-group col-md-4 col-lg-5">
-                            <label for="lastName">Achternaam*</label>
+                            <label for="lastName"><?=trans('register.lastName')?>*</label>
                             <input id="lastName"
                                    type="text"
-                                   placeholder="Doom"
+                                   placeholder="<?=trans('register.lastName')?>"
                                    name="lastName"
                                    class="form-control"
                                    value="<?= old('lastName') ?>">
@@ -73,87 +73,76 @@ if(isset($_POST['submit'])) {
                     </div>
                     <div class="form-row">
                         <div class="form-group col-12">
-                            <label for="email">E-mail*</label>
+                            <label for="email"><?=trans('register.email')?>*</label>
                             <input id="email" value="<?= old('email') ?>" class="form-control" name="email" type="email"
-                                   placeholder="E-mail">
-                            <small id="emailHelp" class="form-text text-muted">We zullen uw e-mail nooit met anderen
-                                delen.</small>
+                                   placeholder="<?=trans('register.email')?>">
+                            <small id="emailHelp" class="form-text text-muted">
+                                <?=trans('register.emailHelper')?>
+                            </small>
                         </div>
                         <div class="form-group col-12">
-                            <label for="phone">Telefoonnummer*</label>
+                            <label for="phone"><?=trans('register.phoneNumber')?>*</label>
                             <input id="phone" value="<?= old('phoneNumber') ?>" class="form-control" name="phoneNumber"
                                    type="tel" placeholder="0612345678">
                         </div>
                     </div>
                     <hr>
-                    <h6 class="card-subtitle my-2 text-muted">Adresgegevens*</h6>
+                    <h6 class="card-subtitle my-2 text-muted"><?=trans('register.addressInformation')?>*</h6>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="country">Land</label>
-                            <!-- TODO: Weghalen uit de database voor registratie! -->
-                            <select name="country" id="country" class="custom-select">
-                                <option selected>Kies uw land</option>
-                                <?php foreach($countries as $country) { ?>
-                                    <option <?= post('country') ? 'selected' : '' ?>
-                                            <?= old('country') === $country->CountryID ? 'selected' : '' ?>
-                                            value="<?= $country->CountryID ?>"><?= $country->CountryName ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="city">Stad*</label>
+                        <div class="form-group col-12">
+                            <label for="city"><?=trans('register.city')?>*</label>
                             <input type="text"
                                    class="form-control"
                                    id="city"
                                    name="city"
-                                   placeholder="Stad"
+                                   placeholder="<?=trans('register.city')?>"
                                    value="<?= old('city') ?>">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="address">Adres*</label>
+                            <label for="address"><?=trans('register.address')?>*</label>
                             <input id="address"
                                    name="address"
-                                   placeholder="Adres"
+                                   placeholder="<?=trans('register.address')?>"
                                    class="form-control"
                                    value="<?= old('address') ?>">
                         </div>
                         <div class="form-group col-md-6 col-lg-2">
-                            <label for="houseNumber">Huisnummer</label>
+                            <label for="houseNumber"><?=trans('register.houseNumber')?>*</label>
                             <input id="houseNumber"
                                    type="number"
                                    name="houseNumber"
-                                   placeholder="Huisnummer"
+                                   placeholder="<?=trans('register.houseNumber')?>"
                                    class="form-control"
                                    value="<?= old('houseNumber') ?>">
                         </div>
                         <div class="form-group col-md-6 col-lg-2">
-                            <label for="addition">Toevoeging</label>
+                            <label for="addition"><?=trans('register.addition')?></label>
                             <input id="addition"
                                    name="addition"
-                                   placeholder="Toevoeging"
+                                   placeholder="<?=trans('register.addition')?>"
                                    class="form-control"
                                    value="<?= old('addition') ?>">
                         </div>
                         <div class="form-group col-md-6 col-lg-2">
-                            <label for="zipCode">Postcode*</label>
+                            <label for="zipCode"><?=trans('register.zipCode')?>*</label>
                             <input id="zipCode"
                                    name="zipCode"
-                                   placeholder="Postcode"
+                                   placeholder="<?=trans('register.zipCode')?>"
                                    class="form-control"
                                    value="<?= old('zipCode') ?>">
                         </div>
                     </div>
                     <hr>
-                    <h6 class="card-subtitle my-2 text-muted">Wachtwoord*</h6>
+                    <h6 class="card-subtitle my-2 text-muted"><?=trans('register.password')?>*</h6>
                     <div class="form-row">
                         <div class="form-group col-6">
-                            <label for="password">Wachtwoord</label>
+                            <label for="password"><?=trans('register.password')?></label>
                             <div class="input-group">
                                 <input id="password" name="password" type="password" min="8" class="form-control">
                                 <div class="input-group-append">
-                                    <button id="showPasswordButton" class="btn btn-outline-secondary material-button"
+                                    <button tabindex="-1" data-toggle="tooltip" data-placement="top" title="WWWW" id="showPasswordButton" class="btn btn-outline-secondary material-button"
                                             style="padding: 5px 10px 0 10px">
                                         <i class="material-icons">visibility</i>
                                     </button>
@@ -161,7 +150,7 @@ if(isset($_POST['submit'])) {
                             </div>
                         </div>
                         <div class="form-group col-6">
-                            <label for="passwordConfirm">Wachtwoord bevestigen*</label>
+                            <label for="passwordConfirm"><?=trans('register.passwordConfirm')?>*</label>
                             <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control">
                         </div>
                     </div>
@@ -170,10 +159,16 @@ if(isset($_POST['submit'])) {
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-auto mr-auto">
-                            <p>Al een account? <a href="/login" class="text-primary">Login</a>
+                            <p>
+                                <?=trans('register.alreadyRegistered')?>
+                                <a href="<?=url('login')?>" class="text-primary">
+                                    <?=trans('auth.login')?>
+                                </a>
                         </div>
                         <div class="col-auto ml-auto">
-                            <button type="submit" name="submit" class="btn btn-success">Opslaan</button>
+                            <button type="submit" name="submit" class="btn btn-success">
+                                <?=trans('general.save')?>
+                            </button>
                         </div>
                     </div>
                 </div>

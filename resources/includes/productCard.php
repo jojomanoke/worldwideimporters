@@ -21,15 +21,11 @@ use Classes\Query\Query;
             </h3>
         </div>
         <?php $photos = Query::get('photos')->where('StockItemID', $product->StockItemID) ?>
-        <img src="<?php if ($photos->count() !== 0) {
-            echo $photos->first()->PhotoLocation;
+        <img src="<?php if ($photos->count() !== 0) {?>/images/products/<?php
+            echo $photos->first()->StockItemID . '/' . $photos->first()->PhotoName;
         } else {
             echo 'https://via.placeholder.com/350x200';
         } ?>" class="card-img-top" alt="...">
-        <div class="floating-buttons float-right position-absolute">
-            <button class="btn btn-primary rounded-circle material-button"><i class="material-icons">favorite_border</i>
-            </button>
-        </div>
         <div class="card-body">
             <h5 class="card-title"><?= $product->StockItemName ?></h5>
             <p class="card-text"><?= $product->SearchDetails ?></p>

@@ -12,9 +12,15 @@ if(isset($_GET['ARPP'])) {
 $currentPage = $_GET['pagenumber'] ?? 1;
 $thisPageFirstResult = ($currentPage - 1) * $resultsPerPage;
 $connection = Database::getConnection();
-$category = $_GET['category'];
+$category = $_GET['category'] ?? null;
 
-$query = filterQuery("SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)");
+$query = 'SELECT * FROM stockitems';
+
+if(isset($category)){
+    $query .= " WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
+}
+
+$query = filterQuery($query);
 $allProductsWithoutPagination = Query::get($query);
 $query .= " LIMIT $thisPageFirstResult, $resultsPerPage;";
 $products = Query::get($query);
@@ -32,7 +38,7 @@ $numberOfPages = ceil($allProductsWithoutPagination->count() / $resultsPerPage);
     <!-- TODO: Plaatje naar een error plaatje veranderen i.p.v. een onderhoudsplaatje -->
     <img alt="" src="/images/wordpress-mixed-content-error.png">
     <br>
-    <a href="<?= url('home') ?>">
+    <a href="<?= url('categories') ?>">
         Druk hier om naar de homepagina te gaan
     </a>
     <?php

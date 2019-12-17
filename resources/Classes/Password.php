@@ -12,9 +12,8 @@ class Password
         $connection = Database::getConnection();
         $data['gender'] = addslashes($_POST['gender']);
         $data['firstName'] = addslashes($_POST['firstName']);
-        $data['infix'] = addslashes($_POST['infix']) ?? ''; // Tussenvoegsel
+        $data['infix'] = isset($_POST['infix']) ? addslashes($_POST['infix']) : ''; // Tussenvoegsel
         $data['lastName'] = addslashes($_POST['lastName']);
-        $data['country'] = addslashes($_POST['country']);
         $data['phoneNumber'] = addslashes($_POST['phoneNumber']);
         $data['city'] = addslashes($_POST['city']);
         $data['address'] = addslashes($_POST['address']);
@@ -38,7 +37,6 @@ class Password
                         FirstName,
                         Infix,
                         LastName,
-                        CountryID,
                         PhoneNumber,
                         City,
                         Address,
@@ -48,14 +46,13 @@ class Password
                         Email,
                         Password
                         )
-                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
         $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-        $stmt->bind_param('isssiississss',
+        $stmt->bind_param('isssississss',
             $data['gender'],
             $data['firstName'],
             $data['infix'],
             $data['lastName'],
-            $data['country'],
             $data['phoneNumber'],
             $data['city'],
             $data['address'],

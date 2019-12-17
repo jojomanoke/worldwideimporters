@@ -4,7 +4,7 @@ use Classes\Query\Query;
 
 $categories = Query::get('stockgroups');
 $category = $_GET['category'] ?? 0;
-$page = $_GET['page'];
+$page = $_GET['page'] ?? 'categories';
 if($page === 'categories' || $page === 'search') {
     include SERVER_ROOT . '/resources/includes/sidebar.php';
 }

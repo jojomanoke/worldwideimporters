@@ -40,10 +40,6 @@ include('resources/includes/navbar.php');
             ?><?php
             switch ($_GET['page']) {
                 default:
-                case 'home':
-                    include 'resources/pages/home.php';
-                    break;
-
                 case 'categories':
                     include 'resources/pages/categories/show.php';
                     break;
@@ -78,6 +74,10 @@ include('resources/includes/navbar.php');
 
                 case 'checkout':
                     include 'resources/pages/checkout/checkout.php';
+                    break;
+    
+                case 'profile':
+                    include 'resources/pages/auth/profile.php';
                     break;
             }
             ?></div>
