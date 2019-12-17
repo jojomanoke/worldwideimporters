@@ -70,3 +70,8 @@ RewriteRule ^register index.php?page=register [L,QSA]
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
 RewriteRule ^logout [R=301,L]
 RewriteRule ^logout index.php?page=logout [L,QSA]
+
+#checkout
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
+RewriteRule ^checkout [R=301,L]
+RewriteRule ^checkout index.php?page=checkout [L,QSA]

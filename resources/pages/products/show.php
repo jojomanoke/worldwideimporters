@@ -11,16 +11,15 @@ $statement = $connection->prepare($query);
 $statement->bind_param('i', $productId);
 $statement->execute();
 $product = $statement->get_result()->fetch_object();
-
 if(Login::isLoggedIn()) {
     $userID = Login::id();
 }
-
 $reviewscore = 0;
-if(isset($_POST['stars'], $_POST['review'])) {
+if(isset($_POST['stars'], $_POST['review'], $userID)) {
     $reviewscore = (int)$_POST['stars'];
     $datum = (new DateTime())->format('Y-m-d H:i:s');
-    $reviewbeschrijving = $_POST['review'];
+    $reviewbeschrijving = addslashes($_POST['review']);
+    
     $query = 'INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID, Date) VALUES (?, ?, ?, ?, ?)';
     $statement = $connection->prepare($query);
     $statement->bind_param('isiis', $reviewscore, $reviewbeschrijving, $userID, $productId, $datum);
