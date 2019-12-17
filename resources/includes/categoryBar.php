@@ -4,7 +4,7 @@ use Classes\Query\Query;
 
 $categories = Query::get('stockgroups');
 $category = $_GET['category'] ?? 0;
-$page = $_GET['page'];
+$page = $_GET['page'] ?? 'categories';
 if($page === 'categories' || $page === 'search') {
     include SERVER_ROOT . '/resources/includes/sidebar.php';
 }
@@ -14,7 +14,7 @@ if($page === 'categories' || $page === 'search') {
         <?php foreach($categories as $item) { ?>
             <li class="nav-item">
                 <a class="nav-link <?= ((int)$category === (int)$item->StockGroupID) ? 'active' : '' ?>"
-                   href="/categories/<?php echo $item->StockGroupID; ?>"><?php echo $item->StockGroupName; ?></a>
+                   href="/categories/<?php echo $item->StockGroupID; ?>"><?php echo trans('categories.'.$item->StockGroupName); ?></a>
             </li>
         <?php } ?>
     </ul>

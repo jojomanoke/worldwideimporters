@@ -1,28 +1,40 @@
-<div id="filterBar" class="d-none collapse d-lg-block col-lg-3 col-xl-2 col-md-4 navbar-light bg-light">
+<?php
+
+use Classes\Query\Query;
+
+?>
+<div id="filterBar" class="d-none collapse d-lg-block col-lg-3 col-xl-2 col-12 navbar-light bg-light">
     <div class="sticky-top py-5">
         <aside id="filterNav" class="navbar navbar-expand-lg">
             <div class="flex-column w-100 bg-light">
-                <?php use Classes\Query\Query;
-
-                if($_GET['page'] === 'categories' || $_GET['page'] === 'search') { ?>
-                    <?php
+                <?php
+                
+                if(!isset($_GET['page']) || $_GET['page'] === 'categories' || $_GET['page'] === 'search') {
+                    if(!isset($_GET['page'])) {
+                        $_GET['page'] = 'categories';
+                    }
                     $colorQuery = 'SELECT DISTINCT ColorID FROM stockitems';
                     if($_GET['page'] !== 'search') {
-                        $colorQuery .= " WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = {$_GET['category']})";
-                    } else {
-                        $colorQuery .= " WHERE StockItemName = '{$_GET['search']}' OR SearchDetails = '{$_GET['search']}'";
-                        if(is_int($_GET['search']) && $_GET['search'] > 0) {
-                            $colorQuery .= " OR StockItemID = {$_GET['search']}";
+                        if(isset($_GET['category'])){
+                            $colorQuery .= " WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = {$_GET['category']})";
                         }
+                    } else {
+                        $search = $_GET['search'] ?? ' ';
+                        $colorQuery .= " WHERE StockItemName LIKE '%{$search}%' OR SearchDetails LIKE '%{$search}%'";
+                        if(is_int($search) && $search > 0) {
+                            $colorQuery .= " OR StockItemID = {$search}";
+                        }
+                        $colorQuery .= ' AND ColorID IN (' . implode(', ', $_GET['colour'] ?? Query::get('colors', 'ColorID')->toArray()) . ')';
                     }
-                    $colorIds = Query::get($colorQuery)->toArray();
-                    $colors = Query::in('colors', 'ColorID', $colorIds);
+                    $colors = Query::get($colorQuery)->toArray();
+                    $colors = Query::in('colors', 'ColorID', $colors);
                     $colors = $colors->sort('ColorID');
+    
                     ?>
                     <div class="lead mb-2">Filters</div>
                     <form method="get" action="<?= getUrl() ?>">
                         <div class="form-group">
-                            <label for="ARPP">Resultaten per pagina</label>
+                            <label for="ARPP"><?=trans('filters.resultsPerPage')?></label>
                             <select id="ARPP" onchange="submit()" class="form-control w-auto" name="ARPP">
                                 <option <?php if(isset($_GET['ARPP']) && (int)$_GET['ARPP'] === 25) {
                                     echo 'selected';
@@ -40,7 +52,7 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <label for="priceFilter">Prijs</label>
+                            <label for="priceFilter"><?=trans('filters.price.price')?></label>
                             <div class="form-check">
                                 <input class="form-check-input"
                                     <?php if(!isset($_GET['priceFilter']) || (isset($_GET['priceFilter']) && $_GET['priceFilter'] === 'laaghoog')) {
@@ -48,7 +60,7 @@
                                     } ?>
                                        type="radio" name="priceFilter" id="priceFilterLowHigh" value="laaghoog">
                                 <label class="form-check-label" for="priceFilterLowHigh">
-                                    Laag naar hoog
+                                    <?=trans('filters.price.lowHigh')?>
                                 </label>
                             </div>
                             <div class="form-check">
@@ -59,7 +71,7 @@
 
                                        type="radio" name="priceFilter" id="priceFilterHighLow" value="hooglaag">
                                 <label class="form-check-label" for="priceFilterHighLow">
-                                    Hoog naar laag
+                                    <?=trans('filters.price.highLow')?>
                                 </label>
                             </div>
                             <br>
@@ -68,7 +80,7 @@
                                 <button class="btn btn-outline-secondary" type="button" data-toggle="collapse"
                                         data-target="#colorCollapse" aria-expanded="false"
                                         aria-controls="colorCollapse">
-                                    Laat kleuren zien
+                                    <?=trans('filters.colors.colors')?>
                                 </button>
                                 <div class="collapse" id="colorCollapse">
                                     <?php
@@ -77,13 +89,13 @@
                                             <input type="checkbox"
                                                    <?= (isset($_GET['colour']) && (in_array($color->ColorID, $_GET['colour'], false))) ? 'checked' : '' ?>
                                                    value="<?= $color->ColorID ?>" name="colour[]">
-                                            <?= $color->ColorName ?>
+                                            <?= trans('filters.colors.' . $color->ColorName) ?>
                                         </label>
                                     <?php } ?>
                                 </div>
                             <?php } ?>
                             <p>
-                                <button type="submit" class="mt-5 w-100 btn btn-success">Filter</button>
+                                <button type="submit" class="mt-5 w-100 btn btn-success"><?=trans('filters.filter')?></button>
                             </p>
                         </div>
                     </form>

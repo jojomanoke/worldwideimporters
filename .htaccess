@@ -6,20 +6,20 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine On
 RewriteBase /
 
-# Home page
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
-RewriteRule ^home [R=301,L]
-RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
-
 # Category
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=categories&category=([^\s&]+) [NC]
 RewriteRule ^ categories/%1? [R=301,L]
-RewriteRule ^categories/([^/]+)/?$ index.php?page=categories&category=$1 [L,QSA]
+RewriteRule ^categories/([0-9]+)/?$ index.php?page=categories&category=$1 [L,QSA]
+
+# Category home
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=categories [NC]
+RewriteRule ^ categories [R=301,L]
+RewriteRule ^categories index.php?page=categories [L,QSA]
 
 # Product
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=products&product=([^\s&]+) [NC]
 RewriteRule ^products/%1? [R=301,L]
-RewriteRule ^products/([^/]+)/?$ index.php?page=products&product=$1 [L,QSA]
+RewriteRule ^products/([0-9]+)/?$ index.php?page=products&product=$1 [L,QSA]
 
 # Search page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=search&search=([^\s&]+) [NC]
@@ -54,24 +54,29 @@ RewriteRule ^shoppingcart/ index.php?page=shoppingcart [L,QSA]
 # Product edit page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=editProduct&product=([^\s&]+)& [NC]
 RewriteRule ^products/%1?/edit [R=301,L]
-RewriteRule ^products/([^/]+)/?/edit$ index.php?page=editProduct&product=$1 [L,QSA]
+RewriteRule ^products/([0-9]+)/?/edit$ index.php?page=editProduct&product=$1 [L,QSA]
 
 # Login page
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=login [NC]
 RewriteRule ^login [R=301,L]
 RewriteRule ^login index.php?page=login [L,QSA]
 
 # Register page
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=register [NC]
 RewriteRule ^register [R=301,L]
 RewriteRule ^register index.php?page=register [L,QSA]
 
+# Register page
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=profile [NC]
+RewriteRule ^profile [R=301,L]
+RewriteRule ^profile index.php?page=profile [L,QSA]
+
 # Logout page
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=logout [NC]
 RewriteRule ^logout [R=301,L]
 RewriteRule ^logout index.php?page=logout [L,QSA]
 
 #checkout
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=([^\s&]+) [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=checkout [NC]
 RewriteRule ^checkout [R=301,L]
 RewriteRule ^checkout index.php?page=checkout [L,QSA]

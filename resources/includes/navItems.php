@@ -3,7 +3,7 @@
  * The default links to add to the navbar
  */
 $links = [
-    'home',
+    'categories',
 ];
 
 

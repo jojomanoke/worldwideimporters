@@ -62,7 +62,7 @@ trait Getters
     }
     
     
-    private static function getResults(string $query): Query
+    protected static function getResults(string $query, string $objectName = 'Query'): Query
     {
         $conn = Database::getConnection();
         /**
@@ -94,6 +94,7 @@ trait Getters
                      * Adds the record to the empty object
                      */
                     $totalResults->$index = self::convertToQueryObject($databaseRecord);
+
                     $index++;
                 }
                 $results->free_result();
@@ -270,5 +271,19 @@ trait Getters
     public function first(): Query
     {
         return $this->{0};
+    }
+    
+    public function column($column) {
+        $returnCollection = new Query();
+        $index = 0;
+        foreach($this as $item) {
+            foreach($item as $col => $value){
+                if($col === $column){
+                    $returnCollection->{$index} = self::convertArrayToQueryObject([$col => $value]);
+                    $index++;
+                }
+            }
+        }
+        return $returnCollection;
     }
 }
