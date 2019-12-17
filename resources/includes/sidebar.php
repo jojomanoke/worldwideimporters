@@ -21,7 +21,8 @@ use Classes\Query\Query;
                         }
                         $colorQuery .= ' AND ColorID IN (' . implode(', ', $_GET['colour'] ?? Query::get('colors', 'ColorID')->toArray()) . ')';
                     }
-                    $colors = Query::get($colorQuery);
+                    $colors = Query::get($colorQuery)->toArray();
+                    $colors = Query::in('colors', 'ColorID', $colors);
                     $colors = $colors->sort('ColorID');
     
                     ?>
