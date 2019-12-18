@@ -14,11 +14,11 @@ use Classes\Query\Query;
                 Artikelnummer: <?= $product->StockItemID ?>
             </small>
             </h6>
-            <h3>
+            <h4>
                 <small class="card-text float-right" style="color: forestgreen">
                     Prijs: €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
                 </small>
-            </h3>
+            </h4>
         </div>
         <?php $photos = Query::get('photos')->where('StockItemID', $product->StockItemID) ?>
         <img src="<?php if ($photos->count() !== 0) {?>/images/products/<?php

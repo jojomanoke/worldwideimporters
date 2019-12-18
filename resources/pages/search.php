@@ -13,16 +13,19 @@ if(isset($_GET['ARPP'])) {
 }
 $currentPage = $_GET['pagenumber'] ?? 1;
 $thisPageFirstResult = ($currentPage - 1) * $resultsPerPage;
-$allResults = Query::get('stockitems')->like(['StockItemName', 'SearchDetails'], $q);
+$query = 'SELECT * FROM stockitems';
+$query = filterQuery($query);
+//dd(Query::get('stockitems', '*', true));
+$allResults = Query::get($query)->like(['StockItemName', 'SearchDetails'], $q);
 $totalResultCount = $allResults->count();
-
+//dd(Query::get('stockitems')->like(['StockItemName', 'SearchDetails'], $q)->limit($thisPageFirstResult, $resultsPerPage));
 $numberOfPages = ceil($totalResultCount / $resultsPerPage);
 if(!preg_match('/(^[a-z ]+$)/i', $q)) {
 //        $sql = 'SELECT * From stockitems where StockItemID like ? LIMIT 1';
     $products = Query::get('stockitems')->where('StockItemID', $q);
 } else {
 //        $sql = "SELECT * From stockitems where StockItemName LIKE CONCAT('%', ?, '%') OR SearchDetails LIKE CONCAT('%', ?, '%') LIMIT (int)$thisPageFirstResult, (int)$resultsPerPage;";
-    $products = Query::get('stockitems')->like(['StockItemName', 'SearchDetails'], $q)->limit($thisPageFirstResult, $resultsPerPage);
+    $products = Query::get($query)->like(['StockItemName', 'SearchDetails'], $q)->limit($thisPageFirstResult, $resultsPerPage);
 }
 
 if($products->count() > 0) {
@@ -58,7 +61,7 @@ if($products->count() > 0) {
                 <?php if(!($currentPage <= 1)) { ?>
                     <li class="page-item"><a class="page-link"
                                              href="?pagenumber=<?php echo($currentPage - 1);
-                                             echo $paginationString; ?>&ARPP=<?php echo $resultsPerPage; ?>">Vorige</a>
+                                             echo $paginationString; ?>&ARPP=<?php echo $resultsPerPage; ?>"><?=trans('pagination.previous')?></a>
                     </li>
                 <?php } ?>
                 <?php for($page = 1;
@@ -79,7 +82,7 @@ if($products->count() > 0) {
                 <?php if(!($currentPage >= $numberOfPages)) { ?>
                     <li class="page-item"><a class="page-link"
                                              href="?pagenumber=<?php echo $currentPage + 1;
-                                             echo $paginationString; ?>&ARPP=<?php echo $resultsPerPage; ?>">Volgende</a>
+                                             echo $paginationString; ?>&ARPP=<?php echo $resultsPerPage; ?>"><?=trans('pagination.next')?></a>
                     </li>
                 <?php } ?>
             </ul>
@@ -94,7 +97,7 @@ if($products->count() > 0) {
         <img alt="" src="/images/wordpress-mixed-content-error.png">
     </div>
     <a href="<?= url('categories') ?>">
-        Druk hier om naar de homepagina te gaan
+        <?=trans('general.pressToHome')?>
     </a>
     <?php
 }

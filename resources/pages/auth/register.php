@@ -142,7 +142,11 @@ if(isset($_POST['submit'])) {
                             <div class="input-group">
                                 <input id="password" name="password" type="password" min="8" class="form-control">
                                 <div class="input-group-append">
-                                    <button tabindex="-1" data-toggle="tooltip" data-placement="top" title="WWWW" id="showPasswordButton" class="btn btn-outline-secondary material-button"
+                                    <button tabindex="-1"
+                                            data-placement="top"
+                                            title="<?=trans('register.showPassword')?>"
+                                            id="showPasswordButton"
+                                            class="btn btn-outline-secondary material-button"
                                             style="padding: 5px 10px 0 10px">
                                         <i class="material-icons">visibility</i>
                                     </button>

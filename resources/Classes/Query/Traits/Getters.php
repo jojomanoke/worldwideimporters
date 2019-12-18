@@ -46,23 +46,25 @@ trait Getters
         /**
          * Is the same as: new MySQLi($host, $username, $password, $databaseName, $port);
          */
+        $keys = array_merge(array_filter($keys));
         $query = "SELECT * FROM $table WHERE $column IN (";
-        
         foreach($keys as $index => $key) {
-            if($key !== null && $key !== 0) {
+            if($key !== 0) {
+                if(is_array($key)){
+                    $key = implode(', ', $key);
+                }
                 $query .= is_string($key) ? "'$key'" : $key;
                 if($index !== (count($keys) - 1)) {
                     $query .= ', ';
-                } else {
-                    $query .= ')';
                 }
             }
         }
+        $query .= ')';
         return self::getResults($query);
     }
     
     
-    protected static function getResults(string $query, string $objectName = 'Query'): Query
+    protected static function getResults(string $query, $className = 'Classes\Query\Query')
     {
         $conn = Database::getConnection();
         /**
@@ -77,14 +79,13 @@ trait Getters
                  * Creates an empty object.
                  * Will be used in the while loop and will be populated with database records
                  */
-                $totalResults = new Query();
-                
+                $class = (new $className())->className;
+                $totalResults = new $class();
                 /**
                  * Is used to create a key for every database record
                  * e.g. $array[0] = $databaseRecord;
                  */
                 $index = 0;
-                
                 /**
                  * Simple while loop to loop over all database records
                  */
@@ -93,15 +94,15 @@ trait Getters
                     /**
                      * Adds the record to the empty object
                      */
-                    $totalResults->$index = self::convertToQueryObject($databaseRecord);
-
+                    $totalResults->$index = self::convertToClassObject($className, $databaseRecord);
+                    
                     $index++;
                 }
                 $results->free_result();
                 return $totalResults;
             }
         }
-        return new Query();
+        return new $className();
     }
     
     
@@ -117,7 +118,8 @@ trait Getters
         /**
          * Creates an empty object which will be populated in the foreach loop
          */
-        $results = new Query();
+        $class = $this->className;
+        $results = new $class();
         $resultCount = 0;
         /**
          * This loop will loop over each database record fetched by: Query::get('tableName');
@@ -126,7 +128,7 @@ trait Getters
             if(str_contains($column, ',')) {
                 foreach($this as $key => $object) {
                     foreach(explode(',', $column) as $col) {
-                        
+    
                         if(is_array($value)) {
                             if(in_array($object->$col, $value, false)) {
                                 $results->$resultCount = $object;
@@ -147,6 +149,9 @@ trait Getters
                     $value = explode(',', $value);
                 }
                 foreach($this as $key => $object) {
+                    if(str_contains($key, 'className')){
+                        continue;
+                    }
                     /**
                      * $column is the name of the column that needs to be searched
                      * This checks if the column value is the same as the value to find
@@ -165,6 +170,9 @@ trait Getters
                      * $column is the name of the column that needs to be searched
                      * This checks if the column value is the same as the value to find
                      */
+                    if(str_contains($key, 'className')){
+                        continue;
+                    }
                     if($object->$column == $value) {
                         /**
                          * Once it finds something, the loop will add the data object to the empty object earlier
@@ -189,9 +197,13 @@ trait Getters
      */
     public function like(array $columns, string $value): Query
     {
-        $returnCollection = new Query();
+        $class = $this->className;
+        $returnCollection = new $class();
         $resultsCount = 0;
-        foreach($this as $item) {
+        foreach($this as $index => $item) {
+            if($index === 'className'){
+                continue;
+            }
             foreach($columns as $key => $column) {
                 if(stripos($item->{$column}, $value) !== false) {
                     $returnCollection->{$resultsCount} = $item;
@@ -209,9 +221,13 @@ trait Getters
     
     public function limit(int $first, int $second = 0)
     {
-        $returnCollection = new Query();
+        $class = $this->className;
+        $returnCollection = new $class();
         $resultsCount = 0;
         foreach($this as $key => $item) {
+            if($key === 'className') {
+                continue;
+            }
             if($second && ($key >= $first && $resultsCount < $second)) {
                 $returnCollection->{$resultsCount} = $item;
                 $resultsCount++;
@@ -231,7 +247,8 @@ trait Getters
      */
     public function take($amount): Query
     {
-        $returnCollection = new Query();
+        $class = $this->className;
+        $returnCollection = new $class();
         for($i = 0; $i < $amount; $i++) {
             $returnCollection->$i = $this->$i;
         }
@@ -239,16 +256,25 @@ trait Getters
         return $returnCollection;
     }
     
-    public function sort($key, $desc = false, $deb = false)
+    public function sort($key, $desc = false)
     {
         self::$key = $key;
         self::$desc = $desc;
-        $array = $this->toArray();
-        usort($array, array(Query::class, 'uSortFunction'));
-        foreach($array as $key => $item) {
-            $array[$key] = Query::convertArrayToQueryObject($item);
+        $array = array_merge(array_filter($this->toArray()));
+        
+        if(array_key_exists(0, $array) && is_array($array[0])){
+           usort($array, array(Query::class, 'uSortFunction'));
+        } else {
+            if($desc){
+                rsort($array);
+            } else {
+                sort($array);
+            }
         }
-        return Query::convertArrayToQueryObject($array);
+        foreach($array as $loopKey => $item) {
+            $array[$loopKey] = self::convertToClassObject($this->className, $item);
+        }
+        return $this->className::convertToQueryObject($array);
     }
     
     private static function uSortFunction($a, $b)
@@ -274,12 +300,13 @@ trait Getters
     }
     
     public function column($column) {
-        $returnCollection = new Query();
+        $class = $this->className;
+        $returnCollection = new $class();
         $index = 0;
         foreach($this as $item) {
             foreach($item as $col => $value){
                 if($col === $column){
-                    $returnCollection->{$index} = self::convertArrayToQueryObject([$col => $value]);
+                    $returnCollection->{$index} = self::convertToClassObject($this->className, [$col => $value]);
                     $index++;
                 }
             }

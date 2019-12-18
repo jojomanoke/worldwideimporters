@@ -5,7 +5,6 @@ if (!isset($_SESSION)) {
 }
 //unset($_SESSION['shoppingcart']);
 include 'resources/config/autoload.php';
-
 include('resources/helpers/functions.php');
 include('resources/config/globals.php');
 include('resources/includes/head.php');
@@ -30,7 +29,6 @@ if ( isset($_POST[ 'product' ], $_GET['action']) && $_GET[ 'action' ] === 'delet
     $_SESSION['shoppingcart'] = array_merge($shoppingCart);
     echo '<script>window.location.href="/shoppingcart"</script>';
 }
-
 include('resources/includes/navbar.php');
 ?>
     <div class="container-fluid">

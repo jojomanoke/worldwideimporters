@@ -48,5 +48,7 @@ return [
         'Red'         => 'Rood',
     ],
     'filter'         => 'Filteren',
+    'sizes'          => 'Maten',
+    'brands'         => 'Merken',
 
 ];
