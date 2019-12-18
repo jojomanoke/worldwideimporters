@@ -11,15 +11,15 @@ $statement = $connection->prepare($query);
 $statement->bind_param('i', $productId);
 $statement->execute();
 $product = $statement->get_result()->fetch_object();
-if(Login::isLoggedIn()) {
+if (Login::isLoggedIn()) {
     $userID = Login::id();
 }
 $reviewscore = 0;
-if(isset($_POST['stars'], $_POST['review'], $userID)) {
+if (isset($_POST['stars'], $_POST['review'], $userID)) {
     $reviewscore = (int)$_POST['stars'];
     $datum = (new DateTime())->format('Y-m-d H:i:s');
     $reviewbeschrijving = addslashes($_POST['review']);
-    
+
     $query = 'INSERT INTO reviews (ReviewScore, ReviewDescription, UserID, StockItemID, Date) VALUES (?, ?, ?, ?, ?)';
     $statement = $connection->prepare($query);
     $statement->bind_param('isiis', $reviewscore, $reviewbeschrijving, $userID, $productId, $datum);
@@ -35,8 +35,8 @@ $leverancier = $statement->get_result()->fetch_object();
 
 $totaalreviewscore = 0.00;
 $aantalreviews = $reviews->count();
-if($aantalreviews != 0) {
-    foreach($reviews as $review) {
+if ($aantalreviews != 0) {
+    foreach ($reviews as $review) {
         $totaalreviewscore += $review->ReviewScore;
     }
     $gemiddeldescore = $totaalreviewscore / $reviews->count();
@@ -46,47 +46,55 @@ if($aantalreviews != 0) {
  * @todo Product niet gelijk toevoegen op pagina bezoeken maar wanneer er op de knop gedrukt wordt
  * @todo als product al in winkelwagentje staat voeg dan niet extra toe
  */
-
-include(SERVER_ROOT . '/resources/includes/productCarrousel.php');
-
 ?>
+<div class="row">
 
-<div class="col-6" xmlns="http://www.w3.org/1999/html">
-    <?php $ENGLretailprice = $product->RecommendedRetailPrice;
-    $NLretailprice = str_replace('.', ',', $ENGLretailprice);
-    ?>
-    <h1 class="h1 mt-3"><?php echo $product->StockItemName; ?></h1>
+    <?php
+    include(SERVER_ROOT . '/resources/includes/productCarrousel.php');
 
-    <h2 class="container mt-5 "
-        style="border-width: 1px; border-color: black; ">    <?= "<span style=\"color:#3CB371;\"> € $product->RecommendedRetailPrice </span>" ?></h2>
-    <form action="/shoppingcart/add" method="post">
-        <input type="hidden" name="product" value="<?= $product->StockItemID ?>">
-        <button type="submit" class="btn btn-success material-button"><i class="material-icons">shopping_basket</i>
-        </button>
-    </form>
-    <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
-    <?php $ENGLretailprice = $product->RecommendedRetailPrice;
-    $NLretailprice = str_replace(".", ",", $ENGLretailprice);
     ?>
-    <div class="card">
-        <div class="card-header">
-            <?php echo 'Product Details' ?>
-        </div>
-        <div class="card-body ">
-            <?php echo $product->SearchDetails; ?> <br>
-            <?php echo trans('products.color') . " : " . $product->ColorName; ?> <br>
-            <?php echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . "Kg"; ?> <br>
-            <?php If($product->Size != "") {
-                echo trans('products.size') . " : " . $product->Size;
-            } ?> <br>
-            <?php If($leverancier->SupplierName != "") {
-                echo trans('products.leverancier') . " : " . $leverancier->SupplierName;
-            } ?>
+
+    <div class="col-6" xmlns="http://www.w3.org/1999/html">
+        <?php $ENGLretailprice = $product->RecommendedRetailPrice;
+        $NLretailprice = str_replace('.', ',', $ENGLretailprice);
+        ?>
+        <h1 class="h1 mt-3"><?php echo $product->StockItemName; ?></h1>
+
+        <h2 class="container mt-5 "
+            style="border-width: 1px; border-color: black; ">    <?= "<span style=\"color:#3CB371;\"> € $product->RecommendedRetailPrice </span>" ?></h2>
+        <form action="/shoppingcart/add" method="post">
+            <input type="hidden" name="product" value="<?= $product->StockItemID ?>">
+            <button type="submit" class="btn btn-success material-button"><i class="material-icons">shopping_basket</i>
+            </button>
+        </form>
+        <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
+        <?php $ENGLretailprice = $product->RecommendedRetailPrice;
+        $NLretailprice = str_replace(".", ",", $ENGLretailprice);
+        ?>
+        <div class="card">
+            <div class="card-header">
+                <?php echo 'Product Details' ?>
+            </div>
+            <div class="card-body ">
+                <?php echo $product->SearchDetails; ?> <br>
+                <?php if ($product->ColorID != "") {
+                    echo trans('products.color') . " : " . $product->ColorName; ?> <br> <?php
+                } ?>
+                <?php if ($product->TypicalWeightPerUnit != "") {
+                    echo trans('products.weight') . " : " . $product->TypicalWeightPerUnit . " Kg"; ?> <br> <?php
+                } ?>
+                <?php If ($product->Size != "") {
+                    echo trans('products.size') . " : " . $product->Size;
+                    ?><br> <?php
+                } ?>
+                <?php If ($leverancier->SupplierName != "") {
+                    echo trans('products.leverancier') . " : " . $leverancier->SupplierName;
+                } ?>
+            </div>
         </div>
     </div>
-</div>
-<?php
-if(Login::isLoggedIn()) { ?>
+    <?php
+    if (Login::isLoggedIn()) { ?>
     <div class="row mt-5">
         <div class="col-6">
             <form action="/products/<?= $product->StockItemID ?>" method="post">
@@ -112,7 +120,8 @@ if(Login::isLoggedIn()) { ?>
         </div>
 
     </div>
-    <?php
+</div>
+<?php
 }
 ?>
 <?php include SERVER_ROOT . '/resources/includes/review.php'; ?>

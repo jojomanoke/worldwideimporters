@@ -1,5 +1,8 @@
 <?php
 namespace Classes;
+
+use MySQLi;
+
 class Database
 {
     
@@ -8,7 +11,7 @@ class Database
     
     private function __construct()
     {
-        $this->connection = new \MySQLi(
+        $this->connection = new MySQLi(
             'localhost',
             env('DATABASE_USER'),
             env('DATABASE_PASSWORD'),
@@ -21,9 +24,9 @@ class Database
         $this->connection->close();
     }
     
-    public static function getConnection(): \MySQLi
+    public static function getConnection(): MySQLi
     {
-        if ( self::$db == null ) {
+        if(self::$db === null) {
             self::$db = new Database();
         }
         return self::$db->connection;

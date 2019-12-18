@@ -1,4 +1,4 @@
-<div class="row my-5" style="width: 95%; height: 50%;">
+<div class="col-6" style="width: 75%; height: 50%;">
     <!--    <div class="col-md-6 col-12" style="height: 400px">-->
     <!--        <link rel="stylesheet" type="text/css" href="/css/style_productweergave.css">-->
     <!--        <div class="container" style="height: 90px; width: 100%;">-->
