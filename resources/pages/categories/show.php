@@ -16,7 +16,7 @@ $category = $_GET['category'] ?? null;
 
 $query = 'SELECT * FROM stockitems';
 
-if(isset($category)){
+if(isset($category)) {
     $query .= " WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = $category)";
 }
 
@@ -34,13 +34,23 @@ $numberOfPages = ceil($allProductsWithoutPagination->count() / $resultsPerPage);
 
 <?php If(!$results->num_rows) {
     ?>
-    <h1><?php echo trans('general.noProducts') ?></h1>
-    <!-- TODO: Plaatje naar een error plaatje veranderen i.p.v. een onderhoudsplaatje -->
-    <img alt="" src="/images/wordpress-mixed-content-error.png">
-    <br>
-    <a href="<?= url('categories') ?>">
-        Druk hier om naar de homepagina te gaan
-    </a>
+    <div class="row">
+        <div class="col-12 mb-5 text-center">
+            <h1><?php echo trans('general.noProducts') ?></h1>
+            <!-- TODO: Plaatje naar een error plaatje veranderen i.p.v. een onderhoudsplaatje -->
+        </div>
+        <div class="col-12 text-center">
+            <img class="img-fluid" alt="" src="/images/wordpress-mixed-content-error.png">
+        </div>
+        <div class="col-12 mt-5 text-center">
+            <a href="<?= url('categories') ?>">
+                Druk hier om naar de homepagina te gaan
+            </a>
+        </div>
+    </div>
+    <script>
+        $('#filterBar').remove();
+    </script>
     <?php
 } else { ?>
     <div class="row mb-5">
@@ -57,12 +67,11 @@ $numberOfPages = ceil($allProductsWithoutPagination->count() / $resultsPerPage);
             $paginationString = '';
             foreach($_GET as $key => $value) {
                 if(!in_array($key, ['ARPP', 'page', 'pagenumber', 'category'])) {
-                    if(is_array($value)){
-                        foreach($value as $value2){
+                    if(is_array($value)) {
+                        foreach($value as $value2) {
                             $paginationString .= "&$key%5B%5D=$value2";
                         }
-                    }
-                    else {
+                    } else {
                         $paginationString .= "&$key=$value";
                     }
                 }
@@ -70,7 +79,8 @@ $numberOfPages = ceil($allProductsWithoutPagination->count() / $resultsPerPage);
             ?>
             <?php if(!($currentPage <= 1)) { ?>
                 <li class="page-item"><a class="page-link"
-                                         href="?pagenumber=<?php echo ($currentPage - 1); echo $paginationString;?>&ARPP=<?php echo $resultsPerPage; ?>">Vorige</a>
+                                         href="?pagenumber=<?php echo($currentPage - 1);
+                                         echo $paginationString; ?>&ARPP=<?php echo $resultsPerPage; ?>">Vorige</a>
                 </li>
             <?php } ?>
             <?php for($page = 1;
@@ -82,14 +92,16 @@ $numberOfPages = ceil($allProductsWithoutPagination->count() / $resultsPerPage);
                     echo '';
                 } ?>">
                     <a class="page-link"
-                       href="?pagenumber=<?php echo $page; echo $paginationString;?>&ARPP=<?php echo $resultsPerPage; ?>">
+                       href="?pagenumber=<?php echo $page;
+                       echo $paginationString; ?>&ARPP=<?php echo $resultsPerPage; ?>">
                         <?php echo $page; ?>
                     </a>
                 </li>
             <?php } ?>
             <?php if(!($currentPage >= $numberOfPages)) { ?>
                 <li class="page-item"><a class="page-link"
-                                         href="?pagenumber=<?php echo $currentPage + 1; echo $paginationString;?>&ARPP=<?php echo $resultsPerPage; ?>">Volgende</a>
+                                         href="?pagenumber=<?php echo $currentPage + 1;
+                                         echo $paginationString; ?>&ARPP=<?php echo $resultsPerPage; ?>">Volgende</a>
                 </li>
             <?php } ?>
         </ul>

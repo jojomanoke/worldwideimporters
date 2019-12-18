@@ -37,6 +37,17 @@ use Classes\Query\Query;
  */
 class Product extends Query
 {
+    public function __construct(string $className = 'Classes\Product\Product')
+    {
+        parent::__construct($className);
+    }
+    
+    public static function find(int $id) {
+        $className = (new self())->className;
+        $query = "SELECT * FROM stockitems WHERE StockItemID = $id";
+        return self::convertToClassObject($className, self::getResults($query, $className));
+    }
+    
     /**
      * Creates a collection from all data that has been fetched from the database
      *
@@ -44,11 +55,11 @@ class Product extends Query
      * @return \Classes\Product\Product
      * @author sylvano verkuyl<sylvanoverkuyl@hotmail.com>
      */
-    public static function get($columns = '*'): Product
+    public static function all($columns = '*'): Product
     {
         $query = "SELECT $columns FROM stockitems";
-        
-        return self::convertToProductObject(Query::getResults($query, 'Product'));
+        $className = (new self())->className;
+        return self::convertToClassObject($className, self::getResults($query, $className));
     }
     
     /**

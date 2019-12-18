@@ -4,6 +4,7 @@ return [
     'requiredHelper' => 'Velden met een <strong>*</strong> zijn verplicht!',
     'emailHelper'    => 'We zullen uw e-mail nooit met anderen delen.',
     'alreadyRegistered'    => 'Al een account?',
+    'showPassword'    => 'Laat wachtwoord zien',
     
     'personalInformation' => 'Persoonlijke Informatie',
     'addressInformation'  => 'Adresgegevens',
