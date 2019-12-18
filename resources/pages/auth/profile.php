@@ -205,7 +205,9 @@
         <h6 class="mt-2">Upload a different photo</h6>
         <label class="custom-file">
             <input type="file" id="file" class="custom-file-input">
+            <div class="btn btn-primary btn-sm float-left">
             <span class="custom-file-control">Choose file</span>
+            </div>
         </label>
     </div>
 </div>
