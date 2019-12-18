@@ -1,8 +1,20 @@
+
+
 <?php
 
-use Classes\Auth;
+use Classes\Database;
+
+$_SESSION['shoppingcart'];
+$shoppingCart = $_SESSION['shoppingcart'];
+$conn = Database::getConnection();
+$productIds = array_column($shoppingCart, 'id'); $query = 'SELECT * FROM stockitems WHERE StockItemID IN ('.implode(', ', $productIds).')';
+$results = $conn->query($query);
+
+
 
 ?>
+
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -115,70 +127,80 @@ use Classes\Auth;
 </head>
 <body>
 
-<div class="row pt-5">
+<div class="row mt-5">
     <div class="col-75">
         <div class="container">
             <form action="/action_page.php">
 
                 <div class="row">
                     <div class="col-50">
-                        <h3><?= trans( 'Checkout.Billing Address') ?></h3>
-                        <label for="fname"><i class="fa fa-user"></i> <?= trans( 'Checkout.Fullname') ?></label>
-                        <input type="text" id="fname" name="firstname" value="<?php if(Auth::id()!==0) {echo Auth::user()->FirstName . ' ' . Auth::user()->Infix . ' ' . Auth::user()->LastName ;}?>" placeholder="John M. Doe">
-                        <label for="email"><i class="fa fa-envelope"></i> <?= trans( 'Checkout.email') ?></label>
-                        <input type="text" id="email" name="email" placeholder="john@example.com">
-                        <label for="adr"><i class="fa fa-address-card-o"></i> <?= trans( 'Checkout.address') ?></label>
-                        <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
-                        <label for="city"><i class="fa fa-institution"></i> <?= trans( 'Checkout.city') ?></label>
-                        <input type="text" id="city" name="city" placeholder="New York">
+                        <h3>Factuur Adres</h3>
+                        <label for="fname"><i class="fa fa-user"></i> Volledige naam</label>
+                        <input type="text" id="fname" name="firstname" placeholder="Jan van den Boom">
+                        <label for="email"><i class="fa fa-envelope"></i> E-mail</label>
+                        <input type="text" id="email" name="email" placeholder="john@voorbeeld.nl">
+                        <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
+                        <input type="text" id="adr" name="address" placeholder="Zambiosastraat 15">
+                        <label for="city"><i class="fa fa-institution"></i> Stad</label>
+                        <input type="text" id="city" name="city" placeholder="Zwolle">
 
                         <div class="row">
                             <div class="col-50">
-                                <label for="state"> <?= trans( 'Checkout.State') ?></label>
-                                <input type="text" id="state" name="state" placeholder="NY">
+                                <label for="state">Provincie</label>
+                                <input type="text" id="state" name="Provincie" placeholder="Gelderland">
                             </div>
                             <div class="col-50">
-                                <label for="zip"> <?= trans( 'Checkout.zipCode') ?></label>
-                                <input type="text" id="zip" name="zip" placeholder="10001">
+                                <label for="zip">Postcode</label>
+                                <input type="text" id="zip" name="Postcode" placeholder="8899HJ">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-50">
-                        <h3> <?= trans( 'Checkout.Payment') ?></h3>
+                        <h3>Betaling (WIP)</h3>
+                        <label for="fname"></label>
                         <div class="icon-container">
-                            <i class="fa fa-cc-visa" style="color:navy;"></i>
-                            <i class="fa fa-cc-amex" style="color:blue;"></i>
-                            <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                            <i class="fa fa-cc-discover" style="color:orange;"></i>
-                        </div>
-                        <label for="cname"> <?= trans( 'Checkout.Name on card') ?></label>
-                        <input type="text" id="cname" name="cardname" placeholder="John More Doe">
-                        <label for="ccnum"> <?= trans( 'Checkout.Credit card number') ?></label>
-                        <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-                        <label for="expmonth"> <?= trans( 'Checkout.Exp month') ?></label>
-                        <input type="text" id="expmonth" name="expmonth" placeholder="September">
-                        <div class="row">
-                            <div class="col-50">
-                                <label for="expyear"> <?= trans( 'Checkout.Exp year') ?></label>
-                                <input type="text" id="expyear" name="expyear" placeholder="2018">
-                            </div>
-                            <div class="col-50">
-                                <label for="cvv">CVV</label>
-                                <input type="text" id="cvv" name="cvv" placeholder="352">
-                            </div>
+                            <i><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/pp-acceptance-large.png" alt="Buy now with PayPal" /></i>
+
                         </div>
                     </div>
 
                 </div>
-                <label>
-                    <input type="checkbox" checked="checked" name="sameadr"> <?= trans( 'Checkout.Shipping address same as billing') ?>
-                </label>
-                <input type="submit" value="<?= trans( 'Checkout.Continue to checkout') ?>" class="btn">
+                <input type="submit" value="Betalen (WIP)" class="btn">
             </form>
         </div>
     </div>
+
+    <div class="col-25">
+        <div class="container">
+            <h4>Winkelmand <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
+            <?php if ($results){ ?>
+            <?php
+                $totalPrice = 0.00;
+            while ($product = $results->fetch_object()) {
+            // Eerst halen we de key voor de shopping cart weer op
+            $key = array_search($product->StockItemID, array_column($shoppingCart, 'id'), false);
+
+            $productSession = $shoppingCart[$key];
+            $amount = $productSession['amount'];
+            $verzendkosten = 0.00;
+
+            $totalPrice += $product->RecommendedRetailPrice * $amount;
+
+            if($totalPrice >= 50){
+                $verzendkosten = 3.59;
+            }
+            ?>
+                <p><a><b><?= $product->StockItemName ?></b></a> <a> x<?= $amount ?></a> <span class="price"><?= $product->RecommendedRetailPrice ?></span></p>
+            <?php } ?>
+            <?php } ?>
+            <hr>
+            <p>Verzendkosten <span class="price" style="color:black"><b><?= number_format($verzendkosten, 2, ',', '.' ) ?> </b></span></p>
+            <p>Totaal <span class="price" style="color:black"><b> <?= number_format($totalPrice * 1 + $verzendkosten, 2, ',', '.')  ?></b></span></p>
+        </div>
+    </div>
 </div>
+
 
 </body>
 </html>

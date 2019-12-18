@@ -13,8 +13,7 @@ class Auth
         if(!isset($_SESSION['userSession'])) {
             return new self();
         }
-        
-        return self::convertToAuthObject(Query::get('users')->where('UserID', $_SESSION['userSession'][2]));
+        return self::convertToAuthObject(Query::get('users')->where('UserID', $_SESSION['userSession'][2])->first());
     }
     
     public static function id(): int

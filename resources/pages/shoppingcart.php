@@ -28,6 +28,14 @@ if (isset($_GET['action'])) {
         }
 
 
+    } elseif($_GET['action'] === 'changeAmount') {
+        // of passen we het getal aan
+        $shoppingCart[$key]['amount'] = (int)$_POST['amount'];
+
+        // Zodra de hoeveelheid onder de 1 komt moet dit product verwijderd worden.
+        if ($shoppingCart[$key]['amount'] < 1) {
+            unset($shoppingCart[$key]);
+        }
     }
 
 
@@ -40,7 +48,9 @@ $results = $conn->query($query);
 $totalPrice = 0.00;
 
 ?>
+<link href="/css/style_winkelmand.css" rel="stylesheet" type="text/css">
 <?php
+
 if ($results) { ?>
     <div class="row"> <?php
         while ($product = $results->fetch_object()) {
@@ -50,6 +60,10 @@ if ($results) { ?>
             $productSession = $shoppingCart[$key];
             $amount = $productSession['amount'];
             $totalPrice += $product->RecommendedRetailPrice * $amount;
+            $verzendkosten = 0.00;
+            if($totalPrice >= 50){
+                $verzendkosten = 3.59;
+            }
             ?>
             <div class="col-12">
                 <div class="card">
@@ -65,20 +79,22 @@ if ($results) { ?>
                             <button class="btn float-right" type="submit" style="color:red"><i class="material-icons">delete</i>Verwijderen
                             </button>
                         </form>
-                        <p>
-                        <form action="<?= url('shoppingcart/addAmount') ?>" method="post">
-                            <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
-                            <button class="btn float-right" type="submit" style="color:blue"><i class="material-icons">add</i>Toevoegen
-                            </button>
-                        </form>
-                        </p>
-                        <p>
-                        <form action="<?= url('shoppingcart/removeAmount') ?>" method="post">
-                            <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
-                            <button class="btn float-right" type="submit" style="color:blue"><i class="material-icons">remove</i>minder
-                            </button>
-                        </form>
-                        </p>
+                        <div class="form-group col-md-6 col-lg-2 float-right">
+                            <div class="input-group-append">
+                                <form action="<?= url('shoppingcart/removeAmount') ?>" method="post">
+                                    <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
+                                <button class="btn btn-outline-secondary" type="submit">-</button>
+                                </form>
+                                <form action="<?=url('shoppingcart/changeAmount')?>" method='POST'>
+                                    <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
+                                    <input style="width: 100px" type="number" name="amount" id="<?=$product->StockItemID?>" value="<?= $amount ?>" class="numberinput">
+                                </form>
+                                <form action="<?= url('shoppingcart/addAmount') ?>" method="post">
+                                    <input type="hidden" name="productId" value="<?= $product->StockItemID ?>">
+                                <button class="btn btn-outline-secondary" type="submit">+</button>
+                                </form>
+                            </div>
+                        </div>
                         <p class="card-text float-left">
                             <img src="<?= getBlob($product->Photo); ?>" alt="Geen afbeelding beschikbaar">
                         </p>
@@ -95,7 +111,9 @@ if ($results) { ?>
             <div class="card">
                 <div class="card-body">
                     <p class="card-text float-right">
-                        Totale prijs: €<?= number_format($totalPrice * 1, 2, ',', '.') ?>
+                        Verzendkosten: €<?= number_format($verzendkosten, 2, ',', '.' ) ?> <br>
+                        Totale prijs: €<?= number_format($totalPrice * 1 + $verzendkosten, 2, ',', '.') ?>
+
                     </p>
                 </div>
             </div>
@@ -107,7 +125,15 @@ if ($results) { ?>
 <?php } else { ?>
     <div class="container w-100 text-center mt-5">
         <h1>...Geen producten gevonden in de winkelwagen...</h1>
-        <img src="/images/winkelwagen.jpg"  alt=" " />
+        <img src="/images/winkelwagen.jpg" alt=" "/>
     </div>
 
 <?php } ?>
+
+<script>
+    $('.numberinput').each(function() {
+        $(this).on('change', function() {
+            $(this).parent('form').submit()
+        })
+    })
+</script>

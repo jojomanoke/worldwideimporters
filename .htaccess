@@ -26,6 +26,7 @@ RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=search&search=([^\s&]+
 RewriteRule ^search/%1? [R=301,L]
 RewriteRule ^search/([^/]+)/?$ index.php?page=search&search=$1 [L,QSA]
 
+
 # Shopping cart add amount page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart&action=addAmount [NC]
 RewriteRule ^shoppingcart/addAmount [R=301,L]
@@ -40,6 +41,11 @@ RewriteRule ^shoppingcart/removeAmount index.php?page=shoppingcart&action=remove
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart&action=add [NC]
 RewriteRule ^shoppingcart/add [R=301,L]
 RewriteRule ^shoppingcart/add index.php?page=shoppingcart&action=add [L,QSA]
+
+# Shopping cart change amount page
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart&action=changeAmount [NC]
+RewriteRule ^shoppingcart/changeAmount [R=301,L]
+RewriteRule ^shoppingcart/changeAmount index.php?page=shoppingcart&action=changeAmount [L,QSA]
 
 # Shopping cart delete page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart&action=delete [NC]
