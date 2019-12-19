@@ -6,6 +6,11 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine On
 RewriteBase /
 
+# Home
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=home [NC]
+RewriteRule ^home [R=301,L]
+RewriteRule ^home index.php?page=home [L,QSA]
+
 # Category
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=categories&category=([^\s&]+) [NC]
 RewriteRule ^ categories/%1? [R=301,L]
