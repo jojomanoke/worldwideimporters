@@ -96,12 +96,10 @@ if ($results) { ?>
                             </div>
                         </div>
                         <p class="card-text float-left">
-                            <img src="<?php $photos = Query::get('photos')->where('StockItemID', $product->StockItemID) ?>
-                            <img src="height="100" width="100"<?php if ($photos->count() !== 0) { ?>/images/products/<?php
+                            <?php $photos = Query::get('photos')->where('StockItemID', $product->StockItemID) ?>
+                            <img src="<?php if ($photos->count() !== 0) { ?>/images/products/<?php
                                 echo $photos->first()->StockItemID . '/' . $photos->first()->PhotoName;
-                            } else {
-                                echo 'https://via.placeholder.com/350x200';
-                            } ?>
+                            }?>" height="100" width="100" alt="...">
                         </p>
                         <p class="card-text float-">
                             <?= $product->MarketingComments ?>
