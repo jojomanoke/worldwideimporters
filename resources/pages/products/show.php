@@ -54,6 +54,9 @@ if ($aantalreviews != 0) {
 
     ?>
 
+
+
+
     <div class="col-6" xmlns="http://www.w3.org/1999/html">
         <?php $ENGLretailprice = $product->RecommendedRetailPrice;
         $NLretailprice = str_replace('.', ',', $ENGLretailprice);

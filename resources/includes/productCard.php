@@ -16,7 +16,7 @@ use Classes\Query\Query;
             </h6>
             <h4>
                 <small class="card-text float-right" style="color: forestgreen">
-                    Prijs: €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
+                    <?= trans('general.price') ?> €<?= number_format($product->UnitPrice, 2, ',', '.') ?>
                 </small>
             </h4>
         </div>
