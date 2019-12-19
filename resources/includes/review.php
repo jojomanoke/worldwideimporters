@@ -11,7 +11,7 @@ foreach($reviews as $review) {
             </p>
         </div>
         <div class="card-body">
-            <h5 class="card-title" style="width: 80%"><?= "$review->ReviewScore $user" ?> <i
+            <h5 class="card-title" style="width: 80%"><?= "$review->ReviewScore " ?> <i
                         class="material-icons reviewssterren" id="starreviewscore">star</i></h5>
             <p class="card-text" style="width: 80%"><?= $review->ReviewDescription ?></p>
         </div>

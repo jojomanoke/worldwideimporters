@@ -187,11 +187,11 @@ $results = $conn->query($query);
 
             $totalPrice += $product->RecommendedRetailPrice * $amount;
 
-            if($totalPrice >= 50){
-                $verzendkosten = 3.59;
+            if($totalPrice <= 50){
+                $verzendkosten = 3.95;
             }
             ?>
-                <p><a><b><?= $product->StockItemName ?></b></a> <a> x<?= $amount ?></a> <span class="price"><?= $product->RecommendedRetailPrice ?></span></p>
+                <p><a><b><?= $product->StockItemName ?></b></a> <a> x<?= $amount ?></a><b><span class="price"><?= $product->RecommendedRetailPrice ?></span></b></p><br>
             <?php } ?>
             <?php } ?>
             <hr>

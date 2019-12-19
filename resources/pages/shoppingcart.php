@@ -62,8 +62,8 @@ if ($results) { ?>
             $amount = $productSession['amount'];
             $totalPrice += $product->RecommendedRetailPrice * $amount;
             $verzendkosten = 0.00;
-            if($totalPrice >= 50){
-                $verzendkosten = 3.59;
+            if($totalPrice <= 50){
+                $verzendkosten = 3.95;
             }
             ?>
             <div class="col-12">
@@ -72,9 +72,7 @@ if ($results) { ?>
                         <h1 class="card-text">
                             <?= $product->StockItemName ?>
                         </h1>
-                        <p class="card-text float-">
-                            <?= $product->MarketingComments ?>
-                        </p>
+
                         <form action="<?= url('shoppingcart/delete') ?>" method="post">
                             <input type="hidden" name="product" value="<?= $product->StockItemID ?>">
                             <button class="btn float-right" type="submit" style="color:red"><i class="material-icons">delete</i>Verwijderen
@@ -98,11 +96,14 @@ if ($results) { ?>
                         </div>
                         <p class="card-text float-left">
                             <img src="<?php $photos = Query::get('photos')->where('StockItemID', $product->StockItemID) ?>
-                            <img src="<?php if ($photos->count() !== 0) { ?>/images/products/<?php
+                            <img src="height="100" width="100"<?php if ($photos->count() !== 0) { ?>/images/products/<?php
                                 echo $photos->first()->StockItemID . '/' . $photos->first()->PhotoName;
                             } else {
                                 echo 'https://via.placeholder.com/350x200';
                             } ?>
+                        </p>
+                        <p class="card-text float-">
+                            <?= $product->MarketingComments ?>
                         </p>
                         <div class="clearfix"></div>
                         <p class="card-text float-right">
