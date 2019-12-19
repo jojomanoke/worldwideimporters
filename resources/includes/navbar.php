@@ -7,7 +7,9 @@
     <?php }
     
     use Classes\Login;
-    use Classes\Query\Query; ?>
+    use Classes\Query\Query;
+    
+    ?>
     <a href="<?= url('categories') ?>">
         <img alt="logo" class="img-fluid" style="height: 50px; width: 150px;" src="/images/Wideworldimporters.png">
     </a>
@@ -42,7 +44,7 @@
                                                             style="color: red">favorite_border</i></a>
             <?php } ?>
 
-            <a href="<?=url('shoppingcart')?>"
+            <a href="<?= url('shoppingcart') ?>"
                class="nav-link <?= (activeUrl('shoppingcart')) ? 'active' : '' ?>">
                 <i class="material-icons-outlined" style="color: lightgreen">
                     shopping_basket
@@ -86,13 +88,16 @@
                    aria-haspopup="true" aria-expanded="false"><i class="material-icons">person</i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profiel">
                     <?php if(!(Login::isLoggedIn())) { ?>
-                        <a class="dropdown-item" href="<?=url('login')?>"><?=trans('auth.login')?></a>
-                        <a class="dropdown-item" href="<?=url('register')?>"><?=trans('auth.register')?></a>
+                        <a class="dropdown-item" href="<?= url('login') ?>"><?= trans('auth.login') ?></a>
+                        <a class="dropdown-item" href="<?= url('register') ?>"><?= trans('auth.register') ?></a>
+                        <?php if(Login::isLoggedIn()) { ?>
+                            <a class="dropdown-item" href="<?= url('profile') ?>"><?= trans('auth.profile') ?></a>
+                        <?php } ?>
+
                         <div class="dropdown-divider"></div>
                     <?php } ?>
-                    <a class="dropdown-item" href="<?=url('profile')?>"><?=trans('auth.profile')?></a>
                     <?php if(Login::isLoggedIn()) { ?>
-                        <a class="dropdown-item" href="<?=url('logout')?>"><?=trans('auth.logout')?></a
+                        <a class="dropdown-item" href="<?= url('logout') ?>"><?= trans('auth.logout') ?></a
                     <?php } ?>
                 </div>
             </div>
