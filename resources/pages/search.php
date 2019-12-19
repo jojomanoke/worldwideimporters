@@ -91,14 +91,23 @@ if($products->count() > 0) {
     }
 } else {
     ?>
-    <div class="mb-5">
-        <h1><?php echo trans('general.noProducts') ?></h1>
-        <!-- TODO: Plaatje naar een error plaatje veranderen i.p.v. een onderhoudsplaatje -->
-        <img alt="" src="/images/wordpress-mixed-content-error.png">
+    <div class="row">
+        <div class="col-12 mb-5 text-center">
+            <h1><?php echo trans('general.noProducts') ?></h1>
+            <!-- TODO: Plaatje naar een error plaatje veranderen i.p.v. een onderhoudsplaatje -->
+        </div>
+        <div class="col-12 text-center">
+            <img class="img-fluid" alt="" src="/images/wordpress-mixed-content-error.png">
+        </div>
+        <div class="col-12 mt-5 text-center">
+            <a href="<?= url('categories') ?>">
+                <?=trans('general.pressToHome')?>
+            </a>
+        </div>
     </div>
-    <a href="<?= url('categories') ?>">
-        <?=trans('general.pressToHome')?>
-    </a>
+    <script>
+        $('#filterBar').remove();
+    </script>
     <?php
 }
 ?>

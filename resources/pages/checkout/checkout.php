@@ -3,14 +3,17 @@
 <?php
 
 use Classes\Database;
-
+use Classes\Login;
+use Classes\Auth;
 $_SESSION['shoppingcart'];
 $shoppingCart = $_SESSION['shoppingcart'];
 $conn = Database::getConnection();
 $productIds = array_column($shoppingCart, 'id'); $query = 'SELECT * FROM stockitems WHERE StockItemID IN ('.implode(', ', $productIds).')';
 $results = $conn->query($query);
-
-
+$loggedIn = Login::isLoggedIn();
+if($loggedIn){
+    $user = Auth::user();
+}
 
 ?>
 
@@ -136,13 +139,13 @@ $results = $conn->query($query);
                     <div class="col-50">
                         <h3>Factuur Adres</h3>
                         <label for="fname"><i class="fa fa-user"></i> Volledige naam</label>
-                        <input type="text" id="fname" name="firstname" placeholder="Jan van den Boom">
+                        <input type="text" value="<?=$loggedIn ? $user->FirstName : ''?>" id="fname" name="firstname" placeholder="Jan van den Boom">
                         <label for="email"><i class="fa fa-envelope"></i> E-mail</label>
-                        <input type="text" id="email" name="email" placeholder="john@voorbeeld.nl">
+                        <input type="text" value="<?=$loggedIn ? $user->Email : ''?>" id="email" name="email" placeholder="john@voorbeeld.nl">
                         <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
-                        <input type="text" id="adr" name="address" placeholder="Zambiosastraat 15">
+                        <input type="text" value="<?=$loggedIn ? $user->Address : ''?>" id="adr" name="address" placeholder="Zambiosastraat 15">
                         <label for="city"><i class="fa fa-institution"></i> Stad</label>
-                        <input type="text" id="city" name="city" placeholder="Zwolle">
+                        <input type="text" value="<?=$loggedIn ? $user->City : ''?>" id="city" name="city" placeholder="Zwolle">
 
                         <div class="row">
                             <div class="col-50">
@@ -151,7 +154,7 @@ $results = $conn->query($query);
                             </div>
                             <div class="col-50">
                                 <label for="zip">Postcode</label>
-                                <input type="text" id="zip" name="Postcode" placeholder="8899HJ">
+                                <input type="text" value="<?=$loggedIn ? $user->ZipCode : ''?>" id="zip" name="Postcode" placeholder="8899HJ">
                             </div>
                         </div>
                     </div>

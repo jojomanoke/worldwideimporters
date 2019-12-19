@@ -44,7 +44,7 @@ $numberOfPages = ceil($allProductsWithoutPagination->count() / $resultsPerPage);
         </div>
         <div class="col-12 mt-5 text-center">
             <a href="<?= url('categories') ?>">
-                Druk hier om naar de homepagina te gaan
+                <?=trans('general.pressToHome')?>
             </a>
         </div>
     </div>

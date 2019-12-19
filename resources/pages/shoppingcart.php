@@ -42,6 +42,7 @@ if (isset($_GET['action'])) {
 
     $_SESSION['shoppingcart'] = array_merge($shoppingCart);
     echo '<script>window.location.href="/shoppingcart"</script>';
+    exit();
 }
 $query = 'SELECT * FROM stockitems WHERE StockItemID IN (' . implode(', ', $ids) . ')';
 $results = $conn->query($query);
