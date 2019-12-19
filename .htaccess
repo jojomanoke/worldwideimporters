@@ -48,8 +48,8 @@ RewriteRule ^shoppingcart/delete index.php?page=shoppingcart&action=delete [L,QS
 
 # Shopping cart page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart [NC]
-RewriteRule ^shoppingcart/ [R=301,L]
-RewriteRule ^shoppingcart/ index.php?page=shoppingcart [L,QSA]
+RewriteRule ^shoppingcart [R=301,L]
+RewriteRule ^shoppingcart index.php?page=shoppingcart [L,QSA]
 
 # Product edit page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=editProduct&product=([^\s&]+)& [NC]
