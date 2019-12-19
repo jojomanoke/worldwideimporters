@@ -7,4 +7,5 @@ return [
     'noProducts'       => 'Er zijn geen producten gevonden.',
     'save'             => 'Opslaan',
     'pressToHome'      => 'Druk hier om naar alle producten te gaan',
+    'allProducts'      => 'Alle producten',
 ];

@@ -9,7 +9,7 @@ use Classes\Query\Query;
             <div class="flex-column w-100 bg-light">
                 <?php
                 
-                if(!isset($_GET['page']) || $_GET['page'] === 'categories' || $_GET['page'] === 'search') {
+                if(!isset($_GET['page']) || $_GET['page'] === 'categories' || $_GET['page'] === 'home' || $_GET['page'] === 'search') {
                     if(!isset($_GET['page'])) {
                         $_GET['page'] = 'categories';
                     }
