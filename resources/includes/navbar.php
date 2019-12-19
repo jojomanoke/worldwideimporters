@@ -90,13 +90,10 @@
                     <?php if(!(Login::isLoggedIn())) { ?>
                         <a class="dropdown-item" href="<?= url('login') ?>"><?= trans('auth.login') ?></a>
                         <a class="dropdown-item" href="<?= url('register') ?>"><?= trans('auth.register') ?></a>
-                        <?php if(Login::isLoggedIn()) { ?>
-                            <a class="dropdown-item" href="<?= url('profile') ?>"><?= trans('auth.profile') ?></a>
-                        <?php } ?>
-
                         <div class="dropdown-divider"></div>
                     <?php } ?>
                     <?php if(Login::isLoggedIn()) { ?>
+                        <a class="dropdown-item" href="<?= url('profile') ?>"><?= trans('auth.profile') ?></a>
                         <a class="dropdown-item" href="<?= url('logout') ?>"><?= trans('auth.logout') ?></a
                     <?php } ?>
                 </div>
