@@ -45,7 +45,7 @@ if(isset($_POST['submit'])) {
                     <div class="form-row">
                         <div class="form-group col-md-5 col-lg-5">
                             <label for="firstName"><?=trans('register.firstName')?>*</label>
-                            <input type="text"
+                            <input required type="text"
                                    id="firstName"
                                    name="firstName"
                                    placeholder="<?=trans('register.firstName')?>"
@@ -63,7 +63,7 @@ if(isset($_POST['submit'])) {
                         </div>
                         <div class="form-group col-md-4 col-lg-5">
                             <label for="lastName"><?=trans('register.lastName')?>*</label>
-                            <input id="lastName"
+                            <input required id="lastName"
                                    type="text"
                                    placeholder="<?=trans('register.lastName')?>"
                                    name="lastName"
@@ -74,7 +74,7 @@ if(isset($_POST['submit'])) {
                     <div class="form-row">
                         <div class="form-group col-12">
                             <label for="email"><?=trans('register.email')?>*</label>
-                            <input id="email" value="<?= old('email') ?>" class="form-control" name="email" type="email"
+                            <input required id="email" value="<?= old('email') ?>" class="form-control" name="email" type="email"
                                    placeholder="<?=trans('register.email')?>">
                             <small id="emailHelp" class="form-text text-muted">
                                 <?=trans('register.emailHelper')?>
@@ -82,7 +82,7 @@ if(isset($_POST['submit'])) {
                         </div>
                         <div class="form-group col-12">
                             <label for="phone"><?=trans('register.phoneNumber')?>*</label>
-                            <input id="phone" value="<?= old('phoneNumber') ?>" class="form-control" name="phoneNumber"
+                            <input required id="phone" value="<?= old('phoneNumber') ?>" class="form-control" name="phoneNumber"
                                    type="tel" placeholder="0612345678">
                         </div>
                     </div>
@@ -91,7 +91,7 @@ if(isset($_POST['submit'])) {
                     <div class="form-row">
                         <div class="form-group col-12">
                             <label for="city"><?=trans('register.city')?>*</label>
-                            <input type="text"
+                            <input required type="text"
                                    class="form-control"
                                    id="city"
                                    name="city"
@@ -102,7 +102,7 @@ if(isset($_POST['submit'])) {
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="address"><?=trans('register.address')?>*</label>
-                            <input id="address"
+                            <input required id="address"
                                    name="address"
                                    placeholder="<?=trans('register.address')?>"
                                    class="form-control"
@@ -110,7 +110,7 @@ if(isset($_POST['submit'])) {
                         </div>
                         <div class="form-group col-md-6 col-lg-2">
                             <label for="houseNumber"><?=trans('register.houseNumber')?>*</label>
-                            <input id="houseNumber"
+                            <input required id="houseNumber"
                                    type="number"
                                    name="houseNumber"
                                    placeholder="<?=trans('register.houseNumber')?>"
@@ -127,7 +127,7 @@ if(isset($_POST['submit'])) {
                         </div>
                         <div class="form-group col-md-6 col-lg-2">
                             <label for="zipCode"><?=trans('register.zipCode')?>*</label>
-                            <input id="zipCode"
+                            <input required id="zipCode"
                                    name="zipCode"
                                    placeholder="<?=trans('register.zipCode')?>"
                                    class="form-control"
@@ -140,7 +140,7 @@ if(isset($_POST['submit'])) {
                         <div class="form-group col-6">
                             <label for="password"><?=trans('register.password')?></label>
                             <div class="input-group">
-                                <input id="password" name="password" type="password" min="8" class="form-control">
+                                <input required id="password" name="password" type="password" min="8" class="form-control">
                                 <div class="input-group-append">
                                     <button tabindex="-1"
                                             data-placement="top"
@@ -155,7 +155,7 @@ if(isset($_POST['submit'])) {
                         </div>
                         <div class="form-group col-6">
                             <label for="passwordConfirm"><?=trans('register.passwordConfirm')?>*</label>
-                            <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control">
+                            <input required type="password" id="passwordConfirm" name="passwordConfirm" class="form-control">
                         </div>
                     </div>
 

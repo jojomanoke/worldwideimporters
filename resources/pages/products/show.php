@@ -62,12 +62,11 @@ if ($aantalreviews != 0) {
 
         <h2 class="container mt-5 "
             style="border-width: 1px; border-color: black; ">    <?= "<span style=\"color:#3CB371;\"> € $product->RecommendedRetailPrice </span>" ?></h2>
-        <form action="/shoppingcart/add" method="post">
+        <form action="/shoppingcart/add" class="mb-3" method="post">
             <input type="hidden" name="product" value="<?= $product->StockItemID ?>">
             <button type="submit" class="btn btn-success material-button"><i class="material-icons">shopping_basket</i>
             </button>
         </form>
-        <img src="/images/favourite.jpg" height="40" width="50" onclick="AddtoFavourite() "> <br><br>
         <?php $ENGLretailprice = $product->RecommendedRetailPrice;
         $NLretailprice = str_replace(".", ",", $ENGLretailprice);
         ?>
