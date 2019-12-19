@@ -10,20 +10,19 @@ class Password
         /** @var array $data The variable to store the POST data in */
         $data = [];
         $connection = Database::getConnection();
-        $data['gender'] = $_POST['gender'] ?? null;
-        $data['firstName'] = $_POST['firstName'] ?? null;
-        $data['infix'] = $_POST['infix'] ?? ''; // Tussenvoegsel
-        $data['lastName'] = $_POST['lastName'] ?? null;
-        $data['country'] = $_POST['country'] ?? null;
-        $data['phoneNumber'] = $_POST['phoneNumber'] ?? null;
-        $data['city'] = $_POST['city'] ?? null;
-        $data['address'] = $_POST['address'] ?? null;
-        $data['houseNumber'] = $_POST['houseNumber'] ?? null;
-        $data['addition'] = $_POST['addition'] ?? '';
-        $data['zipCode'] = $_POST['zipCode'] ?? null;
-        $data['email'] = $_POST['email'] ?? null;
-        $data['password'] = $_POST['password'] ?? null;
-        $data['passwordConfirm'] = $_POST['passwordConfirm'] ?? null;
+        $data['gender'] = addslashes($_POST['gender']);
+        $data['firstName'] = addslashes($_POST['firstName']);
+        $data['infix'] = isset($_POST['infix']) ? addslashes($_POST['infix']) : ''; // Tussenvoegsel
+        $data['lastName'] = addslashes($_POST['lastName']);
+        $data['phoneNumber'] = addslashes($_POST['phoneNumber']);
+        $data['city'] = addslashes($_POST['city']);
+        $data['address'] = addslashes($_POST['address']);
+        $data['houseNumber'] = addslashes($_POST['houseNumber']);
+        $data['addition'] = addslashes($_POST['addition']) ?? '';
+        $data['zipCode'] = addslashes($_POST['zipCode']);
+        $data['email'] = strtolower(addslashes($_POST['email']));
+        $data['password'] = addslashes($_POST['password']);
+        $data['passwordConfirm'] = addslashes($_POST['passwordConfirm']);
         
         $errors = self::makeErrors($data);
         
@@ -38,7 +37,6 @@ class Password
                         FirstName,
                         Infix,
                         LastName,
-                        CountryID,
                         PhoneNumber,
                         City,
                         Address,
@@ -48,14 +46,13 @@ class Password
                         Email,
                         Password
                         )
-                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
+                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )');
         $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-        $stmt->bind_param('isssiississss',
+        $stmt->bind_param('isssississss',
             $data['gender'],
             $data['firstName'],
             $data['infix'],
             $data['lastName'],
-            $data['country'],
             $data['phoneNumber'],
             $data['city'],
             $data['address'],

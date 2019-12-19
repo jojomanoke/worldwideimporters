@@ -1,8 +1,16 @@
 <?php
 
 return [
+    'requiredHelper' => 'Velden met een <strong>*</strong> zijn verplicht!',
+    'emailHelper'    => 'We zullen uw e-mail nooit met anderen delen.',
+    'alreadyRegistered'    => 'Al een account?',
+    'showPassword'    => 'Laat wachtwoord zien',
+    
+    'personalInformation' => 'Persoonlijke Informatie',
+    'addressInformation'  => 'Adresgegevens',
+    
     'gender'         => 'Geslacht',
-    'passwordVerify' => 'Wachtwoord confirmatie',
+    'passwordConfirm' => 'Wachtwoord confirmatie',
     'password'       => 'Wachtwoord',
     'firstName'      => 'Voornaam',
     'infix'          => 'Tussenvoegsel',
@@ -17,5 +25,10 @@ return [
     'email'          => 'E-mail',
     'Fullname'       => 'Volledige naam',
     'State'          => 'Provincie',
+    
+    'errors' => [
+        'errors' => 'U heeft fouten bij enkele velden:',
+    
+    ]
 
 ];

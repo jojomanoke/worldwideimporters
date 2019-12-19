@@ -1,6 +1,7 @@
 <?php
 
 use Classes\Database;
+use Classes\Query\Query;
 
 $shoppingCart = $_SESSION['shoppingcart'] ?? [];
 $conn = Database::getConnection();
@@ -96,7 +97,12 @@ if ($results) { ?>
                             </div>
                         </div>
                         <p class="card-text float-left">
-                            <img src="<?= getBlob($product->Photo); ?>" alt="Geen afbeelding beschikbaar">
+                            <img src="<?php $photos = Query::get('photos')->where('StockItemID', $product->StockItemID) ?>
+                            <img src="<?php if ($photos->count() !== 0) { ?>/images/products/<?php
+                                echo $photos->first()->StockItemID . '/' . $photos->first()->PhotoName;
+                            } else {
+                                echo 'https://via.placeholder.com/350x200';
+                            } ?>
                         </p>
                         <div class="clearfix"></div>
                         <p class="card-text float-right">

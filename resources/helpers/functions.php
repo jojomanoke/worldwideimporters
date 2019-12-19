@@ -56,7 +56,7 @@ if(!function_exists('str_contains')) {
      */
     function str_contains($haystack, $needle)
     {
-        return (bool)strpos($haystack, $needle);
+        return substr_count($haystack, $needle);
     }
 }
 
@@ -78,7 +78,7 @@ if(!function_exists('trans')) {
         }
         $translations = include($translationFile);
         if(!str_contains($translationString, '.')) {
-            return $translations[$translationString];
+            return $translations[$translationString] ?? $translationString;
         }
         if(!$translations[$explodedString[1]]) {
             return ucfirst($explodedString[1]);
@@ -86,10 +86,15 @@ if(!function_exists('trans')) {
         if(substr_count($translationString, '.') > 1) {
             $pointCount = substr_count($translationString, '.');
             $translation = $translations;
-            
             for($i = 1; $i <= $pointCount; $i++) {
-                $translation = $translation[$explodedString[$i]];
+                
+                if(array_key_exists($explodedString[$i], $translation)){
+                    $translation = $translation[$explodedString[$i]];
+                } else {
+                    $translation = $explodedString[(count($explodedString) - 1)];
+                }
             }
+            return $translation;
         }
         return $translations[$explodedString[1]];
     }
@@ -179,21 +184,32 @@ if(!function_exists('filterQuery')) {
                 $filters[$key] = addslashes($item);
             }
         }
-        if(isset($filters['colour'])) {
-            $query .= ' AND ColorID IN ('. implode(', ', $filters['colour']) . ')';
+        if(isset($filters['color'])) {
+            if(str_contains($query, 'WHERE')){
+                $query .= ' AND';
+            } else {
+                $query .= ' WHERE';
+            }
+            $query .= ' ColorID IN ('. implode(', ', $filters['color']) . ')';
         }
         
-        if(isset($filters['sizeFilter'])){
-            $query .= ' AND Size = \''.$filters['sizeFilter'].'\'';
+        if(isset($filters['size'])){
+            if(str_contains($query, 'WHERE')){
+                $query .= ' AND';
+            } else {
+                $query .= ' WHERE';
+            }
+            $query .= ' Size IN (\''.implode(', ', $filters['size']).'\')';
         }
     
     
-        if(isset($filters['brandFilter'])){
-            $query .= ' AND Brand = \''.$filters['brandFilter'].'\'';
-        }
-        
-        if(isset($filters['sizeFilter'])){
-            $query .= ' AND Size = \''.$filters['sizeFilter'].'\'';
+        if(isset($filters['brand'])){
+            if(str_contains($query, 'WHERE')){
+                $query .= ' AND';
+            } else {
+                $query .= ' WHERE';
+            }
+            $query .= ' Brand IN (\''.implode(', ', $filters['brand']).'\')';
         }
         
         if(isset($filters['priceFilter'])) {
@@ -201,9 +217,7 @@ if(!function_exists('filterQuery')) {
             if($filters['priceFilter'] === 'hooglaag') {
                 $query .= ' DESC';
             }
-    
         }
-        
         return $query;
     }
 }

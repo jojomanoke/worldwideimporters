@@ -5,7 +5,6 @@ if (!isset($_SESSION)) {
 }
 //unset($_SESSION['shoppingcart']);
 include 'resources/config/autoload.php';
-
 include('resources/helpers/functions.php');
 include('resources/config/globals.php');
 include('resources/includes/head.php');
@@ -30,7 +29,6 @@ if ( isset($_POST[ 'product' ], $_GET['action']) && $_GET[ 'action' ] === 'delet
     $_SESSION['shoppingcart'] = array_merge($shoppingCart);
     echo '<script>window.location.href="/shoppingcart"</script>';
 }
-
 include('resources/includes/navbar.php');
 ?>
     <div class="container-fluid">
@@ -40,10 +38,6 @@ include('resources/includes/navbar.php');
             ?><?php
             switch ($_GET['page']) {
                 default:
-                case 'home':
-                    include 'resources/pages/home.php';
-                    break;
-
                 case 'categories':
                     include 'resources/pages/categories/show.php';
                     break;
@@ -78,6 +72,10 @@ include('resources/includes/navbar.php');
 
                 case 'checkout':
                     include 'resources/pages/checkout/checkout.php';
+                    break;
+    
+                case 'profile':
+                    include 'resources/pages/auth/profile.php';
                     break;
             }
             ?></div>

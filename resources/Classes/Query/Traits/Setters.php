@@ -77,6 +77,7 @@ trait Setters
                 $query .= ', ';
             }
         }
+        //
         
         $query .= " WHERE $primaryKey = {$this->$primaryKey}";
         $conn = Database::getConnection();
