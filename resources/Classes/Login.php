@@ -22,6 +22,7 @@ class Login
         }
         echo "<script type='text/javascript'>window.location.href='{$url}';</script>";
         echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $url . '">';
+        exit();
     }
     
     public static function isLoggedIn(): bool

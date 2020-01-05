@@ -3,9 +3,11 @@
 
 namespace Classes;
 
+use Classes\Query\Query;
+
 class Password
 {
-    public static function verify(): bool
+    public static function verify()
     {
         /** @var array $data The variable to store the POST data in */
         $data = [];
@@ -67,10 +69,10 @@ class Password
         if(!count($errors)) {
             $stmt->execute();
             Login::login();
-            return false;
+            return true;
         }
         
-        return true;
+        return $errors;
     }
     
     /**
@@ -84,12 +86,16 @@ class Password
     {
         $errors = [];
         foreach($data as $key => $item) {
-            if(!isset($item) && $key !== 'passwordConfirm') {
+            if(!isset($item) && $key !== 'passwordConfirm' && $key !== 'email') {
                 $errors[] = $key;
             }
         }
         if($data['password'] !== $data['passwordConfirm']) {
             $errors[] = 'passwordVerify';
+        }
+        $emails = Query::get('users', 'email')->where('email', $data['email'])->first();
+        if($emails->count()) {
+            $errors[] = 'emailExists';
         }
         
         return $errors;

@@ -125,7 +125,8 @@ if(!function_exists('session')) {
 if(!function_exists('redirect')) {
     function redirect($url = null)
     {
-        echo ('<script>window.location.href = "' . $url ?? activeUrl() . '</script>');
+        echo '<script>window.location.href = "/login";</script>';
+        exit();
     }
 }
 

@@ -78,6 +78,9 @@ include('resources/includes/navbar.php');
                 case 'profile':
                     include 'resources/pages/auth/profile.php';
                     break;
+                case 'profileEdit':
+                    include 'resources/pages/auth/profileEdit.php';
+                    break;
             }
             ?></div>
     </div>

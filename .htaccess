@@ -62,11 +62,6 @@ RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=shoppingcart [NC]
 RewriteRule ^shoppingcart [R=301,L]
 RewriteRule ^shoppingcart index.php?page=shoppingcart [L,QSA]
 
-# Product edit page
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=editProduct&product=([^\s&]+)& [NC]
-RewriteRule ^products/%1?/edit [R=301,L]
-RewriteRule ^products/([0-9]+)/?/edit$ index.php?page=editProduct&product=$1 [L,QSA]
-
 # Login page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=login [NC]
 RewriteRule ^login [R=301,L]
@@ -77,7 +72,12 @@ RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=register [NC]
 RewriteRule ^register [R=301,L]
 RewriteRule ^register index.php?page=register [L,QSA]
 
-# Register page
+# Profile edit page
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=profileEdit [NC]
+RewriteRule ^profile/edit [R=301,L]
+RewriteRule ^profile/edit index.php?page=profileEdit [L,QSA]
+
+# Profile page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.php\?page=profile [NC]
 RewriteRule ^profile [R=301,L]
 RewriteRule ^profile index.php?page=profile [L,QSA]
