@@ -55,8 +55,6 @@ if ($aantalreviews != 0) {
     ?>
 
 
-
-
     <div class="col-6" xmlns="http://www.w3.org/1999/html">
         <?php $ENGLretailprice = $product->RecommendedRetailPrice;
         $NLretailprice = str_replace('.', ',', $ENGLretailprice);
@@ -90,14 +88,14 @@ if ($aantalreviews != 0) {
                     ?><br> <?php
                 } ?>
                 <?php If ($leverancier->SupplierName != "") {
-                    echo trans('products.leverancier') . " : " . $leverancier->SupplierName;
+                    echo trans('products.supplier') . " : " . $leverancier->SupplierName;
                 } ?>
             </div>
         </div>
     </div>
     <?php
     if (Login::isLoggedIn()) { ?>
-    <div class="row mt-5">
+    <div class="row mt-5 mb-3">
         <div class="col-6">
             <form action="/products/<?= $product->StockItemID ?>" method="post">
                 <div class="container">
@@ -126,7 +124,30 @@ if ($aantalreviews != 0) {
 <?php
 }
 ?>
-<?php include SERVER_ROOT . '/resources/includes/review.php'; ?>
+<div class="row">
+    <div class="col-6">
+        <?php include SERVER_ROOT . '/resources/includes/review.php'; ?>
+    </div>
+    <div class="col-6">
+        <?php
+
+//        $query = "SELECT COUNT(StockItemID) AS max FROM stockitemstockgroups WHERE StockGroupID = $StockGroupID";
+//        $statement = $connection->prepare($query);
+//        $statement->execute();
+//        $maxRandomItem = $statement->get_result()->fetch_object();
+//        $minRandomItem = 1;
+//        dd($maxRandomItem);
+//
+//        $randonpick1 = mt_rand([$minRandomItem],[$maxRandomItem]);
+//        $randonpick2 = mt_rand([$minRandomItem],[$maxRandomItem]);
+//        $randonpick3 = mt_rand([$minRandomItem],[$maxRandomItem]);
+//
+
+
+
+        ?>
+    </div>
+</div>
 <script>    function AddtoShoppingCart() {
         let data = {
             'product': <?=$product->StockItemID?>,

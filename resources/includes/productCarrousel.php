@@ -112,7 +112,7 @@
     <?php
     $photos = \Classes\Query\Query::get('photos')->where('StockItemID', $product->StockItemID);
     ?>
-    <div id="carouselExampleIndicators" class="carousel slide bg-dark" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <?php for($i = 1; $i < $photos->count(); $i++) { ?>
@@ -120,7 +120,7 @@
             <?php } ?>
         </ol>
         <div class="carousel-inner">
-            <?php foreach($photos as $key => $photo) { ?>
+            <?php if ($photos->count() !== 0) { foreach($photos as $key => $photo) { ?>
                 <div class="carousel-item h-100 <?php if((int)$key === 0) {
                     echo 'active';
                 } ?>">
@@ -128,7 +128,13 @@
                          class="d-block w-100 mx-auto"
                          alt="<?= $product->StockItemName ?>">
                 </div>
+            <?php }}else{  ?>
+
+            <img src="https://via.placeholder.com/350x200"
+                 class="d-block w-100 mx-auto"
+                 alt="<?= $product->StockItemName ?>">
             <?php } ?>
+
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
