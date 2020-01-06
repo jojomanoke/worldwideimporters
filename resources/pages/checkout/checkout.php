@@ -8,8 +8,10 @@ use Classes\Auth;
 $_SESSION['shoppingcart'];
 $shoppingCart = $_SESSION['shoppingcart'];
 $conn = Database::getConnection();
-$productIds = array_column($shoppingCart, 'id'); $query = 'SELECT * FROM stockitems WHERE StockItemID IN ('.implode(', ', $productIds).')';
+$productIds = array_column($shoppingCart, 'id');
+$query = 'SELECT * FROM stockitems WHERE StockItemID IN ('.implode(', ', $productIds).')';
 $results = $conn->query($query);
+$products = \Classes\Query\Query::get($query);
 $loggedIn = Login::isLoggedIn();
 if($loggedIn){
     $user = Auth::user();
@@ -162,10 +164,9 @@ if($loggedIn){
                     <div class="col-50">
                         <h3>Betaling (WIP)</h3>
                         <label for="fname"></label>
-                        <div class="icon-container">
-                            <i><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/pp-acceptance-large.png" alt="Buy now with PayPal" /></i>
-
-                        </div>
+                        <paypalButton class="icon-container" id="paypalButton">
+                        
+                        </paypalButton>
                     </div>
 
                 </div>
@@ -192,6 +193,7 @@ if($loggedIn){
 
             if($totalPrice <= 50){
                 $verzendkosten = 3.95;
+                $totalPrice += $verzendkosten;
             }
             ?>
                 <p><a><b><?= $product->StockItemName ?></b></a> <a> x<?= $amount ?></a><b><span class="price"><?= $product->RecommendedRetailPrice ?></span></b></p><br>
@@ -199,11 +201,31 @@ if($loggedIn){
             <?php } ?>
             <hr>
             <p>Verzendkosten <span class="price" style="color:black"><b><?= number_format($verzendkosten, 2, ',', '.' ) ?> </b></span></p>
-            <p>Totaal <span class="price" style="color:black"><b> <?= number_format($totalPrice * 1 + $verzendkosten, 2, ',', '.')  ?></b></span></p>
+            <p>Totaal <span class="price" style="color:black"><b> <?= number_format($totalPrice, 2, ',', '.')  ?></b></span></p>
         </div>
     </div>
 </div>
-
-
+<script src="https://www.paypal.com/sdk/js?client-id=AVyMHZVg9ZYQ4IiDBGmPSAZOXYc-gtkVWOxIIDlOY-kFCefWXF3n0ePII4NA9ZA3FKGXlOKDMUV5ga_V"></script>
+<script>paypal.Buttons({
+        createOrder: function(data, actions) {
+            // This function sets up the details of the transaction, including the amount and line item details.
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '<?=$totalPrice?>',
+                    }, currency: {
+                        value: 'EUR'
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            // This function captures the funds from the transaction.
+            return actions.order.capture().then(function (details) {
+                // This function shows a transaction success message to your buyer.
+                alert('Transaction completed by ' + details.payer.name.given_name);
+            });
+        }
+    }).render('paypalButton');</script>
 </body>
 </html>
